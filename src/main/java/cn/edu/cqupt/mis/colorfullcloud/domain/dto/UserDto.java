@@ -18,6 +18,9 @@ import java.util.Date;
 @ToString
 public class UserDto {
 
+    @NotNull(message = "用户唯一标识为空")
+    @ApiModelProperty(name = "id",value = "用户唯一标识")
+    private Integer id;
     @ApiModelProperty(name = "nickName",value = "微信名")
     private String nickName;
     @ApiModelProperty(name = "country",value = "国家",dataType = "string")
