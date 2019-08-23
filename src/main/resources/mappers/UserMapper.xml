@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqupt.mis.colorfullcloud.dao.UserDao">
+    <resultMap id="userResult" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.UserEntity">
+        <id property="id" column="id" javaType="java.lang.Integer" />
+        <result property="openid" column="open_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result property="nickName" column="nick_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result property="phone" column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result property="sparePhone" column="e_mail" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result property="password" column="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="parentName" column="parent_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result property="avatarUrl" column="avatar_url" javaType="java.lang.String" />
+        <result property="registerTime" column="register_time" javaType="java.lang.String" />
+        <result property="registerMac" column="register_mac" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="isDisabled" column="is_disabled" javaType="java.lang.Integer" />
+        <result property="age" column="age" javaType="java.lang.Integer"  />
+        <result property="homeAddress" column="home_address" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="gender" column="gender" javaType="java.lang.Integer" />
+        <result property="wxNumber" column="wx_number" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result property="receivingAddress" column="receiving_address" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="user">
+        id,open_id,nick_name,phone,password,parent_name,avatar_url,register_time,register_mac,is_disabled,age,home_address,gender,wx_number,receiving_address
+    </sql>
+
+    <select id="selectUserByOpenId" parameterType="java.lang.String" resultMap="userResult">
+        SELECT <include refid="user"/>
+        FROM user
+        WHERE open_id = #{openid}
+    </select>
+
+    <select id="selectUserById" parameterType="java.lang.Integer" resultMap="userResult">
+        SELECT <include refid="user"/>
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insertUser" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.UserEntity">
+        INSERT INTO user(open_id,nick_name,country,province,city,avatar_url,gender,age)
+        VALUES (#{openid},#{nickName},#{country},#{province},#{city},#{avatatUrl},#{gender},#{age})
+    </insert>
+
+    <update id="updateUser" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.UserEntity">
+        UPDATE user
+        SET nick_name = #{nickName},
+            phone = #{phone},
+            password = #{password},
+            parent_name = #{parentName},
+            avatar_url = #{avatarUrl},
+            age = #{age},
+            home_address = #{homeAddress},
+            gender = #{gender},
+            receiving_address = #{receivingAddress}
+        WHERE id = #{id}
+    </update>
+
+</mapper>
+   
