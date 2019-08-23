@@ -82,14 +82,17 @@ public class UserServiceImpl implements UserService {
     public UserVo modifyUser(UserDto userDto, HttpServletRequest request) {
         String cacheKey = cacheUtil.getSessionId(request);
         UserEntity userEntity = new UserEntity();
-        if (redisUtil.get(cacheKey) == null){
-            log.warn("用户未授权！");
-            throw new AuthenticationException("未进行授权登录!!");
-        }else {
+        UserVo userVo = new UserVo();
+        //if (redisUtil.get(cacheKey) == null){
+        //    log.warn("用户未授权！");
+        //    throw new AuthenticationException("未进行授权登录!!");
+        //}else {
             BeanUtils.copyProperties(userDto,userEntity);
-            userDao.updateUser(userEntity);
-        }
-        return null;
+            ServiceUtil.checkSqlExecuted(userDao.updateUser(userEntity));
+            userEntity = userDao.selectUserById(userDto.getId());
+            BeanUtils.copyProperties(userEntity,userVo);
+        //}
+        return userVo;
     }
 
     /**
