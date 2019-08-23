@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface UserDao {
 
     /**
-     * 根据open查询用户信息
+     * 根据openid查询用户信息
      * @param openid
      * @return userEntity
      * */
@@ -31,4 +31,11 @@ public interface UserDao {
      * @return true false
      * */
     boolean updateUser(UserEntity userEntity);
+
+    /**
+     * 通过主键id查询用户信息
+     * @param id 主键id
+     * @return 用户信息
+     */
+    UserEntity selectUserById(Integer id);
 }
