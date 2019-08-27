@@ -42,7 +42,7 @@ public class UserController {
 
 
     @ApiOperation("修改用户信息")
-    @PostMapping("/user/modify")
+    @PostMapping("modify")
     public ResponseEntity<UserVo> modifyUser(@RequestBody UserDto userDto, HttpServletRequest request){
         UserVo userVo = userService.modifyUser(userDto,request);
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userVo);
