@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
         //}else {
             BeanUtils.copyProperties(userDto,userEntity);
             ServiceUtil.checkSqlExecuted(userDao.updateUser(userEntity));
-            userEntity = userDao.selectUserById(userDto.getId());
+            userEntity = userDao.selectUserById(userDto.getUserId());
             BeanUtils.copyProperties(userEntity,userVo);
         //}
         return userVo;
