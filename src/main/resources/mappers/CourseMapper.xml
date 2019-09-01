@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqupt.mis.colorfullcloud.dao.CourseDao">
+    <resultMap id="courseMap" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.CourseEntity">
+        <id property="courseId" column="id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="institutionId" column="institution_id"/>
+        <result property="courseName" column="name"/>
+        <result property="introduction" column="introduction"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <sql id="course">
+        id,institution_id,category_id,name,introduction,status
+    </sql>
+
+    <!--查询所有课程-->
+    <select id="selectAllCourses" resultMap="courseMap">
+        SELECT <include refid="course"/>
+        FROM course
+    </select>
+
+    <!--按机构分类查询课程-->
+    <select id="selectCoursesByInstitutionId" parameterType="java.lang.Integer" resultMap="courseMap">
+        SELECT <include refid="course"/>
+        FROM course
+        WHERE institution_id = #{institutionId}
+    </select>
+
+    <!--按分类查询课程-->
+    <select id="selectCoursesByCategoryId" parameterType="java.lang.Integer" resultMap="courseMap">
+        SELECT <include refid="course"/>
+        FROM course
+        WHERE category_id = #{categoryId}
+    </select>
+
+</mapper>
+   
