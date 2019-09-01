@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="">
-    <resultMap id="institutionResult" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.InstitutionEntity">
+<mapper namespace="cn.edu.cqupt.mis.colorfullcloud.dao.InstitutionDao">
+    <resultMap id="institutionMap" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.InstitutionEntity">
         <id property="institutionId" column="id"/>
         <result property="institutionName" column="name" />
         <result property="address" column="address" />
@@ -11,7 +11,31 @@
         <result property="phone" column="phone" />
     </resultMap>
 
+    <sql id="institution">
+        id,name,address,leader,phone
+    </sql>
 
+    <select id="selectAllInstitutions" resultMap="institutionMap">
+        SELECT <include refid="institution"/>
+        FROM institutions
+    </select>
+
+    <select id="selectInstitutionById" parameterType="java.lang.Integer" resultMap="institutionMap">
+        SELECT <include refid="institution"/>
+        FROM institutions
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateInstitutionById" parameterType="java.lang.Integer">
+        UPDATE institutions
+        SET name = #{institutionName},address = #{address},leader = #{leader},phone = #{phone}
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insertInstitution" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.InstitutionEntity">
+        INSERT INTO institutions(name,address,leader,phone)
+        VALUES (#{institutionName},#{address},#{leader},#{phone})
+    </insert>
 
 </mapper>
    
