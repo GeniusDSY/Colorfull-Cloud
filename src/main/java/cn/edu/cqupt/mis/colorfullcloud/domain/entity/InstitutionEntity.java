@@ -25,5 +25,9 @@ public class InstitutionEntity {
     private String leader;
     @ApiModelProperty(value = "联系方式")
     private Integer phone;
+    @ApiModelProperty(value = "经度")
+    private Float lon;
+    @ApiModelProperty(value = "纬度")
+    private Float lat;
 
 }
