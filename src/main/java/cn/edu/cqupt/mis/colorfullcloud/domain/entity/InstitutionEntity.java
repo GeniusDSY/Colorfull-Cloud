@@ -26,8 +26,10 @@ public class InstitutionEntity {
     @ApiModelProperty(value = "联系方式")
     private Integer phone;
     @ApiModelProperty(value = "经度")
-    private Float lon;
+    private Double lng;
     @ApiModelProperty(value = "纬度")
-    private Float lat;
+    private Double lat;
+    @ApiModelProperty(value = "距离")
+    private Integer distance;
 
 }
