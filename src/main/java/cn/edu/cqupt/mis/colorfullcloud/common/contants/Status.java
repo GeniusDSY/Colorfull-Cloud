@@ -16,6 +16,9 @@ public interface Status {
     String ACCESS_TOKEN="access_token";
     String LANG_KEY="lang";
     String LANG_VALUE="zh_CN";
+    String MAP_KEY="key";
+    String FROM="from";
+    String TO="to";
     /**
      * 设置登录状态的key
      */
