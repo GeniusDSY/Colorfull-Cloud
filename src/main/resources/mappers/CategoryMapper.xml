@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqupt.mis.colorfullcloud.dao.CategoryDao">
+    <resultMap id="categoryMap" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.CategoryEntity">
+        <id property="categoryId" column="id"/>
+        <result property="type" column="type"/>
+    </resultMap>
+    
+    <sql id="category">
+        id,type
+    </sql>
+    
+    <select id="selectAllCategories" resultMap="categoryMap">
+        SELECT <include refid="category"/>
+        FROM category
+    </select>
+
+    <insert id="insertCategories">
+        INSERT INTO category(type)
+        VALUES (#{type})
+    </insert>
+</mapper>
+   
