@@ -1,5 +1,7 @@
 package cn.edu.cqupt.mis.colorfullcloud.service;
 
+import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CategoryVo;
+import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CourseVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.InstitutionVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.ProductVo;
 
@@ -28,6 +30,6 @@ public interface ProductService {
      * 分类查询所有产品
      * @return 按类分组返回
      */
-    List<InstitutionVo> allCategoryProducts();
+    List<CategoryVo> allCategoryProducts();
 
 }
