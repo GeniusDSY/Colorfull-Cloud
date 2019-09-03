@@ -28,6 +28,8 @@ public class InstitutionVo {
     private String leader;
     @ApiModelProperty(name = "phone",value = "联系方式",dataType = "int")
     private Integer phone;
+    @ApiModelProperty(name = "distance",value = "距离信息",dataType = "double")
+    private Integer distance;
     @ApiModelProperty(name = "courseEntityList",value = "开设课程",dataType = "list")
     private List<CourseEntity> courseEntityList;
 
