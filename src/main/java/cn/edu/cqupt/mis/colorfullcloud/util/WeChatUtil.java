@@ -1,7 +1,7 @@
 package cn.edu.cqupt.mis.colorfullcloud.util;
 
 import cn.edu.cqupt.mis.colorfullcloud.common.contants.Status;
-import cn.edu.cqupt.mis.colorfullcloud.common.excepction.WeChatServerException;
+import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ThirdPartyServiceException;
 import cn.edu.cqupt.mis.colorfullcloud.domain.wechatdomain.AccessToken;
 import cn.edu.cqupt.mis.colorfullcloud.domain.wechatdomain.OpenId;
 import com.alibaba.fastjson.JSON;
@@ -46,7 +46,7 @@ public class WeChatUtil {
         OpenId weChatUserDto = JSON.parseObject(result, OpenId.class);
         if(weChatUserDto.getErrcode() != null || weChatUserDto.getOpenid() == null){
             log.error("调用微信小程序接口出现异常：",weChatUserDto.getErrmsg());
-            throw new WeChatServerException("获取微信信息失败！稍后重试！");
+            throw new ThirdPartyServiceException("获取微信信息失败！稍后重试！");
         }
         return weChatUserDto;
     }
@@ -60,7 +60,7 @@ public class WeChatUtil {
         AccessToken accessToken = JSON.parseObject(result, AccessToken.class);
         if(accessToken.getErrcode() != null || accessToken.getAccess_token() == null){
             log.error("调用微信小程序接口出现异常：",accessToken.getErrmsg());
-            throw new WeChatServerException("获取微信信息失败！请联系管理员！");
+            throw new ThirdPartyServiceException("获取微信信息失败！请联系管理员！");
         }
         return accessToken;
     }
