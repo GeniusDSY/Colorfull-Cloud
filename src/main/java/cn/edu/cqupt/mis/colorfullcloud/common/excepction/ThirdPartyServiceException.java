@@ -5,9 +5,9 @@ package cn.edu.cqupt.mis.colorfullcloud.common.excepction;
  * @date :2019/5/1 17:54
  * @desc : 第三方异常处理
  */
-public class WeChatServerException extends RuntimeException {
+public class ThirdPartyServiceException extends RuntimeException {
 
-    public WeChatServerException(String msg) {
+    public ThirdPartyServiceException(String msg) {
         super(msg);
     }
 }
