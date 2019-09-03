@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,18 +37,24 @@ public class DistanceUtil {
      * @return
      */
     public TencentMapResult getDistance(String param, Location location){
-        Map <String,String> params = new HashMap<>();
-        params.put(Status.FROM,location.toString());
-        params.put(Status.TO,param);
-        params.put(Status.MAP_KEY,mapKey);
-        String result = HttpClientUtil.doGet(calculatedDistanceUrl,params);
-        log.info("DistanceUtil -> getDistance()：{}",result);
-        TencentMapResult mapResult = JSON.parseObject(result, TencentMapResult.class);
-        if(mapResult.getStatus() != 0){
-            log.error("调用腾讯地图接口出现异常：",mapResult.getMessage());
-            throw new ThirdPartyServiceException("计算距离失败！稍后重试！");
+        try {
+            Map <String,String> params = new HashMap<>();
+            params.put(Status.FROM,location.toString());
+            params.put(Status.TO,param);
+            params.put(Status.MAP_KEY,mapKey);
+            String result = HttpClientUtil.doGet(calculatedDistanceUrl,params);
+            log.info("DistanceUtil -> getDistance()：{}",result);
+            TencentMapResult mapResult = JSON.parseObject(result, TencentMapResult.class);
+            if(mapResult.getStatus() != 0){
+                log.error("调用腾讯地图接口出现异常：",mapResult.getMessage());
+                throw new ThirdPartyServiceException("计算距离失败！稍后重试！");
+            }
+            return mapResult;
+        }catch (Exception e){
+            log.error("Distance -> getDistance()：{}",e);
+            throw new ThirdPartyServiceException("调用腾讯地图API计算距离失败！");
         }
-        return mapResult;
+
     }
 
     /**
@@ -57,16 +62,21 @@ public class DistanceUtil {
      * @return 经纬度
      */
     public Location getLocation(){
-        Map<String,String> params = new HashMap<>();
-        params.put(Status.MAP_KEY,mapKey);
-        String result = HttpClientUtil.doGet(currentLocationUrl,params);
-        TencentMapResult mapResult = JSON.parseObject(result, TencentMapResult.class);
-        if(mapResult.getStatus() != 0){
-            log.error("调用腾讯地图接口出现异常：",mapResult.getMessage());
-            throw new ThirdPartyServiceException("获取当前位置失败！稍后重试！");
+        try {
+            Map<String,String> params = new HashMap<>();
+            params.put(Status.MAP_KEY,mapKey);
+            String result = HttpClientUtil.doGet(currentLocationUrl,params);
+            TencentMapResult mapResult = JSON.parseObject(result, TencentMapResult.class);
+            if(mapResult.getStatus() != 0){
+                log.error("调用腾讯地图接口出现异常：",mapResult.getMessage());
+                throw new ThirdPartyServiceException("获取当前位置失败！稍后重试！");
+            }
+            return mapResult.getResult().getLocation();
+        }catch (Exception e){
+            log.error("Distance -> getLocation()：{}",e);
+            throw new ThirdPartyServiceException("调用腾讯地图API获取当前位置失败！");
         }
-        System.out.println(mapResult);
-        return mapResult.getResult().getLocation();
+
     }
 
 }
