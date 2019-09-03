@@ -21,8 +21,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ResponseStatu.AUTHENTATION_FIAL, e.getMessage(), null);
     }
 
-    @ExceptionHandler(WeChatServerException.class)
-    public ResponseEntity weChatServerException(WeChatServerException e) {
+    @ExceptionHandler(ThirdPartyServiceException.class)
+    public ResponseEntity ThirdPartyServiceException(ThirdPartyServiceException e) {
         return new ResponseEntity<>(ResponseStatu.THREE_SERVICE_FILE, e.getMessage(), null);
     }
 
