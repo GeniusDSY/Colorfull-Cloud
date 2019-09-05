@@ -37,8 +37,8 @@ public class CacheUtil {
      */
     public void addRedis(HttpServletRequest request, HttpServletResponse response, UserEntity userEntity) {
         try {
-            //Cookie userIdCookie = new Cookie(CacheKey.USER_ID,userEntity.getOpenid());
-            //response.addCookie(userIdCookie);
+            Cookie userIdCookie = new Cookie(CacheKey.USER_ID,userEntity.getUserId().toString());
+            response.addCookie(userIdCookie);
             if(!redisUtil.set(request.getSession().getId(), userEntity, CacheKey.CACHE_TIME)){
                 throw new ParameterException("缓存存储出现异常");
             }
@@ -64,6 +64,7 @@ public class CacheUtil {
     public String getCookie(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
+            System.out.println(cookie.getName() + "---" + cookie.getValue());
             if (cookie.getName().equals(CacheKey.USER_ID)) {
                 return cookie.getValue();
             }

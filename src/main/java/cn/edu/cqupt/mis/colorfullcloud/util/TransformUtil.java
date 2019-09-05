@@ -1,5 +1,7 @@
 package cn.edu.cqupt.mis.colorfullcloud.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import java.util.List;
  * @date :2019/4/21 13:40
  * @desc :
  */
+@Slf4j
 public class TransformUtil {
 
     /**
@@ -32,7 +35,7 @@ public class TransformUtil {
                         }
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error("TransFromUtil->transformOne()：{}",e);
                 }
             }
         }
@@ -54,6 +57,7 @@ public class TransformUtil {
                 target.add((T) object);
                 transformOne(src.get(i), object);
             } catch (Exception e) {
+                log.error("TransFromUtil->transformList()：{}",e);
                 // 某个方法反射异常
                 continue;
             }

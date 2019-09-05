@@ -1,5 +1,6 @@
 package cn.edu.cqupt.mis.colorfullcloud.util;
 
+import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ServerException;
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ThirdPartyServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.NameValuePair;
@@ -56,8 +57,8 @@ public class HttpClientUtil {
                 resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
             }
         } catch (Exception e) {
-            log.error("HttpClient调用接口异常->{}",e.getMessage());
-            throw new ThirdPartyServiceException("微信小程序API调用失败！请联系管理员");
+            log.error("HttpClientUtil->doGet()：{}",e);
+            throw new ServerException("Get API请求发送失败！请联系管理员");
         } finally {
             try {
                 if (response != null) {
@@ -65,7 +66,7 @@ public class HttpClientUtil {
                 }
                 httpclient.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("HttpClientUtil->doGet()->finally：{}",e);
             }
         }
         return resultString;
@@ -97,12 +98,16 @@ public class HttpClientUtil {
             response = httpClient.execute(httpPost);
             resultString = EntityUtils.toString(response.getEntity(), "utf-8");
         } catch (Exception e) {
-            throw new ThirdPartyServiceException("微信小程序API调用失败！请联系管理员");
+            log.error("HttpClientUtil->doPost()：{}",e);
+            throw new ServerException("Post API请求发送失败！请联系管理员");
         } finally {
             try {
-                response.close();
+                if (response != null){
+                    response.close();
+                }
+                httpClient.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("HttpClientUtil->doPost()->finally：{}",e);
             }
         }
 
@@ -128,12 +133,15 @@ public class HttpClientUtil {
             response = httpClient.execute(httpPost);
             resultString = EntityUtils.toString(response.getEntity(), "utf-8");
         } catch (Exception e) {
-            throw new ThirdPartyServiceException("微信小程序API调用失败！请联系管理员");
+            log.error("HttpClientUtil->doPostJson()：{}",e);
+            throw new ServerException("PostJson API请求发送失败！请联系管理员");
         } finally {
             try {
-                response.close();
+                if (response != null){
+                    response.close();
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("HttpClientUtil->doPostJson()->finally：{}",e);
             }
         }
 
