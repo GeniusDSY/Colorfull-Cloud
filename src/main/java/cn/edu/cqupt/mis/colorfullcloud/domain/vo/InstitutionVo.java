@@ -30,7 +30,7 @@ public class InstitutionVo {
     private Integer phone;
     @ApiModelProperty(name = "distance",value = "距离信息",dataType = "double")
     private Integer distance;
-    @ApiModelProperty(name = "courseEntityList",value = "开设课程",dataType = "list")
-    private List<CourseEntity> courseEntityList;
+    @ApiModelProperty(name = "courseVoList",value = "开设课程",dataType = "list")
+    private List<CourseVo> courseVoList;
 
 }
