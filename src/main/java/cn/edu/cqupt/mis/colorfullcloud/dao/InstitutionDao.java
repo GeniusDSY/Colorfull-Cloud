@@ -19,4 +19,18 @@ public interface InstitutionDao {
      */
     List<InstitutionEntity> selectAllInstitutions();
 
+    /**
+     * 通过机构id查询机构信息
+     * @param id
+     * @return 所查机构信息
+     */
+    InstitutionEntity selectInstitutionById(Integer id);
+
+    /**
+     * 查询所传入数组中id的机构信息
+     * @param institutionIds
+     * @return
+     */
+    List<InstitutionEntity> selectInstitutionsByIdList(List<Integer> institutionIds);
+
 }

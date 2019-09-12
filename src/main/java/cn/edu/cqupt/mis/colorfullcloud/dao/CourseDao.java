@@ -20,6 +20,13 @@ public interface CourseDao {
     List<CourseEntity> selectAllCourses();
 
     /**
+     * 查询某订单某机构下的所有课程
+     * @param courseIds
+     * @return
+     */
+    List<CourseEntity> selectOrderCoursesByIds(List<Integer> courseIds);
+
+    /**
      * 按机构查询所有课程
      * @param id 机构id
      * @return 返回某机构所有课程
