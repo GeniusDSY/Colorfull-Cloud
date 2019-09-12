@@ -28,6 +28,15 @@
         WHERE id = #{id}
     </select>
 
+    <select id="selectInstitutionsByIdList" parameterType="java.util.List" resultMap="institutionMap">
+        SELECT <include refid="institution"/>
+        FROM institutions
+        WHERE id IN
+        <foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
     <update id="updateInstitutionById" parameterType="java.lang.Integer">
         UPDATE institutions
         SET name = #{institutionName},address = #{address},leader = #{leader},phone = #{phone}

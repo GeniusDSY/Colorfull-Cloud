@@ -8,13 +8,29 @@
         <result property="categoryId" column="category_id"/>
         <result property="institutionId" column="institution_id"/>
         <result property="courseName" column="name"/>
+        <result property="price" column="price"/>
         <result property="introduction" column="introduction"/>
         <result property="status" column="status"/>
     </resultMap>
 
     <sql id="course">
-        id,institution_id,category_id,name,introduction,status
+        id,institution_id,category_id,name,price,introduction,status
     </sql>
+    
+    <select id="selectCourseById" parameterType="java.lang.Integer" resultMap="courseMap">
+        SELECT <include refid="course"/>
+        FROM course
+        WHERE id = #{id}
+    </select>
+    
+    <select id="selectOrderCoursesByIds" parameterType="java.util.List" resultMap="courseMap">
+        SELECT <include refid="course"/>
+        FROM course
+        WHERE id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 
     <!--查询所有课程-->
     <select id="selectAllCourses" resultMap="courseMap">

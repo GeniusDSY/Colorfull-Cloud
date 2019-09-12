@@ -18,12 +18,11 @@
         <result property="age" column="age" javaType="java.lang.Integer"  />
         <result property="homeAddress" column="home_address" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result property="gender" column="gender" javaType="java.lang.Integer" />
-        <result property="wxNumber" column="wx_number" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result property="receivingAddress" column="receiving_address" javaType="java.lang.String" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="user">
-        id,open_id,nick_name,phone,password,parent_name,avatar_url,register_time,register_mac,is_disabled,age,home_address,gender,wx_number,receiving_address
+        id,open_id,nick_name,phone,password,parent_name,avatar_url,register_time,register_mac,is_disabled,age,home_address,gender,receiving_address
     </sql>
 
     <select id="selectUserByOpenId" parameterType="java.lang.String" resultMap="userResult">
