@@ -4,6 +4,7 @@ import cn.edu.cqupt.mis.colorfullcloud.common.response.Response;
 import cn.edu.cqupt.mis.colorfullcloud.common.response.ResponseEntity;
 import cn.edu.cqupt.mis.colorfullcloud.common.response.ResponseStatu;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CategoryVo;
+import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CourseVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.InstitutionVo;
 import cn.edu.cqupt.mis.colorfullcloud.service.ProductService;
 import io.swagger.annotations.Api;
@@ -57,5 +58,9 @@ public class ProductController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,productService.allCategoryProducts());
     }
 
+    @GetMapping("allProducts")
+    public ResponseEntity<List<CourseVo>> allProducts(){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,productService.allCourses());
+    }
 
 }
