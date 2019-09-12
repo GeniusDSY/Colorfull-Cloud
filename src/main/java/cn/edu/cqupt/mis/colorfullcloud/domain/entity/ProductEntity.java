@@ -13,13 +13,19 @@ import lombok.ToString;
 @ApiModel("订单详情")
 @Data
 @ToString
-public class OrderProductEntity {
+public class ProductEntity {
 
+    @ApiModelProperty(name = "productId",value = "产品id")
+    private Integer productId;
+    @ApiModelProperty(name = "orderId",value = "订单编号")
+    private String orderId;
     @ApiModelProperty(name = "institutionId",value = "机构id")
     private Integer institutionId;
-    @ApiModelProperty(name = "courseName",value = "课程名称")
-    private String courseName;
-    private Integer amount;
+    @ApiModelProperty(name = "courseId",value = "课程Id")
+    private String courseId;
+    @ApiModelProperty(name = "count",value = "数量")
+    private Integer count;
+    @ApiModelProperty(name = "price",value = "价格")
     private Float price;
 
 }

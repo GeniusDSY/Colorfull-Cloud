@@ -21,6 +21,8 @@ public class CourseEntity {
     private Integer institutionId;
     @ApiModelProperty(value = "课程名称")
     private String courseName;
+    @ApiModelProperty(value = "课程价格")
+    private Double price;
     @ApiModelProperty(value = "课程详细介绍")
     private String introduction;
     @ApiModelProperty(value = "课程状态(0:正常;1:已满;2:下架)")

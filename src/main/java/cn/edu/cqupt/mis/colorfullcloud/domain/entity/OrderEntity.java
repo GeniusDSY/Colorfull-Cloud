@@ -4,8 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
-import java.util.Date;
-
 /**
  * @author :DengSiYuan
  * @date :2019/8/26 9:44
@@ -22,11 +20,11 @@ public class OrderEntity {
     @ApiModelProperty(value = "机构id")
     private Integer institutionId;
     @ApiModelProperty(value = "下单时间")
-    private Date orderTime;
+    private String orderTime;
     @ApiModelProperty(value = "支付方式(1:微信;2:支付宝;3:银行卡)")
     private Integer payment;
     @ApiModelProperty(value = "支付时间")
-    private Date payTime;
+    private String payTime;
     @ApiModelProperty(value = "支付编号")
     private String payId;
     @ApiModelProperty(value = "总额")
