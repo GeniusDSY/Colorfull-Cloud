@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqupt.mis.colorfullcloud.dao.OrderDao">
+    <resultMap id="orderMap" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.OrderEntity">
+        <id property="orderId" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="institutionId" column="institution_id"/>
+        <result property="orderTime" column="order_time" javaType="java.lang.String"/>
+        <result property="payment" column="payment"/>
+        <result property="payTime" column="pay_time" javaType="java.lang.String"/>
+        <result property="payId" column="pay_id"/>
+        <result property="total" column="total"/>
+        <result property="discount" column="discount"/>
+        <result property="amount" column="amount"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <sql id="order">
+        id,user_id,institution_id,order_time,payment,pay_time,pay_id,total,discount,amount,status
+    </sql>
+
+    <select id="selectAllOrdersByUserId" parameterType="java.lang.Integer" resultMap="orderMap">
+        SELECT <include refid="order"/>
+        FROM orders
+        WHERE user_id = #{userId}
+    </select>
+
+</mapper>
+   

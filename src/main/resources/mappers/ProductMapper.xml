@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqupt.mis.colorfullcloud.dao.ProductDao">
+    <resultMap id="product" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.ProductEntity">
+        <id property="productId" column="id"/>
+        <result property="orderId" column="order_id" />
+        <result property="institutionId" column="institution_id" />
+        <result property="courseId" column="course_id" />
+        <result property="count" column="count" />
+        <result property="price" column="price" />
+    </resultMap>
+    
+    <sql id="product">
+        id,order_id,institution_id,course_id,count,price
+    </sql>
+    
+    <select id="selectProductByOrderId" parameterType="java.lang.String" resultMap="product">
+        SELECT <include refid="product"/>
+        FROM product
+        WHERE order_id = #{orderId}
+    </select>
+
+    <select id="selectInstitutionIdsByOrderId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT institution_id
+        FROM product
+        WHERE order_id = #{orderId}
+    </select>
+
+    <select id="selectCourseIdsByOrderIdAndInstitutionId" resultType="java.lang.Integer">
+        SELECT course_id
+        FROM product
+        WHERE order_id = #{orderId} AND institution_id = #{institutionId}
+    </select>
+
+    <select id="selectCountByOrderIdAndCourseId" resultType="java.lang.Integer">
+        SELECT count
+        FROM product
+        WHERE order_id = #{orderId} AND course_id = #{courseId}
+    </select>
+</mapper>
+   
