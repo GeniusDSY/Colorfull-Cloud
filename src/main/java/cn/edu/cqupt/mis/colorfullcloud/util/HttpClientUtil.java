@@ -1,7 +1,6 @@
 package cn.edu.cqupt.mis.colorfullcloud.util;
 
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ServerException;
-import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ThirdPartyServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;

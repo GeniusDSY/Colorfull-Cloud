@@ -1,5 +1,6 @@
 package cn.edu.cqupt.mis.colorfullcloud.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @date :2019/4/22 16:41
  * @desc :
  */
+@Slf4j
 @Component
 public class RedisUtil {
     @Resource
@@ -37,7 +39,7 @@ public class RedisUtil {
             }
             return true;
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("RedisUtil->expire()：{}",e);
             return false;
         }
     }
@@ -51,7 +53,7 @@ public class RedisUtil {
         try {
             return redisTemplate.hasKey(key);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->hasKey()：{}",e);
             return false;
         }
     }
@@ -61,7 +63,7 @@ public class RedisUtil {
      * @param key 可以传一个值 或多个
      * */
     @SuppressWarnings("unchecked")
-    public void delte(String ... key){
+    public void delete(String ... key){
         if(key != null && key.length > 0){
             if(key.length == 1){
                 redisTemplate.delete(key[0]);
@@ -94,6 +96,7 @@ public class RedisUtil {
             redisTemplate.opsForValue().set(key, value);
             return true;
         } catch (Exception e) {
+            log.error("RedisUtil->set()：{}",e);
             return false;
         }
     }
@@ -114,7 +117,7 @@ public class RedisUtil {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->set()：{}",e);
             return false;
         }
     }
@@ -175,7 +178,7 @@ public class RedisUtil {
             redisTemplate.opsForHash().putAll(key, map);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->hmset()：{}",e);
             return false;
         }
     }
@@ -195,7 +198,7 @@ public class RedisUtil {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->hmset()：{}",e);
             return false;
         }
     }
@@ -212,7 +215,7 @@ public class RedisUtil {
             redisTemplate.opsForHash().put(key, item, value);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->hset()：{}",e);
             return false;
         }
     }
@@ -233,7 +236,7 @@ public class RedisUtil {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->hset()：{}",e);
             return false;
         }
     }
@@ -289,7 +292,7 @@ public class RedisUtil {
         try {
             return redisTemplate.opsForSet().members(key);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->sGet()：{}",e);
             return null;
         }
     }
@@ -304,7 +307,7 @@ public class RedisUtil {
         try {
             return redisTemplate.opsForSet().isMember(key, value);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->sHasKey()：{}",e);
             return false;
         }
     }
@@ -319,7 +322,7 @@ public class RedisUtil {
         try {
             return redisTemplate.opsForSet().add(key, values);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->sSet()：{}",e);
             return 0;
         }
     }
@@ -339,7 +342,7 @@ public class RedisUtil {
             }
             return count;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->sSetAndTime()：{}",e);
             return 0;
         }
     }
@@ -353,7 +356,7 @@ public class RedisUtil {
         try {
             return redisTemplate.opsForSet().size(key);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->sGetSetSize()：{}",e);
             return 0;
         }
     }
@@ -369,7 +372,7 @@ public class RedisUtil {
             Long count = redisTemplate.opsForSet().remove(key, values);
             return count;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->setRemove()：{}",e);
             return 0;
         }
     }
@@ -386,7 +389,7 @@ public class RedisUtil {
         try {
             return redisTemplate.opsForList().range(key, start, end);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->lGet()：{}",e);
             return null;
         }
     }
@@ -400,7 +403,7 @@ public class RedisUtil {
         try {
             return redisTemplate.opsForList().size(key);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->lGetListSize()：{}",e);
             return 0;
         }
     }
@@ -415,7 +418,7 @@ public class RedisUtil {
         try {
             return redisTemplate.opsForList().index(key, index);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->lGetIndex()：{}",e);
             return null;
         }
     }
@@ -431,7 +434,7 @@ public class RedisUtil {
             redisTemplate.opsForList().rightPush(key, value);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->lSet1()：{}",e);
             return false;
         }
     }
@@ -451,7 +454,7 @@ public class RedisUtil {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->lSet2()：{}",e);
             return false;
         }
     }
@@ -467,7 +470,7 @@ public class RedisUtil {
             redisTemplate.opsForList().rightPushAll(key, value);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->lSet3()：{}",e);
             return false;
         }
     }
@@ -487,7 +490,7 @@ public class RedisUtil {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->lSet4()：{}",e);
             return false;
         }
     }
@@ -504,7 +507,7 @@ public class RedisUtil {
             redisTemplate.opsForList().set(key, index, value);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->lUpdateIndex()：{}",e);
             return false;
         }
     }
@@ -521,7 +524,7 @@ public class RedisUtil {
             Long remove = redisTemplate.opsForList().remove(key, count, value);
             return remove;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisUtil->lRemove()：{}",e);
             return 0;
         }
     }

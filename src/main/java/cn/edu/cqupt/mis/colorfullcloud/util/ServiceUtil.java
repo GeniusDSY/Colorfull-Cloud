@@ -38,7 +38,7 @@ public class ServiceUtil {
     }
 
     public static ResponseEntity serverExecuteFailResponseEntity() {
-        return new ResponseEntity<>(ResponseStatu.SERVER_EXCUTE_FAIL, "服务器错误", null);
+        return new ResponseEntity<>(ResponseStatu.SERVER_EXCUTE_FAIL, "响应服务器错误", null);
     }
 
     public static ResponseEntity threeServiceFailResponseEntity(String msg){
@@ -56,7 +56,7 @@ public class ServiceUtil {
     public static void checkSqlExecuted(boolean... flags) {
         for (boolean flag : flags) {
             if (!flag) {
-                throw new ServerException("服务器错误");
+                throw new ServerException("数据库事务错误");
             }
         }
 
