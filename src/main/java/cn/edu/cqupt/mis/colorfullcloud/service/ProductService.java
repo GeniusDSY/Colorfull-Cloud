@@ -32,4 +32,10 @@ public interface ProductService {
      */
     List<CategoryVo> allCategoryProducts();
 
+    /**
+     * 获取所有课程（不按机构分类）
+     * @return 所有课程
+     */
+    List<CourseVo> allCourses();
+
 }

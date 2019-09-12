@@ -51,10 +51,7 @@ public class ProductServiceImpl implements ProductService {
     public List<InstitutionVo> allDefaultProducts(){
         try {
             List<InstitutionVo> institutionVoList = getAllInstitutions();
-            for (InstitutionVo institutionVo : institutionVoList) {
-                institutionVo.setCourseEntityList(courseDao.selectCoursesByInstitutionId(institutionVo.getInstitutionId()));
-            }
-            return institutionVoList;
+            return setCourseVoList(institutionVoList);
         }catch (Exception e){
             log.error("ProductService -> allDefaultProducts()->{}",e.getMessage());
             throw new ServerException("获取产品列表异常");
@@ -99,8 +96,7 @@ public class ProductServiceImpl implements ProductService {
             }
             return categoryVoList;
         }catch (Exception e){
-            e.printStackTrace();
-            log.error("ProductService -> allCategoryProducts()->{}",e.getMessage());
+            log.error("ProductService -> allCategoryProducts()->{}",e);
             throw new ServerException("分类获取课程出现异常");
         }
     }
@@ -117,21 +113,27 @@ public class ProductServiceImpl implements ProductService {
             return institutionVoList;
         }catch (Exception e){
             log.error("ProductService -> getAllInstitutions()->{}",e.getMessage());
-            throw new ServerException("数据库出现异常");
+            throw new ServerException("获取所有机构->数据库出现异常");
         }
     }
 
-    private List<CourseVo> getAllInstitutionCourses(){
+    @Override
+    public List<CourseVo> allCourses(){
         try {
             List<CourseVo> courseVoList = new ArrayList<>();
             TransformUtil.transformList(courseDao.selectAllCourses(),courseVoList,CourseVo.class);
             return courseVoList;
         }catch (Exception e){
             log.error("ProductService -> getAllCourses()->{}",e.getMessage());
-            throw new ServerException("数据库出现异常");
+            throw new ServerException("获取所有课程->数据库出现异常");
         }
     }
 
+    /**
+     * 按类别查询后的课程
+     * @param categoryId
+     * @return 查询按类别分类的课程集合
+     */
     private List<CourseVo> getAllCategoryCourses(Integer categoryId){
         try {
             List<CourseVo> courseVoList = new ArrayList<>();
@@ -139,10 +141,15 @@ public class ProductServiceImpl implements ProductService {
             return courseVoList;
         }catch (Exception e){
             log.error("ProductService -> getAllCategoryCourses()->{}",e.getMessage());
-            throw new ServerException("数据库出现异常");
+            throw new ServerException("按类别获取课程->数据库出现异常");
         }
     }
 
+    /**
+     * 计算当前位置与各机构的距离
+     * @param institutionEntityList
+     * @return 计算完成并进行课程、距离赋值后的机构结果
+     */
     private List<InstitutionVo> getDistanceResult(List<InstitutionEntity> institutionEntityList){
         try {
             //获取当前ip所在位置经纬度
@@ -161,21 +168,41 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+
+    /**
+     * 将调用腾讯地图API的返回结果与机构记过进行组装转换返回
+     * @param institutionEntityList
+     * @param mapResult
+     * @return 返回组装api返回结果和课程的结果
+     */
     private List<InstitutionVo> getDistanceVo(List<InstitutionEntity> institutionEntityList,TencentMapResult mapResult){
         try {
             List<InstitutionVo> institutionVoList = new ArrayList<>();
+            //赋值计算出来的距离
             for (int i = 0; i < institutionEntityList.size(); i++) {
                 institutionEntityList.get(i).setDistance(mapResult.getResult().getElements().get(i).getDistance());
             }
             TransformUtil.transformList(institutionEntityList,institutionVoList,InstitutionVo.class);
-            for (InstitutionVo institutionVo : institutionVoList) {
-                institutionVo.setCourseEntityList(courseDao.selectCoursesByInstitutionId(institutionVo.getInstitutionId()));
-            }
-            return institutionVoList;
+            //赋值机构课程
+            return setCourseVoList(institutionVoList);
         }catch (Exception e){
             log.error("ProductServiceImpl -> getDistanceVo()：{}",e);
             throw new ParameterException("距离机构展示转化出现异常！");
         }
+    }
 
+
+    /**
+     * 给机构赋值属于他的课程
+     * @param institutionVoList
+     * @return
+     */
+    private List<InstitutionVo> setCourseVoList(List<InstitutionVo> institutionVoList){
+        for (InstitutionVo institutionVo : institutionVoList) {
+            List<CourseVo> courseVoList = new ArrayList<>();
+            TransformUtil.transformList(courseDao.selectCoursesByInstitutionId(institutionVo.getInstitutionId()),courseVoList,CourseVo.class);
+            institutionVo.setCourseVoList(courseVoList);
+        }
+        return institutionVoList;
     }
 }
