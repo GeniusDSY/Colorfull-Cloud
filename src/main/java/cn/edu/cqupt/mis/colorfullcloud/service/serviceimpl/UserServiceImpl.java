@@ -58,7 +58,6 @@ public class UserServiceImpl implements UserService {
             //在登陆态中，取出Redis中的缓存数据直接返回
             if(cacheUtil.flagRedis(request)){
                 UserEntity userEntity = (UserEntity) redisUtil.get(cacheUtil.getSessionId(request));
-                System.out.println(userEntity);
                 cacheUtil.addRedis(request,response,userEntity);
                 UserVo userVo = new UserVo();
                 BeanUtils.copyProperties(userEntity,userVo);
@@ -74,7 +73,6 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 修改用户信息
-     *
      * @param userDto
      * @return userVo
      */
@@ -105,10 +103,10 @@ public class UserServiceImpl implements UserService {
             String cacheKey = cacheUtil.getSessionId(request);
             UserEntity redisCache = (UserEntity) redisUtil.get(cacheKey);
             if (redisCache != null){
-                redisUtil.delte(cacheKey);
+                redisUtil.delete(cacheKey);
                 log.info("用户{}已注销",redisCache.getOpenid());
             }
-            //cacheUtil.deleteCookies(request);
+            cacheUtil.deleteCookies(request);
             return true;
         }catch (Exception e){
             log.error("注销用户出现异常{}",e);
