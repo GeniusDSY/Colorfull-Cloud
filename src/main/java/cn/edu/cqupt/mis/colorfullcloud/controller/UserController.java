@@ -36,15 +36,16 @@ public class UserController {
     @PostMapping("login")
     public ResponseEntity<UserVo> userLogin(String code, @RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response){
         log.info("用户登陆code：{} + 信息->{}",code,userDto);
-        UserVo userVo = userService.userLogin(code,request,response);
+        UserVo userVo = userService.userLogin(code,userDto);
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userVo);
     }
 
 
     @ApiOperation("修改用户信息")
     @PostMapping("modify")
-    public ResponseEntity<UserVo> modifyUser(@RequestBody UserDto userDto, HttpServletRequest request){
-        UserVo userVo = userService.modifyUser(userDto,request);
+    public ResponseEntity<UserVo> modifyUser(@RequestBody UserDto userDto){
+        System.out.println(userDto);
+        UserVo userVo = userService.modifyUser(userDto);
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userVo);
     }
 
