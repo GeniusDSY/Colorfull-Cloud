@@ -35,7 +35,7 @@ public class OrderVo {
     private Float discount;
     @ApiModelProperty(name = "amount",value = "实际支付",dataType = "float")
     private Float amount;
-    @ApiModelProperty(name = "status",value = "订单状态(1:未支付;2:活动中;3:已支付)",dataType = "int")
+    @ApiModelProperty(name = "status",value = "订单状态(0:未支付;1:活动中;2:已支付;3:订单取消)",dataType = "int")
     private Integer status;
 
 }
