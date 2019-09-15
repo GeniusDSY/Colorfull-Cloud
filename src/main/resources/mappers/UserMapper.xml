@@ -8,7 +8,10 @@
         <result property="openid" column="open_id" javaType="java.lang.String" jdbcType="VARCHAR" />
         <result property="nickName" column="nick_name" javaType="java.lang.String" jdbcType="VARCHAR" />
         <result property="phone" column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
-        <result property="sparePhone" column="e_mail" javaType="java.lang.String" jdbcType="VARCHAR" />
+        <result property="country" column="country" />
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="sparePhone" column="spare_phone" javaType="java.lang.String" jdbcType="VARCHAR" />
         <result property="password" column="password" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result property="parentName" column="parent_name" javaType="java.lang.String" jdbcType="VARCHAR" />
         <result property="avatarUrl" column="avatar_url" javaType="java.lang.String" />
@@ -22,7 +25,7 @@
     </resultMap>
 
     <sql id="user">
-        id,open_id,nick_name,phone,password,parent_name,avatar_url,register_time,register_mac,is_disabled,age,home_address,gender,receiving_address
+        id,open_id,nick_name,phone,country,province,city,spare_phone,password,parent_name,avatar_url,register_time,register_mac,is_disabled,age,home_address,gender,receiving_address
     </sql>
 
     <select id="selectUserByOpenId" parameterType="java.lang.String" resultMap="userResult">
@@ -34,26 +37,26 @@
     <select id="selectUserById" parameterType="java.lang.Integer" resultMap="userResult">
         SELECT <include refid="user"/>
         FROM user
-        WHERE id = #{id}
+        WHERE id = #{userId}
     </select>
 
     <insert id="insertUser" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.UserEntity">
         INSERT INTO user(open_id,nick_name,country,province,city,avatar_url,gender,age)
-        VALUES (#{openid},#{nickName},#{country},#{province},#{city},#{avatatUrl},#{gender},#{age})
+        VALUES (#{openid},#{nickName},#{country},#{province},#{city},#{avatarUrl},#{gender},#{age})
     </insert>
 
     <update id="updateUser" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.UserEntity">
         UPDATE user
         SET nick_name = #{nickName},
             phone = #{phone},
+            spare_phone = #{sparePhone},
             password = #{password},
             parent_name = #{parentName},
-            avatar_url = #{avatarUrl},
             age = #{age},
             home_address = #{homeAddress},
             gender = #{gender},
             receiving_address = #{receivingAddress}
-        WHERE id = #{id}
+        WHERE id = #{userId}
     </update>
 
 </mapper>

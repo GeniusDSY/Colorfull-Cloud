@@ -6,7 +6,6 @@
     <resultMap id="orderMap" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.OrderEntity">
         <id property="orderId" column="id"/>
         <result property="userId" column="user_id"/>
-        <result property="institutionId" column="institution_id"/>
         <result property="orderTime" column="order_time" javaType="java.lang.String"/>
         <result property="payment" column="payment"/>
         <result property="payTime" column="pay_time" javaType="java.lang.String"/>
@@ -18,14 +17,38 @@
     </resultMap>
 
     <sql id="order">
-        id,user_id,institution_id,order_time,payment,pay_time,pay_id,total,discount,amount,status
+        id,user_id,order_time,payment,pay_time,pay_id,total,discount,amount,status
     </sql>
 
+    <!--根据用户id查询所有订单-->
     <select id="selectAllOrdersByUserId" parameterType="java.lang.Integer" resultMap="orderMap">
         SELECT <include refid="order"/>
         FROM orders
         WHERE user_id = #{userId}
     </select>
+
+    <!--删除订单-->
+    <delete id="deleteOrdersByOrderIdList" parameterType="java.util.List">
+        DELETE
+        FROM orders
+        WHERE id IN
+        <foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+
+    <!--修改订单状态（默认0：未支付；1：支付成功；2：优惠分享中；3：已取消）-->
+    <update id="modifyOrderStatusByOrderId" >
+        UPDATE orders
+        SET status = #{status}
+        WHERE id = #{orderId}
+    </update>
+
+    <!--创建订单-->
+    <insert id="insertOrder" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.OrderEntity">
+        INSERT INTO orders(user_id,total,discount,amount)
+        VALUES (#{userId},#{total},#{discount},#{amount})
+    </insert>
 
 </mapper>
    
