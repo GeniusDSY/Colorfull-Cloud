@@ -30,7 +30,7 @@ public interface UserDao {
      * @param userEntity
      * @return true false
      * */
-    boolean updateUser(UserEntity userEntity);
+    Boolean updateUser(UserEntity userEntity);
 
     /**
      * 通过主键id查询用户信息

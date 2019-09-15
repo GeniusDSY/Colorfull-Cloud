@@ -44,4 +44,12 @@ public interface ProductDao {
      */
     Integer selectCountByOrderIdAndCourseId(@Param("orderId") String orderId,@Param("courseId")Integer courseId);
 
+
+    /**
+     * 插入所有
+     * @param productEntityList
+     * @return
+     */
+    Boolean insertProducts(List<ProductEntity> productEntityList);
+
 }
