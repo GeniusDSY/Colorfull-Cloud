@@ -8,10 +8,8 @@ import cn.edu.cqupt.mis.colorfullcloud.domain.vo.OrderVo;
 import cn.edu.cqupt.mis.colorfullcloud.service.OrderService;
 import cn.edu.cqupt.mis.colorfullcloud.util.CacheUtil;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -28,20 +26,31 @@ import java.util.List;
 public class OrderController {
 
     @Resource
-    private CacheUtil cacheUtil;
-    @Resource
     private OrderService orderService;
 
+    @ApiOperation("获得该用户的所有订单")
     @GetMapping("allOrders")
-    public ResponseEntity<List<OrderVo>> allOrders(HttpServletRequest request){
-        Integer userId = Integer.valueOf(cacheUtil.getCookie(request));
+    public ResponseEntity<List<OrderVo>> allOrders(Integer userId){
         List<OrderVo> orderVoList = orderService.allUserOrders(userId);
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderVoList);
     }
 
+    @ApiOperation("创建订单")
     @PostMapping("createOrder")
-    public ResponseEntity<OrderVo> createOrder(OrderDto orderDto){
-        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,null);
+    public ResponseEntity<List<OrderVo>> createOrder(@RequestBody OrderDto orderDto){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderService.createOrder(orderDto));
+    }
+
+    @ApiOperation("删除订单列表")
+    @DeleteMapping("deleteOrders")
+    public ResponseEntity<List<OrderVo>> deleteOrders(Integer userId,@RequestBody List<String> orderIdList){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,orderService.deleteOrders(userId,orderIdList));
+    }
+
+    @ApiOperation("取消订单")
+    @PostMapping("cancelOrder")
+    public ResponseEntity<List<OrderVo>> cancelOrder(Integer userId,String orderId){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,orderService.cancelOrder(userId,orderId));
     }
 
 }
