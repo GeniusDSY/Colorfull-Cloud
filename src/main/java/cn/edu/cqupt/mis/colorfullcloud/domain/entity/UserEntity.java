@@ -23,16 +23,19 @@ public class UserEntity {
     private String openid;
     @ApiModelProperty(value = "自定义昵称")
     private String nickName;
-    @ApiModelProperty(value = "微信头像链接")
-    private String avatarUrl;
     @ApiModelProperty(value = "用户手机号")
     private String phone;
+    private String country;
+    private String province;
+    private String city;
     @ApiModelProperty(value = "备用手机号")
     private String sparePhone;
     @ApiModelProperty(value = "密码（目前无用）")
     private String password;
     @ApiModelProperty(value = "家长姓名")
     private String parentName;
+    @ApiModelProperty(value = "微信头像链接")
+    private String avatarUrl;
     @ApiModelProperty(value = "注册时间")
     private String registerTime;
     @ApiModelProperty(value = "注册设备的Mac")
@@ -41,12 +44,10 @@ public class UserEntity {
     private Integer isDisabled;
     @ApiModelProperty(value = "年龄")
     private Integer age;
-    @ApiModelProperty(value = "性别（1男0女）")
+    @ApiModelProperty(value = "性别（1男2女）")
     private Integer gender;
     @ApiModelProperty(value = "家庭住址")
     private String homeAddress;
-    @ApiModelProperty(value = "绑定的微信号")
-    private String wxNumber;
     @ApiModelProperty(value = "收货地址")
     private String receivingAddress;
 

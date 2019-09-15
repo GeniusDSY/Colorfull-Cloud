@@ -17,8 +17,6 @@ public class OrderEntity {
     private String orderId;
     @ApiModelProperty(value = "用户id")
     private Integer userId;
-    @ApiModelProperty(value = "机构id")
-    private Integer institutionId;
     @ApiModelProperty(value = "下单时间")
     private String orderTime;
     @ApiModelProperty(value = "支付方式(1:微信;2:支付宝;3:银行卡)")
