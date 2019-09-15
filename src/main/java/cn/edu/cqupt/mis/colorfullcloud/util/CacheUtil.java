@@ -31,15 +31,12 @@ public class CacheUtil {
 
     /**
      * 增加用户信息到Redis
-     * @param request
-     * @param response
+     * @param openid
      * @param userEntity
      */
-    public void addRedis(HttpServletRequest request, HttpServletResponse response, UserEntity userEntity) {
+    public void addRedis(String openid, UserEntity userEntity) {
         try {
-            Cookie userIdCookie = new Cookie(CacheKey.USER_ID,userEntity.getUserId().toString());
-            response.addCookie(userIdCookie);
-            if(!redisUtil.set(request.getSession().getId(), userEntity, CacheKey.CACHE_TIME)){
+            if(!redisUtil.set(openid, userEntity, CacheKey.CACHE_TIME)){
                 throw new ParameterException("缓存存储出现异常");
             }
         }catch (Exception e){
@@ -51,10 +48,10 @@ public class CacheUtil {
 
     /**
      * 判断用户是否已经存在于redis中
-     * @param request
+     * @param openid
      * */
-    public boolean flagRedis(HttpServletRequest request){
-        return redisUtil.get(request.getSession().getId()) != null;
+    public boolean flagRedis(String openid){
+        return redisUtil.get(openid) != null;
     }
 
     /**
