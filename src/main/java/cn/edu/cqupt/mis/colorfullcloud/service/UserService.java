@@ -18,19 +18,17 @@ public interface UserService {
     /**
      * 用户登录
      * @param code
-     * @param request
-     * @param response
+     * @param userDto
      * @return userVo
      * */
-    UserVo userLogin(String code, HttpServletRequest request, HttpServletResponse response);
+    UserVo userLogin(String code, UserDto userDto);
 
     /**
      * 修改用户信息
      * @param userDto
-     * @param request
      * @return userVo
      * */
-    UserVo modifyUser(UserDto userDto, HttpServletRequest request);
+    UserVo modifyUser(UserDto userDto);
 
     /**
      * 用户注销

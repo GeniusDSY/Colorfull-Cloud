@@ -48,22 +48,19 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional(rollbackFor = SQLException.class)
     @Override
-    public UserVo userLogin(String code, HttpServletRequest request, HttpServletResponse response) {
+    public UserVo userLogin(String code,UserDto userDto) {
         try {
-            //假定openid
-            //OpenId openId = new OpenId();
-            //openId.setOpenid("dwdafasfqweqwfasdad");
             OpenId openId = weChatUtil.getOpenId(code);
             log.info("获取到微信用户openId：{}", openId);
+            String openid = openId.getOpenid();
             //在登陆态中，取出Redis中的缓存数据直接返回
-            if(cacheUtil.flagRedis(request)){
-                UserEntity userEntity = (UserEntity) redisUtil.get(cacheUtil.getSessionId(request));
-                cacheUtil.addRedis(request,response,userEntity);
+/*            if(cacheUtil.flagRedis(openid)){
+                UserEntity userEntity = (UserEntity) redisUtil.get(openid);
                 UserVo userVo = new UserVo();
                 BeanUtils.copyProperties(userEntity,userVo);
                 return userVo;
-            }
-            return flagUser(openId.getOpenid(),request,response);
+            }*/
+            return flagUser(openid,userDto);
         }catch (Exception e){
             log.error(this.getClass().getSimpleName()+"->userLogin()：{}",e);
             throw new ServerException("登陆出现异常！请联系管理员！");
@@ -77,19 +74,18 @@ public class UserServiceImpl implements UserService {
      * @return userVo
      */
     @Override
-    public UserVo modifyUser(UserDto userDto, HttpServletRequest request) {
-        String cacheKey = cacheUtil.getSessionId(request);
+    public UserVo modifyUser(UserDto userDto) {
         UserEntity userEntity = new UserEntity();
         UserVo userVo = new UserVo();
-        if (redisUtil.get(cacheKey) == null){
+        /*if (redisUtil.get() == null){
             log.warn("用户未授权！");
             throw new AuthenticationException("未进行授权登录!!");
-        }else {
+        }else */
             BeanUtils.copyProperties(userDto,userEntity);
             ServiceUtil.checkSqlExecuted(userDao.updateUser(userEntity));
             userEntity = userDao.selectUserById(userDto.getUserId());
             BeanUtils.copyProperties(userEntity,userVo);
-        }
+            redisUtil.set(userEntity.getOpenid(),userEntity);
         return userVo;
     }
 
@@ -119,21 +115,20 @@ public class UserServiceImpl implements UserService {
      * 判断用户是否已经存在于数据库
      *
      * @param openid
-     * @param request
-     * @param response
      * @return
      */
-    private UserVo flagUser(String openid, HttpServletRequest request, HttpServletResponse response){
+    private UserVo flagUser(String openid,UserDto userDto){
         try {
             UserEntity userEntity = new UserEntity();
             //若该用户不存在先进行注册
             if(userDao.selectUserByOpenId(openid) == null){
                 userEntity.setOpenid(openid);
+                TransformUtil.transformOne(userDto,userEntity);
                 ServiceUtil.checkSqlExecuted(userDao.insertUser(userEntity));
             }
             //用户存在进行查询返回
             userEntity = userDao.selectUserByOpenId(openid);
-            cacheUtil.addRedis(request,response,userEntity);
+            cacheUtil.addRedis(openid,userEntity);
             return (UserVo) TransformUtil.transformOne(userEntity,new UserVo());
         }catch (Exception e){
             log.error("方法flagUser：{}",e);
