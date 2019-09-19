@@ -18,6 +18,7 @@ import cn.edu.cqupt.mis.colorfullcloud.util.TransformUtil;
 import cn.edu.cqupt.mis.colorfullcloud.util.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class OrderServiceImpl implements OrderService {
     private InstitutionDao institutionDao;
     @Resource
     private CourseDao courseDao;
+    @Resource
+    private UUIDUtil uuidUtil;
     /**
      * 获取当前用户的所有订单
      * @return 返回该用户的订单集合
@@ -54,15 +57,22 @@ public class OrderServiceImpl implements OrderService {
      * @param orderDto
      * @return 返回该用户的所有订单
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public List<OrderVo> createOrder(OrderDto orderDto) {
-        OrderEntity orderEntity = (OrderEntity) TransformUtil.transformOne(orderDto,new OrderEntity());
-        String orderId = UUIDUtil.getRandomString();
-        orderEntity.setOrderId(orderId);
-        List<ProductEntity> productEntityList = TransformUtil.transformList(orderDto.getProductDtoList(),new ArrayList<>(),ProductEntity.class);
-        productEntityList.forEach(productEntity1 -> productEntity1.setOrderId(orderId));
-        ServiceUtil.checkSqlExecuted(orderDao.insertOrder(orderEntity),productDao.insertProducts(productEntityList));
-        return getAllUserOrders(orderDto.getUserId());
+        try {
+            OrderEntity orderEntity = (OrderEntity) TransformUtil.transformOne(orderDto,new OrderEntity());
+            String orderId = uuidUtil.getRandomOrderId();
+            orderEntity.setOrderId(orderId);
+            List<ProductEntity> productEntityList = TransformUtil.transformList(orderDto.getProductDtoList(),new ArrayList<>(),ProductEntity.class);
+            productEntityList.forEach(productEntity1 -> productEntity1.setOrderId(orderId));
+            ServiceUtil.checkSqlExecuted(orderDao.insertOrder(orderEntity),productDao.insertProducts(productEntityList));
+            return getAllUserOrders(orderDto.getUserId());
+        }catch (Exception e){
+            log.error("OrderServiceImpl->createOrder()->" + e);
+            throw new ServerException("创建订单出现异常");
+        }
+
     }
 
     /**
@@ -73,8 +83,16 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<OrderVo> deleteOrders(Integer userId, List<String> orderIdList) {
-        ServiceUtil.checkSqlExecuted(orderDao.deleteOrdersByOrderIdList(orderIdList));
-        return getAllUserOrders(userId);
+        try {
+            ServiceUtil.checkSqlExecuted(orderDao.deleteOrdersByOrderIdList(orderIdList));
+            System.out.println(userId);
+            System.out.println(getAllUserOrders(userId));
+            return getAllUserOrders(userId);
+        }catch (Exception e){
+            log.error("OrderServiceImpl->deleteOrders()->" + e);
+            throw new ServerException("删除订单出现异常");
+        }
+
     }
 
     /**
@@ -85,10 +103,21 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<OrderVo> cancelOrder(Integer userId,String orderId) {
-        ServiceUtil.checkSqlExecuted(orderDao.modifyOrderStatusByOrderId(orderId,Status.CANCEL));
-        return getAllUserOrders(userId);
+        try {
+            ServiceUtil.checkSqlExecuted(orderDao.modifyOrderStatusByOrderId(orderId,Status.CANCEL));
+            return getAllUserOrders(userId);
+        }catch (Exception e){
+            log.error("OrderServiceImpl->cancelOrder()->" + e);
+            throw new ServerException("取消订单出现异常");
+        }
+
     }
 
+    /**
+     * 查询某用户的所有订单
+     * @param userId
+     * @return
+     */
     private List<OrderVo> getAllUserOrders(Integer userId) {
         try {
             //获取当前用户下的所有订单
