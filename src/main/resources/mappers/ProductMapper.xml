@@ -44,7 +44,7 @@
         INSERT INTO product(order_id, institution_id, course_id, count, price)
         VALUES
         <foreach collection="list" item="product" separator=",">
-            (#{product.orderId},#{institutionId},#{courseId},#{count},#{price})
+            (#{product.orderId},#{product.institutionId},#{product.courseId},#{product.count},#{product.price})
         </foreach>
     </insert>
 </mapper>
