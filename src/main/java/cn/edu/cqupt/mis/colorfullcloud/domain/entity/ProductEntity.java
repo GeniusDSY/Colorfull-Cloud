@@ -22,7 +22,7 @@ public class ProductEntity {
     @ApiModelProperty(name = "institutionId",value = "机构id")
     private Integer institutionId;
     @ApiModelProperty(name = "courseId",value = "课程Id")
-    private String courseId;
+    private Integer courseId;
     @ApiModelProperty(name = "count",value = "数量")
     private Integer count;
     @ApiModelProperty(name = "price",value = "价格")
