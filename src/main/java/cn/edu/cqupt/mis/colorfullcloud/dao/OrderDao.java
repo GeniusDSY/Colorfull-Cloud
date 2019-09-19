@@ -43,4 +43,11 @@ public interface OrderDao {
      */
     Boolean modifyOrderStatusByOrderId(@Param("orderId")String orderId,@Param("status")Integer status);
 
+    /**
+     * 查询订单id是否存在
+     * @param orderId 订单id
+     * @return
+     */
+    OrderEntity selectOrderId(String orderId);
+
 }
