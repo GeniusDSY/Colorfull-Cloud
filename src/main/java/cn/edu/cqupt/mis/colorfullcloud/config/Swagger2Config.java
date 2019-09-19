@@ -27,12 +27,7 @@ public class Swagger2Config {
 
     @Bean
     public Docket algorithmApis() {
-        ParameterBuilder ticketPar = new ParameterBuilder();
         List<Parameter> pars = new ArrayList<Parameter>();
-        ticketPar.name("id").description("user token")
-                .modelRef(new ModelRef("string")).parameterType("header")
-                .required(false).build();
-        pars.add(ticketPar.build());
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(createApiInfo())
                 .select()
