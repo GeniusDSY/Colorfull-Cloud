@@ -43,7 +43,7 @@ public class OrderController {
 
     @ApiOperation("删除订单列表")
     @DeleteMapping("deleteOrders")
-    public ResponseEntity<List<OrderVo>> deleteOrders(Integer userId,@RequestBody List<String> orderIdList){
+    public ResponseEntity<List<OrderVo>> deleteOrders(@RequestParam Integer userId,@RequestBody List<String> orderIdList){
         return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,orderService.deleteOrders(userId,orderIdList));
     }
 
