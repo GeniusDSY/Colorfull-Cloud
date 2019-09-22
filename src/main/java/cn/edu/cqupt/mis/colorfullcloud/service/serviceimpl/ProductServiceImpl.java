@@ -6,7 +6,9 @@ import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ThirdPartyServiceExcept
 import cn.edu.cqupt.mis.colorfullcloud.dao.CategoryDao;
 import cn.edu.cqupt.mis.colorfullcloud.dao.CourseDao;
 import cn.edu.cqupt.mis.colorfullcloud.dao.InstitutionDao;
+import cn.edu.cqupt.mis.colorfullcloud.dao.TeacherDao;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.CategoryEntity;
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.CourseEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.InstitutionEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CategoryVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CourseVo;
@@ -40,6 +42,8 @@ public class ProductServiceImpl implements ProductService {
     private CourseDao courseDao;
     @Resource
     private CategoryDao categoryDao;
+    @Resource
+    private TeacherDao teacherDao;
     @Resource
     private DistanceUtil distanceUtil;
 
@@ -121,7 +125,10 @@ public class ProductServiceImpl implements ProductService {
     public List<CourseVo> allCourses(){
         try {
             List<CourseVo> courseVoList = new ArrayList<>();
-            TransformUtil.transformList(courseDao.selectAllCourses(),courseVoList,CourseVo.class);
+            List<CourseEntity> courseEntityList = courseDao.selectAllCourses();
+            courseEntityList.forEach(courseEntity ->
+                    courseEntity.setTeacherIntroduction(teacherDao.selectTeacherById(courseEntity.getTeacherId())));
+            TransformUtil.transformList(courseEntityList,courseVoList,CourseVo.class);
             return courseVoList;
         }catch (Exception e){
             log.error("ProductService -> getAllCourses()->{}",e.getMessage());
@@ -137,7 +144,13 @@ public class ProductServiceImpl implements ProductService {
     private List<CourseVo> getAllCategoryCourses(Integer categoryId){
         try {
             List<CourseVo> courseVoList = new ArrayList<>();
-            TransformUtil.transformList(courseDao.selectCoursesByCategoryId(categoryId),courseVoList,CourseVo.class);
+            List<CourseEntity> courseEntityList = courseDao.selectCoursesByCategoryId(categoryId);
+            System.out.println(courseEntityList);
+            courseEntityList.forEach(courseEntity ->{
+                System.out.println(teacherDao.selectTeacherById(courseEntity.getTeacherId()));
+                courseEntity.setTeacherIntroduction(teacherDao.selectTeacherById(courseEntity.getTeacherId()));
+            });
+            TransformUtil.transformList(courseEntityList,courseVoList,CourseVo.class);
             return courseVoList;
         }catch (Exception e){
             log.error("ProductService -> getAllCategoryCourses()->{}",e.getMessage());
@@ -200,7 +213,14 @@ public class ProductServiceImpl implements ProductService {
     private List<InstitutionVo> setCourseVoList(List<InstitutionVo> institutionVoList){
         for (InstitutionVo institutionVo : institutionVoList) {
             List<CourseVo> courseVoList = new ArrayList<>();
-            TransformUtil.transformList(courseDao.selectCoursesByInstitutionId(institutionVo.getInstitutionId()),courseVoList,CourseVo.class);
+            List<CourseEntity> courseEntityList = courseDao.selectCoursesByInstitutionId(institutionVo.getInstitutionId());
+            courseEntityList.forEach(courseEntity ->{
+                System.out.println(courseEntity.getTeacherId());
+                courseEntity.setTeacherIntroduction(teacherDao.selectTeacherById(courseEntity.getTeacherId()));
+
+
+        });
+            TransformUtil.transformList(courseEntityList,courseVoList,CourseVo.class);
             institutionVo.setCourseVoList(courseVoList);
         }
         return institutionVoList;

@@ -6,13 +6,11 @@ import cn.edu.cqupt.mis.colorfullcloud.common.response.ResponseStatu;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.OrderDto;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.OrderVo;
 import cn.edu.cqupt.mis.colorfullcloud.service.OrderService;
-import cn.edu.cqupt.mis.colorfullcloud.util.CacheUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**

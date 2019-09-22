@@ -95,8 +95,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean userLogOut(HttpServletRequest request) {
-        try {
-            String cacheKey = cacheUtil.getSessionId(request);
+        /*try {
+            //String cacheKey = cacheUtil.getSessionId(request);
             UserEntity redisCache = (UserEntity) redisUtil.get(cacheKey);
             if (redisCache != null){
                 redisUtil.delete(cacheKey);
@@ -107,7 +107,8 @@ public class UserServiceImpl implements UserService {
         }catch (Exception e){
             log.error("注销用户出现异常{}",e);
             throw new ServerException("注销账户出现异常！联系管理员！");
-        }
+        }*/
+        return true;
     }
 
 
@@ -128,7 +129,7 @@ public class UserServiceImpl implements UserService {
             }
             //用户存在进行查询返回
             userEntity = userDao.selectUserByOpenId(openid);
-            cacheUtil.addRedis(openid,userEntity);
+            //cacheUtil.addRedis(openid,userEntity);
             return (UserVo) TransformUtil.transformOne(userEntity,new UserVo());
         }catch (Exception e){
             log.error("方法flagUser：{}",e);

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqupt.mis.colorfullcloud.dao.TeacherDao">
+    <resultMap id="teacherMap" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.TeacherEntity">
+        <id property="teacherId" column="id"/>
+        <result property="teacherName" column="name"/>
+        <result property="phone" column="phone" />
+        <result property="introduction" column="introduction"/>
+    </resultMap>
+
+    <sql id="teacher">
+        id,name,phone,introduction
+    </sql>
+
+    <!--根据教师id查询教师-->
+    <select id="selectTeacherById" parameterType="java.lang.Integer" resultMap="teacherMap">
+        SELECT <include refid="teacher"/>
+        FROM teacher
+        WHERE id = #{teacherId}
+    </select>
+
+    <!--插入新的老师-->
+    <insert id="insertTeacher">
+        INSERT INTO teacher(name,phone,introduction)
+        VALUES
+        <foreach collection="list" item="teacher" separator=",">
+            (#{teacher.teacherName},#{teacher.phone},#{teacher.introduction})
+        </foreach>
+    </insert>
+
+    <!--插入新的老师-->
+    <delete id="deleteTeacherByIdList" parameterType="java.util.List">
+        DELETE
+        FROM teacher
+        WHERE id IN
+        <foreach collection="list" item="teacherId" open="("
+                 separator="," close=")">
+            #{teacherId}
+        </foreach>
+    </delete>
+
+</mapper>
+   

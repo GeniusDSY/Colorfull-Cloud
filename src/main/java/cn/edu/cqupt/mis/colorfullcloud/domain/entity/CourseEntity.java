@@ -19,6 +19,10 @@ public class CourseEntity {
     private Integer categoryId;
     @ApiModelProperty(value = "机构id")
     private Integer institutionId;
+    @ApiModelProperty(value = "教师id")
+    private Integer teacherId;
+    @ApiModelProperty(value = "教师信息")
+    private TeacherEntity teacherIntroduction;
     @ApiModelProperty(value = "课程名称")
     private String courseName;
     @ApiModelProperty(value = "课程价格")

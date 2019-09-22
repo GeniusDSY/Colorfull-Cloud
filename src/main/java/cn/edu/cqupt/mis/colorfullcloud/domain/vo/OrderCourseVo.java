@@ -1,5 +1,6 @@
 package cn.edu.cqupt.mis.colorfullcloud.domain.vo;
 
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.TeacherEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,6 +20,8 @@ public class OrderCourseVo {
     private Integer courseId;
     @ApiModelProperty(name = "courseName",value = "课程名称",dataType = "string")
     private String courseName;
+    @ApiModelProperty(name = "teacherIntroduction",value = "教师信息")
+    private TeacherEntity teacherIntroduction;
     @ApiModelProperty(name ="price",value = "课程价格",dataType = "double")
     private Double price;
     @ApiModelProperty(name = "count",value = "数量",dataType = "int")

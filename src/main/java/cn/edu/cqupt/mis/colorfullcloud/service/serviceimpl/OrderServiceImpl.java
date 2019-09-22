@@ -2,15 +2,13 @@ package cn.edu.cqupt.mis.colorfullcloud.service.serviceimpl;
 
 import cn.edu.cqupt.mis.colorfullcloud.common.contants.Status;
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ServerException;
-import cn.edu.cqupt.mis.colorfullcloud.dao.CourseDao;
-import cn.edu.cqupt.mis.colorfullcloud.dao.InstitutionDao;
-import cn.edu.cqupt.mis.colorfullcloud.dao.OrderDao;
-import cn.edu.cqupt.mis.colorfullcloud.dao.ProductDao;
+import cn.edu.cqupt.mis.colorfullcloud.dao.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.OrderDto;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.ProductDto;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.CourseEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.OrderEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ProductEntity;
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.TeacherEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.*;
 import cn.edu.cqupt.mis.colorfullcloud.service.OrderService;
 import cn.edu.cqupt.mis.colorfullcloud.util.ServiceUtil;
@@ -41,6 +39,8 @@ public class OrderServiceImpl implements OrderService {
     private InstitutionDao institutionDao;
     @Resource
     private CourseDao courseDao;
+    @Resource
+    private TeacherDao teacherDao;
     @Resource
     private UUIDUtil uuidUtil;
     /**
@@ -85,8 +85,6 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderVo> deleteOrders(Integer userId, List<String> orderIdList) {
         try {
             ServiceUtil.checkSqlExecuted(orderDao.deleteOrdersByOrderIdList(orderIdList));
-            System.out.println(userId);
-            System.out.println(getAllUserOrders(userId));
             return getAllUserOrders(userId);
         }catch (Exception e){
             log.error("OrderServiceImpl->deleteOrders()->" + e);
@@ -131,8 +129,11 @@ public class OrderServiceImpl implements OrderService {
                 List<OrderInstitutionVo> orderInstitutionVoList = TransformUtil.transformList(institutionDao.selectInstitutionsByIdList(institutionIds), new ArrayList<>(), OrderInstitutionVo.class);
                 for (OrderInstitutionVo institutionVo : orderInstitutionVoList) {
                     //1、查询订单中所含机构的所有id//2、查询所有课程详情并转换成Vo//3、赋值给所属机构
-                    List<CourseEntity> courseEntity = courseDao.selectOrderCoursesByIds(productDao.selectCourseIdsByOrderIdAndInstitutionId(orderVo.getOrderId(), institutionVo.getInstitutionId()));
-                    List<OrderCourseVo> orderCourseVoList = TransformUtil.transformList(courseEntity, new ArrayList<>(), OrderCourseVo.class);
+                    List<CourseEntity> courseEntityList = courseDao.selectOrderCoursesByIds(productDao.selectCourseIdsByOrderIdAndInstitutionId(orderVo.getOrderId(), institutionVo.getInstitutionId()));
+                    courseEntityList.forEach(
+                            courseEntity ->
+                                    courseEntity.setTeacherIntroduction(teacherDao.selectTeacherById(courseEntity.getTeacherId())));
+                    List<OrderCourseVo> orderCourseVoList = TransformUtil.transformList(courseEntityList, new ArrayList<>(), OrderCourseVo.class);
                     for (OrderCourseVo orderCourseVo : orderCourseVoList) {
                         orderCourseVo.setCount(productDao.selectCountByOrderIdAndCourseId(orderVo.getOrderId(), orderCourseVo.getCourseId()));
                     }

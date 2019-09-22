@@ -14,10 +14,11 @@
         <result property="discount" column="discount"/>
         <result property="amount" column="amount"/>
         <result property="status" column="status"/>
+        <result property="activityId" column="activity_id"/>
     </resultMap>
 
     <sql id="order">
-        id,user_id,order_time,payment,pay_time,pay_id,total,discount,amount,status
+        id,user_id,order_time,payment,pay_time,pay_id,total,discount,amount,status,activity_id
     </sql>
 
     <!--根据用户id查询所有订单-->
@@ -47,8 +48,8 @@
 
     <!--创建订单-->
     <insert id="insertOrder" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.OrderEntity">
-        INSERT INTO orders(id,user_id,total,discount,amount)
-        VALUES (#{orderId},#{userId},#{total},#{discount},#{amount})
+        INSERT INTO orders(id,user_id,total,discount,amount,activity_id)
+        VALUES (#{orderId},#{userId},#{total},#{discount},#{amount},#{activityId})
     </insert>
 
     <!--查询订单id是否存在-->
