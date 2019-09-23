@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Data
 @ToString
-@ApiModel(value = "订单机构展示信息")
+@ApiModel(value ="orderInstitutionVo", description = "订单机构展示信息")
 public class OrderInstitutionVo {
 
     @ApiModelProperty(name = "institutionId",value = "机构id",dataType = "int")

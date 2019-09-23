@@ -3,6 +3,7 @@ package cn.edu.cqupt.mis.colorfullcloud.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -27,11 +28,11 @@ public class Swagger2Config {
 
     @Bean
     public Docket algorithmApis() {
-        List<Parameter> pars = new ArrayList<Parameter>();
+        List<Parameter> pars = new ArrayList<>();
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(createApiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("cn.edu.cqupt.mis.colorfullcloud.controller"))
+                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(pars)

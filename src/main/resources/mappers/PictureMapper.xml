@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqupt.mis.colorfullcloud.dao.PictureDao">
+    <resultMap id="pictureMap" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.PictureEntity">
+        <id property="pictureId" column="id"/>
+        <result property="institutionId" column="institution_id"/>
+        <result property="pictureName" column="name"/>
+        <result property="path" column="path"/>
+    </resultMap>
+
+    <sql id="picture" >
+        id,institution_id,name,path
+    </sql>
+
+    <select id="selectInstitutionPicture" parameterType="java.lang.Integer" resultMap="pictureMap">
+        SELECT <include refid="picture"/>
+        FROM picture
+        WHERE institution_id = #{institutionId}
+    </select>
+
+    <insert id="insertInstitutionPictures" parameterType="java.util.List">
+        INSERT INTO picture(name,path)
+        VALUES
+        <foreach collection="list" item="picture" separator=",">
+            (#{picture.pictureName},#{picture.path})
+        </foreach>
+    </insert>
+</mapper>
+   

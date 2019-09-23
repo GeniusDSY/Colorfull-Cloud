@@ -1,5 +1,6 @@
-package cn.edu.cqupt.mis.colorfullcloud.domain.entity;
+package cn.edu.cqupt.mis.colorfullcloud.domain.dto;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
@@ -11,11 +12,12 @@ import lombok.ToString;
  */
 @Data
 @ToString
-public class Activity {
+@ApiModel("活动传入实体模型")
+public class ActivityDto {
 
-    @ApiModelProperty(name = "activityId",value = "活动id")
+    @ApiModelProperty(name = "activityId",value = "活动id(创建时传空)",allowEmptyValue = true)
     private Integer activityId;
-    @ApiModelProperty(name = "name",value = "活动名称")
+    @ApiModelProperty(name = "activityName",value = "活动名称")
     private String activityName;
     @ApiModelProperty(name = "introduction",value = "活动详情")
     private String introduction;

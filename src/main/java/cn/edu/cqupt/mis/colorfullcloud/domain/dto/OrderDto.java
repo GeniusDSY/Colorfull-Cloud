@@ -29,5 +29,9 @@ public class OrderDto {
     private Float amount;
     @ApiModelProperty(name = "productDtoList",value = "订单详情列表")
     private List<ProductDto> productDtoList;
+    @ApiModelProperty(name = "status",value = "订单状态(0：正常订单；1：活动订单)")
+    private Integer status;
+    @ApiModelProperty(name = "activityId",value = "活动id")
+    private Integer activityId;
 
 }

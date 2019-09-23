@@ -31,7 +31,7 @@ public class OrderEntity {
     private Float discount;
     @ApiModelProperty(value = "实际支付")
     private Float amount;
-    @ApiModelProperty(value = "订单状态(0:未支付;1:优惠转发中;2:支付成功)")
+    @ApiModelProperty(value = "订单状态(0:未支付;1:支付成功)")
     private Integer status;
     @ApiModelProperty(value = "活动id")
     private Integer activityId;

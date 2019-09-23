@@ -1,5 +1,6 @@
-package cn.edu.cqupt.mis.colorfullcloud.domain.entity;
+package cn.edu.cqupt.mis.colorfullcloud.domain.dto;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
@@ -11,7 +12,8 @@ import lombok.ToString;
  */
 @Data
 @ToString
-public class TeacherEntity {
+@ApiModel("教师传入实体模型")
+public class TeacherDto {
 
     @ApiModelProperty(name = "teacherId",value = "教师id")
     private Integer teacherId;

@@ -7,6 +7,10 @@ package cn.edu.cqupt.mis.colorfullcloud.common.contants;
  */
 public interface CacheKey {
 
+    String CODE_KEY = "verifyCode";
+
+    String USER_ID_KEY = "user";
+
     String USER_ID = "id";
 
     Integer CACHE_TIME = 3600000;

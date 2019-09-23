@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author :DengSiYuan
@@ -31,17 +30,16 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @ApiOperation("用户登录")
+    @ApiOperation("(已测)用户登录")
     @ApiImplicitParam(name = "code",value = "登录code",dataType = "string",required = true)
     @PostMapping("login")
-    public ResponseEntity<UserVo> userLogin(String code, @RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<UserVo> userLogin(String code, @RequestBody UserDto userDto){
         log.info("用户登陆code：{} + 信息->{}",code,userDto);
         UserVo userVo = userService.userLogin(code,userDto);
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userVo);
     }
 
-
-    @ApiOperation("修改用户信息")
+    @ApiOperation("(已测)修改用户信息")
     @PostMapping("modify")
     public ResponseEntity<UserVo> modifyUser(@RequestBody UserDto userDto){
         System.out.println(userDto);
@@ -49,7 +47,7 @@ public class UserController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userVo);
     }
 
-    @ApiOperation("用户注销")
+    @ApiOperation("(已测)用户注销")
     @DeleteMapping("logout")
     public ResponseEntity<Boolean> userLogOut(HttpServletRequest request){
         boolean flag = userService.userLogOut(request);

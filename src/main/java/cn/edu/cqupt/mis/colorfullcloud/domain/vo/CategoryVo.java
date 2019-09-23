@@ -1,5 +1,6 @@
 package cn.edu.cqupt.mis.colorfullcloud.domain.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
@@ -13,6 +14,7 @@ import java.util.List;
  */
 @Data
 @ToString
+@ApiModel(value = "categoryVo",description = "类别展示模型")
 public class CategoryVo {
 
     @ApiModelProperty(name = "categoryId",value = "类别id")

@@ -1,5 +1,6 @@
 package cn.edu.cqupt.mis.colorfullcloud.service;
 
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ActivityEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CategoryVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CourseVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.InstitutionVo;
@@ -37,5 +38,19 @@ public interface ProductService {
      * @return 所有课程
      */
     List<CourseVo> allCourses();
+
+
+    /**
+     * 获取机构所有介绍图片
+     * @param institutionId
+     * @return 所有图片链接集合
+     */
+    List<String> allInstitutionPictures(Integer institutionId);
+
+    /**
+     * 获取所有活动信息
+     * @return 所有活动信息
+     */
+    List<ActivityEntity> allActivities();
 
 }

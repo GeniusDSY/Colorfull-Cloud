@@ -3,10 +3,8 @@ package cn.edu.cqupt.mis.colorfullcloud.service.serviceimpl;
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ParameterException;
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ServerException;
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ThirdPartyServiceException;
-import cn.edu.cqupt.mis.colorfullcloud.dao.CategoryDao;
-import cn.edu.cqupt.mis.colorfullcloud.dao.CourseDao;
-import cn.edu.cqupt.mis.colorfullcloud.dao.InstitutionDao;
-import cn.edu.cqupt.mis.colorfullcloud.dao.TeacherDao;
+import cn.edu.cqupt.mis.colorfullcloud.dao.*;
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ActivityEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.CategoryEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.CourseEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.InstitutionEntity;
@@ -44,6 +42,10 @@ public class ProductServiceImpl implements ProductService {
     private CategoryDao categoryDao;
     @Resource
     private TeacherDao teacherDao;
+    @Resource
+    private PictureDao pictureDao;
+    @Resource
+    private ActivityDao activityDao;
     @Resource
     private DistanceUtil distanceUtil;
 
@@ -133,6 +135,36 @@ public class ProductServiceImpl implements ProductService {
         }catch (Exception e){
             log.error("ProductService -> getAllCourses()->{}",e.getMessage());
             throw new ServerException("获取所有课程->数据库出现异常");
+        }
+    }
+
+    /**
+     * 获取机构所有介绍图片
+     * @param institutionId
+     * @return 所有图片链接集合
+     */
+    @Override
+    public List<String> allInstitutionPictures(Integer institutionId) {
+        try {
+            return pictureDao.selectInstitutionPicture(institutionId);
+        }catch (Exception e){
+            log.error("ProductService -> allInstitutionPictures()->{}",e);
+            throw new ServerException("获取机构图片->数据库出现异常");
+        }
+    }
+
+    /**
+     * 获取所有活动信息
+     *
+     * @return 所有活动信息
+     */
+    @Override
+    public List<ActivityEntity> allActivities() {
+        try {
+            return activityDao.selectAllActivities();
+        }catch (Exception e){
+            log.error("ProductService -> allActivity() -> {}",e);
+            throw new ServerException("获取活动信息->数据库出现异常");
         }
     }
 

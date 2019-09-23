@@ -12,7 +12,7 @@ import java.util.List;
  * @date :2019/8/27 11:02
  * @desc :
  */
-@ApiModel("订单展示信息")
+@ApiModel(value = "orderVo",description = "订单展示信息")
 @Data
 @ToString
 public class OrderVo {

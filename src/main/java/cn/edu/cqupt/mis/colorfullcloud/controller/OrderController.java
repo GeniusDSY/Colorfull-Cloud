@@ -7,10 +7,12 @@ import cn.edu.cqupt.mis.colorfullcloud.domain.dto.OrderDto;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.OrderVo;
 import cn.edu.cqupt.mis.colorfullcloud.service.OrderService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +20,7 @@ import java.util.List;
  * @date :2019/8/27 23:27
  * @desc : 订单模块controller
  */
-@Api("订单模块")
+@Api(tags = "订单模块")
 @RestController
 @RequestMapping("order")
 public class OrderController {
@@ -26,26 +28,26 @@ public class OrderController {
     @Resource
     private OrderService orderService;
 
-    @ApiOperation("获得该用户的所有订单")
+    @ApiOperation("(已测)获得该用户的所有订单")
     @GetMapping("allOrders")
     public ResponseEntity<List<OrderVo>> allOrders(Integer userId){
         List<OrderVo> orderVoList = orderService.allUserOrders(userId);
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderVoList);
     }
 
-    @ApiOperation("创建订单")
+    @ApiOperation("(已测)创建订单(包括活动订单)")
     @PostMapping("createOrder")
     public ResponseEntity<List<OrderVo>> createOrder(@RequestBody OrderDto orderDto){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderService.createOrder(orderDto));
     }
 
-    @ApiOperation("删除订单列表")
+    @ApiOperation("(已测)删除订单列表(支持批量删除，均传list无法还原)")
     @DeleteMapping("deleteOrders")
     public ResponseEntity<List<OrderVo>> deleteOrders(@RequestParam Integer userId,@RequestBody List<String> orderIdList){
         return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,orderService.deleteOrders(userId,orderIdList));
     }
 
-    @ApiOperation("取消订单")
+    @ApiOperation("(已测)取消订单")
     @PostMapping("cancelOrder")
     public ResponseEntity<List<OrderVo>> cancelOrder(Integer userId,String orderId){
         return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,orderService.cancelOrder(userId,orderId));

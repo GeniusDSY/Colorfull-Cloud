@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqupt.mis.colorfullcloud.dao.AdminDao">
+    <resultMap id="adminUserMap" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.AdminEntity">
+        <id property="id" column="id"/>
+        <result property="adminId" column="admin_id"/>
+        <result property="adminName" column="admin_name"/>
+        <result property="adminPassword" column="password"/>
+    </resultMap>
+
+    <sql id="adminUser">
+        id,admin_id,admin_name,password
+    </sql>
+
+    <select id="selectUserByAdminId" parameterType="java.lang.String" resultMap="adminUserMap">
+        SELECT <include refid="adminUser"/>
+        FROM admin_user
+        WHERE admin_id = #{adminId}
+    </select>
+</mapper>
+   

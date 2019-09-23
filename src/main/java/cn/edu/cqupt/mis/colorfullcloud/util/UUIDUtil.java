@@ -18,7 +18,7 @@ public class UUIDUtil {
     private OrderDao orderDao;
 
     private static String getRandomString(){
-        return String.valueOf(UUID.randomUUID());
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
     public String getRandomOrderId(){

@@ -13,7 +13,7 @@ import java.util.Date;
  * @date :2019/5/1 18:24
  * @desc :
  */
-@ApiModel("用户展示信息")
+@ApiModel(value = "userVo",description = "用户展示信息")
 @Data
 @ToString
 public class UserVo {

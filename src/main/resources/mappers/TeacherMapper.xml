@@ -5,13 +5,14 @@
 <mapper namespace="cn.edu.cqupt.mis.colorfullcloud.dao.TeacherDao">
     <resultMap id="teacherMap" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.TeacherEntity">
         <id property="teacherId" column="id"/>
+        <result property="institutionId" column="institution_id"/>
         <result property="teacherName" column="name"/>
         <result property="phone" column="phone" />
         <result property="introduction" column="introduction"/>
     </resultMap>
 
     <sql id="teacher">
-        id,name,phone,introduction
+        id,institution_id,name,phone,introduction
     </sql>
 
     <!--根据教师id查询教师-->
