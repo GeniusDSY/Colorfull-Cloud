@@ -21,10 +21,11 @@ public interface OrderService {
 
     /**
      * 生成新订单
+     * @param childrenCard 孩子身份证号
      * @param orderDto 订单信息
      * @return 返回该用户的所有订单
      */
-    List<OrderVo> createOrder(OrderDto orderDto);
+    List<OrderVo> createOrder(String childrenCard, OrderDto orderDto);
 
     /**
      * 删除所选订单

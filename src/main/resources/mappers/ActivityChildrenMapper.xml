@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.cqupt.mis.colorfullcloud.dao.ActivityChildrenDao">
+    <resultMap id="activityChildrenMap" type="cn.edu.cqupt.mis.colorfullcloud.domain.entity.ActivityChildrenEntity">
+        <id property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="activityId" column="activity_id"/>
+        <result property="childrenCard" column="children_card"/>
+    </resultMap>
+
+    <sql id="activityChildren">
+        id,order_id,activity_id,children_card
+    </sql>
+
+    <select id="selectActivityChildrenByActivityIdAndChildrenCard" resultMap="activityChildrenMap">
+        SELECT <include refid="activityChildren"/>
+        FROM activity_children
+        WHERE activity_id = #{activityId} AND children_card = #{childrenCard}
+    </select>
+
+    <insert id="insertActivityChildren" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.ActivityChildrenEntity">
+        INSERT INTO activity_children(order_id,activity_id,children_card)
+        VALUES (#{orderId},#{activityId},#{childrenCard})
+    </insert>
+
+</mapper>

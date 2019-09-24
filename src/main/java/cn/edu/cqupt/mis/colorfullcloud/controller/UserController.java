@@ -4,6 +4,7 @@ import cn.edu.cqupt.mis.colorfullcloud.common.response.Response;
 import cn.edu.cqupt.mis.colorfullcloud.common.response.ResponseEntity;
 import cn.edu.cqupt.mis.colorfullcloud.common.response.ResponseStatu;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.UserDto;
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ChildrenEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.UserVo;
 import cn.edu.cqupt.mis.colorfullcloud.service.UserService;
 import io.swagger.annotations.Api;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author :DengSiYuan
@@ -42,9 +44,27 @@ public class UserController {
     @ApiOperation("(已测)修改用户信息")
     @PostMapping("modify")
     public ResponseEntity<UserVo> modifyUser(@RequestBody UserDto userDto){
-        System.out.println(userDto);
         UserVo userVo = userService.modifyUser(userDto);
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userVo);
+    }
+
+    @ApiOperation("(已测)创建孩子信息")
+    @PostMapping("createChildren")
+    public ResponseEntity<List<ChildrenEntity>> createChildren(@RequestParam Integer userId, @RequestBody List<ChildrenEntity> childrenEntityList){
+        List<ChildrenEntity> childrenEntities = userService.createChildren(userId,childrenEntityList);
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,childrenEntities);
+    }
+
+    @ApiOperation("(已测)查询孩子是否可用(已登记的，不可用返回false)")
+    @PostMapping("judgeChildren")
+    public ResponseEntity<Boolean> judgeChildren(@RequestParam String idCard){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userService.judgeChildren(idCard));
+    }
+
+    @ApiOperation("(已测)删除孩子信息(支持批量删除，均传list无法还原)")
+    @DeleteMapping("deleteChildren")
+    public ResponseEntity<List<ChildrenEntity>> deleteChildren(@RequestParam Integer userId,@RequestBody List<Integer> childrenIdList){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userService.deleteChildren(userId,childrenIdList));
     }
 
     @ApiOperation("(已测)用户注销")

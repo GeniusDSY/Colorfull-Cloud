@@ -33,9 +33,9 @@
         DELETE
         FROM orders
         WHERE id IN
-        <foreach collection="list" item="orderIdList" open="("
+        <foreach collection="list" item="orderId" open="("
                  separator="," close=")">
-            #{orderIdList,jdbcType = VARCHAR}
+            #{orderId,jdbcType = VARCHAR}
         </foreach>
     </delete>
 

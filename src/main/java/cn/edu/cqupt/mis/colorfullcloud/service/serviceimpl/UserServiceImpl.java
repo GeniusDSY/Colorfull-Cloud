@@ -2,8 +2,10 @@ package cn.edu.cqupt.mis.colorfullcloud.service.serviceimpl;
 
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.AuthenticationException;
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ServerException;
+import cn.edu.cqupt.mis.colorfullcloud.dao.ChildrenDao;
 import cn.edu.cqupt.mis.colorfullcloud.dao.UserDao;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.UserDto;
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ChildrenEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.wechatdomain.OpenId;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.UserEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.UserVo;
@@ -19,6 +21,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author :DengSiYuan
@@ -31,15 +34,12 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private UserDao userDao;
-
     @Resource
     private RedisUtil redisUtil;
-
     @Resource
     private WeChatUtil weChatUtil;
-
     @Resource
-    private CacheUtil cacheUtil;
+    private ChildrenDao childrenDao;
 
     /**
      * 用户登录
@@ -111,10 +111,53 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    /**
+     * 创建孩子信息
+     * @param userId 用户id
+     * @param childrenEntityList 孩子信息列表
+     * @return 创建后的孩子信息列表
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public List<ChildrenEntity> createChildren(Integer userId,List<ChildrenEntity> childrenEntityList) {
+        try {
+            if (childrenEntityList == null) {
+                return childrenDao.selectAllChildrenByUserId(userId);
+            }
+            ServiceUtil.checkSqlExecuted(childrenDao.insertChildrenByUserId(childrenEntityList));
+            return childrenDao.selectAllChildrenByUserId(userId);
+        }catch (Exception e){
+            log.error("UserService -> createChildren() -> {}",e);
+            throw new ServerException("获取孩子信息出现异常！");
+        }
+
+    }
+
+    /**
+     * 查询孩子是否可用(已登记的，不可用返回false)
+     * @param idCard
+     * @return true / false
+     */
+    @Override
+    public Boolean judgeChildren(String idCard) {
+        return childrenDao.selectAllChildrenByCard(idCard) != null;
+    }
+
+    /**
+     * 删除孩子信息
+     * @param userId 用户id
+     * @param childrenIdList 孩子id列表
+     * @return 孩子信息
+     */
+    @Override
+    public List<ChildrenEntity> deleteChildren(Integer userId,List<Integer> childrenIdList) {
+        ServiceUtil.checkSqlExecuted(childrenDao.deleteChildrenByChildrenIdList(childrenIdList));
+        return childrenDao.selectAllChildrenByUserId(userId);
+    }
+
 
     /**
      * 判断用户是否已经存在于数据库
-     *
      * @param openid
      * @return
      */

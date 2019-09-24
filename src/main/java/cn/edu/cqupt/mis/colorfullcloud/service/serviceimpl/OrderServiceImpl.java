@@ -1,14 +1,12 @@
 package cn.edu.cqupt.mis.colorfullcloud.service.serviceimpl;
 
 import cn.edu.cqupt.mis.colorfullcloud.common.contants.Status;
+import cn.edu.cqupt.mis.colorfullcloud.common.excepction.AuthenticationException;
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ServerException;
 import cn.edu.cqupt.mis.colorfullcloud.dao.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.OrderDto;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.ProductDto;
-import cn.edu.cqupt.mis.colorfullcloud.domain.entity.CourseEntity;
-import cn.edu.cqupt.mis.colorfullcloud.domain.entity.OrderEntity;
-import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ProductEntity;
-import cn.edu.cqupt.mis.colorfullcloud.domain.entity.TeacherEntity;
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.*;
 import cn.edu.cqupt.mis.colorfullcloud.service.OrderService;
 import cn.edu.cqupt.mis.colorfullcloud.util.ServiceUtil;
@@ -42,6 +40,8 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private TeacherDao teacherDao;
     @Resource
+    private ActivityChildrenDao activityChildrenDao;
+    @Resource
     private UUIDUtil uuidUtil;
     /**
      * 获取当前用户的所有订单
@@ -59,18 +59,23 @@ public class OrderServiceImpl implements OrderService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public List<OrderVo> createOrder(OrderDto orderDto) {
+    public List<OrderVo> createOrder(String childrenCard,OrderDto orderDto) {
         try {
             OrderEntity orderEntity = (OrderEntity) TransformUtil.transformOne(orderDto,new OrderEntity());
             String orderId = uuidUtil.getRandomOrderId();
             orderEntity.setOrderId(orderId);
-            List<ProductEntity> productEntityList = TransformUtil.transformList(orderDto.getProductDtoList(),new ArrayList<>(),ProductEntity.class);
-            productEntityList.forEach(productEntity1 -> productEntity1.setOrderId(orderId));
-            ServiceUtil.checkSqlExecuted(orderDao.insertOrder(orderEntity),productDao.insertProducts(productEntityList));
-            return getAllUserOrders(orderDto.getUserId());
+            Integer activityId = orderDto.getActivityId();
+            if(judgeActivityChildren(activityId,childrenCard,orderId)){
+                List<ProductEntity> productEntityList = TransformUtil.transformList(orderDto.getProductDtoList(),new ArrayList<>(),ProductEntity.class);
+                productEntityList.forEach(productEntity1 -> productEntity1.setOrderId(orderId));
+                ServiceUtil.checkSqlExecuted(orderDao.insertOrder(orderEntity),productDao.insertProducts(productEntityList));
+                return getAllUserOrders(orderDto.getUserId());
+            }else {
+                throw new ServerException("您已达到购买上限!!");
+            }
         }catch (Exception e){
             log.error("OrderServiceImpl->createOrder()->" + e);
-            throw new ServerException("创建订单出现异常");
+            throw new ServerException("您已达到购买上限!!");
         }
 
     }
@@ -146,6 +151,21 @@ public class OrderServiceImpl implements OrderService {
             log.error("OrderServiceImpl->getAllUserOrders()->{}",e);
             throw new ServerException("获取订单信息出现异常！");
         }
+    }
+
+    private Boolean judgeActivityChildren(Integer activityId,String childrenCard,String orderId){
+        if (activityId != 0){
+            if (activityChildrenDao.selectActivityChildrenByActivityIdAndChildrenCard(activityId,childrenCard) != null) {
+                return false;
+            }else {
+                ActivityChildrenEntity activityChildrenEntity = new ActivityChildrenEntity();
+                activityChildrenEntity.setActivityId(activityId);
+                activityChildrenEntity.setChildrenCard(childrenCard);
+                activityChildrenEntity.setOrderId(orderId);
+                ServiceUtil.checkSqlExecuted(activityChildrenDao.insertActivityChildren(activityChildrenEntity));
+            }
+        }
+        return true;
     }
 
 }

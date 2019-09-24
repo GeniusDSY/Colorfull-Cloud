@@ -36,12 +36,14 @@ public class OrderController {
     }
 
     @ApiOperation("(已测)创建订单(包括活动订单)")
+    @ApiImplicitParam(name = "childrenCard",value = "孩子身份证号",dataType = "string",allowEmptyValue = true)
     @PostMapping("createOrder")
-    public ResponseEntity<List<OrderVo>> createOrder(@RequestBody OrderDto orderDto){
-        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderService.createOrder(orderDto));
+    public ResponseEntity<List<OrderVo>> createOrder(@RequestParam String childrenCard,@RequestBody OrderDto orderDto){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderService.createOrder(childrenCard,orderDto));
     }
 
     @ApiOperation("(已测)删除订单列表(支持批量删除，均传list无法还原)")
+    @ApiImplicitParam(name = "userId",value = "用户id",dataType = "int")
     @DeleteMapping("deleteOrders")
     public ResponseEntity<List<OrderVo>> deleteOrders(@RequestParam Integer userId,@RequestBody List<String> orderIdList){
         return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,orderService.deleteOrders(userId,orderIdList));
