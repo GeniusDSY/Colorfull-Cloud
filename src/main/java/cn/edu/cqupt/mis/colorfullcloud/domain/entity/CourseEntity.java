@@ -42,6 +42,10 @@ public class CourseEntity {
      */
     private Double price;
     /**
+     * 课程图片
+     */
+    private String picture;
+    /**
      * 课程详细介绍
      */
     private String introduction;

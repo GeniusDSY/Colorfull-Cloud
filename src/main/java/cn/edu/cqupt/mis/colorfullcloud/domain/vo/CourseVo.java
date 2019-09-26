@@ -24,6 +24,8 @@ public class CourseVo {
     private TeacherEntity teacherIntroduction;
     @ApiModelProperty(name ="price",value = "课程价格",dataType = "double")
     private Double price;
+    @ApiModelProperty(name = "picture",value = "课程图片",dataType = "string")
+    private String picture;
     @ApiModelProperty(name = "introduction",value = "课程详细介绍",dataType = "string")
     private String introduction;
     @ApiModelProperty(name = "status",value = "课程状态(0:正常;1:已满;2:下架)",dataType = "int")
