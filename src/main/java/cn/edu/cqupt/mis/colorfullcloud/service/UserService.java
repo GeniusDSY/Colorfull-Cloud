@@ -1,5 +1,6 @@
 package cn.edu.cqupt.mis.colorfullcloud.service;
 
+import cn.edu.cqupt.mis.colorfullcloud.domain.dto.SuggestionDto;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.UserDto;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ChildrenEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.UserVo;
@@ -61,5 +62,12 @@ public interface UserService {
      * @return 孩子信息
      */
     List<ChildrenEntity> deleteChildren(Integer userId,List<Integer> childrenIdList);
+
+    /**
+     * 创建意见反馈
+     * @param suggestionDto 意见反馈
+     * @return
+     */
+    Boolean createSuggestion(SuggestionDto suggestionDto);
 
 }

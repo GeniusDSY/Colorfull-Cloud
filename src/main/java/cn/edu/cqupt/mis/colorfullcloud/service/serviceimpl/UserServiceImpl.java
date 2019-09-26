@@ -4,6 +4,7 @@ import cn.edu.cqupt.mis.colorfullcloud.common.excepction.AuthenticationException
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ServerException;
 import cn.edu.cqupt.mis.colorfullcloud.dao.ChildrenDao;
 import cn.edu.cqupt.mis.colorfullcloud.dao.UserDao;
+import cn.edu.cqupt.mis.colorfullcloud.domain.dto.SuggestionDto;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.UserDto;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ChildrenEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.wechatdomain.OpenId;
@@ -153,6 +154,23 @@ public class UserServiceImpl implements UserService {
     public List<ChildrenEntity> deleteChildren(Integer userId,List<Integer> childrenIdList) {
         ServiceUtil.checkSqlExecuted(childrenDao.deleteChildrenByChildrenIdList(childrenIdList));
         return childrenDao.selectAllChildrenByUserId(userId);
+    }
+
+    /**
+     * 创建意见反馈
+     *
+     * @param suggestionDto 意见反馈
+     * @return
+     */
+    @Override
+    public Boolean createSuggestion(SuggestionDto suggestionDto) {
+        try {
+            ServiceUtil.checkSqlExecuted(userDao.insertSuggestion(suggestionDto));
+            return true;
+        }catch (Exception e){
+            log.error("UserService -> createSuggestion() -> {}",e);
+            throw new ServerException("意见反馈失败！！");
+        }
     }
 
 

@@ -45,7 +45,7 @@ public interface ProductService {
      * @param institutionId
      * @return 所有图片链接集合
      */
-    List<String> allInstitutionPictures(Integer institutionId);
+    InstitutionVo allInstitutionPictures(Integer institutionId);
 
     /**
      * 获取所有活动信息
