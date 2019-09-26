@@ -10,12 +10,13 @@
         <result property="teacherId" column="teacher_id"/>
         <result property="courseName" column="name"/>
         <result property="price" column="price"/>
+        <result property="picture" column="picture"/>
         <result property="introduction" column="introduction"/>
         <result property="status" column="status"/>
     </resultMap>
 
     <sql id="course">
-        id,institution_id,category_id,name,teacher_id,price,introduction,status
+        id,institution_id,category_id,name,teacher_id,price,picture,introduction,status
     </sql>
     
     <select id="selectCourseById" parameterType="java.lang.Integer" resultMap="courseMap">

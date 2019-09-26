@@ -3,6 +3,7 @@ package cn.edu.cqupt.mis.colorfullcloud.controller;
 import cn.edu.cqupt.mis.colorfullcloud.common.response.Response;
 import cn.edu.cqupt.mis.colorfullcloud.common.response.ResponseEntity;
 import cn.edu.cqupt.mis.colorfullcloud.common.response.ResponseStatu;
+import cn.edu.cqupt.mis.colorfullcloud.domain.dto.SuggestionDto;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.UserDto;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ChildrenEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.UserVo;
@@ -49,6 +50,7 @@ public class UserController {
     }
 
     @ApiOperation("(已测)创建孩子信息")
+    @ApiImplicitParam(name = "userId",value = "用户id(本账号的id)",dataType = "int")
     @PostMapping("createChildren")
     public ResponseEntity<List<ChildrenEntity>> createChildren(@RequestParam Integer userId, @RequestBody List<ChildrenEntity> childrenEntityList){
         List<ChildrenEntity> childrenEntities = userService.createChildren(userId,childrenEntityList);
@@ -56,15 +58,23 @@ public class UserController {
     }
 
     @ApiOperation("(已测)查询孩子是否可用(已登记的，不可用返回false)")
+    @ApiImplicitParam(name = "idCard",value = "身份证号",dataType = "string")
     @PostMapping("judgeChildren")
     public ResponseEntity<Boolean> judgeChildren(@RequestParam String idCard){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userService.judgeChildren(idCard));
     }
 
     @ApiOperation("(已测)删除孩子信息(支持批量删除，均传list无法还原)")
+    @ApiImplicitParam(name = "userId",value = "用户id(本账号的id)",dataType = "int")
     @DeleteMapping("deleteChildren")
     public ResponseEntity<List<ChildrenEntity>> deleteChildren(@RequestParam Integer userId,@RequestBody List<Integer> childrenIdList){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userService.deleteChildren(userId,childrenIdList));
+    }
+
+    @ApiOperation("(已测)新建用户反馈")
+    @PostMapping("createSuggestion")
+    public ResponseEntity<Boolean> createSuggestion(@RequestBody SuggestionDto suggestionDto){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userService.createSuggestion(suggestionDto));
     }
 
     @ApiOperation("(已测)用户注销")

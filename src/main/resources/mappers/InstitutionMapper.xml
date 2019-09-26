@@ -9,12 +9,14 @@
         <result property="address" column="address" />
         <result property="leader" column="leader" />
         <result property="phone" column="phone" />
+        <result property="icon" column="icon"/>
+        <result property="introduction" column="introduction"/>
         <result property="lat" column="lat"/>
         <result property="lng" column="lng"/>
     </resultMap>
 
     <sql id="institution">
-        id,name,address,leader,phone,lng,lat
+        id,name,address,leader,phone,icon,introduction,lng,lat
     </sql>
 
     <select id="selectAllInstitutions" resultMap="institutionMap">
@@ -39,13 +41,13 @@
 
     <update id="updateInstitutionById" parameterType="java.lang.Integer">
         UPDATE institutions
-        SET name = #{institutionName},address = #{address},leader = #{leader},phone = #{phone}
+        SET name = #{institutionName},address = #{address},leader = #{leader},phone = #{phone},introduction = #{introduction}
         WHERE id = #{id}
     </update>
 
     <insert id="insertInstitution" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.InstitutionEntity">
-        INSERT INTO institutions(name,address,leader,phone)
-        VALUES (#{institutionName},#{address},#{leader},#{phone})
+        INSERT INTO institutions(name,address,leader,phone,introduction)
+        VALUES (#{institutionName},#{address},#{leader},#{phone},#{introduction})
     </insert>
 
 </mapper>

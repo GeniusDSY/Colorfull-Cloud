@@ -18,7 +18,7 @@ public interface PictureDao {
      * @param institutionId 机构id
      * @return 机构图片地址集合
      */
-    List<String> selectInstitutionPicture(Integer institutionId);
+    List<PictureEntity> selectInstitutionPicture(Integer institutionId);
 
     /**
      * 上传机构图片

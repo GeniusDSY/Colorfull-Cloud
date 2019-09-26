@@ -8,6 +8,7 @@ import cn.edu.cqupt.mis.colorfullcloud.domain.vo.OrderVo;
 import cn.edu.cqupt.mis.colorfullcloud.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class OrderController {
     private OrderService orderService;
 
     @ApiOperation("(已测)获得该用户的所有订单")
+    @ApiImplicitParam(name = "userId",value = "用户id",dataType = "int")
     @GetMapping("allOrders")
     public ResponseEntity<List<OrderVo>> allOrders(Integer userId){
         List<OrderVo> orderVoList = orderService.allUserOrders(userId);
@@ -50,6 +52,10 @@ public class OrderController {
     }
 
     @ApiOperation("(已测)取消订单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId",value = "用户id",dataType = "int"),
+            @ApiImplicitParam(name = "orderId",value = "订单id",dataType = "string")
+    })
     @PostMapping("cancelOrder")
     public ResponseEntity<List<OrderVo>> cancelOrder(Integer userId,String orderId){
         return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,orderService.cancelOrder(userId,orderId));

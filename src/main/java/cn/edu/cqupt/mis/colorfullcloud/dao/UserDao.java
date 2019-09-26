@@ -1,7 +1,11 @@
 package cn.edu.cqupt.mis.colorfullcloud.dao;
 
+import cn.edu.cqupt.mis.colorfullcloud.domain.dto.SuggestionDto;
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.SuggestionEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.UserEntity;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author :DengSiYuan
@@ -38,4 +42,18 @@ public interface UserDao {
      * @return 用户信息
      */
     UserEntity selectUserById(Integer id);
+
+    /**
+     * 插入反馈意见
+     * @param suggestionDto
+     * @return
+     */
+    Boolean insertSuggestion(SuggestionDto suggestionDto);
+
+    /**
+     * 查询所有用户反馈
+     * @return
+     */
+    List<SuggestionEntity> selectAllSuggestions();
+
 }
