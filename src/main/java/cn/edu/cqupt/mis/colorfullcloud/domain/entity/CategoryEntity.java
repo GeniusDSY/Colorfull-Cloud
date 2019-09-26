@@ -12,6 +12,12 @@ import lombok.ToString;
 @ToString
 public class CategoryEntity {
 
+    /**
+     * 类别id
+     */
     private Integer categoryId;
+    /**
+     * 类别
+     */
     private String type;
 }

@@ -12,7 +12,7 @@ import lombok.ToString;
  */
 @Data
 @ToString
-@ApiModel(value = "机构传入实体模型")
+@ApiModel(value = "institutionDto",description = "机构传入实体模型")
 public class InstitutionDto {
 
     @ApiModelProperty(name = "institutionId",value = "机构id（创建时可不传）")
@@ -25,5 +25,7 @@ public class InstitutionDto {
     private String leader;
     @ApiModelProperty(name = "phone",value = "联系方式")
     private Integer phone;
+    @ApiModelProperty(name = "introduction",value = "机构详细介绍",dataType = "introduction")
+    private String introduction;
 
 }

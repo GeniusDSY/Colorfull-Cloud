@@ -13,13 +13,21 @@ import lombok.ToString;
 @ToString
 public class ActivityChildrenEntity {
 
-    @ApiModelProperty(name = "id",value = "孩子活动订单id")
+    /**
+     * 孩子活动订单id
+     */
     private Integer id;
-    @ApiModelProperty(name = "orderId",value = "订单id")
+    /**
+     * 订单id
+     */
     private String orderId;
-    @ApiModelProperty(name = "activityId",value = "活动id")
+    /**
+     * 活动id
+     */
     private Integer activityId;
-    @ApiModelProperty(name = "childrenCard",value = "孩子身份证号")
+    /**
+     * 孩子身份证号
+     */
     private String childrenCard;
 
 }

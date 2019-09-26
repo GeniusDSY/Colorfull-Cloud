@@ -13,23 +13,41 @@ import lombok.ToString;
 @ToString
 public class CourseEntity {
 
-    @ApiModelProperty(value = "课程id")
+    /**
+     * 课程id
+     */
     private Integer courseId;
-    @ApiModelProperty(value = "类别id")
+    /**
+     * 类别id
+     */
     private Integer categoryId;
-    @ApiModelProperty(value = "机构id")
+    /**
+     * 机构id
+     */
     private Integer institutionId;
-    @ApiModelProperty(value = "教师id")
+    /**
+     * 教师id
+     */
     private Integer teacherId;
-    @ApiModelProperty(value = "教师信息")
+    /**
+     * 教师信息
+     */
     private TeacherEntity teacherIntroduction;
-    @ApiModelProperty(value = "课程名称")
+    /**
+     * 课程名称
+     */
     private String courseName;
-    @ApiModelProperty(value = "课程价格")
+    /**
+     * 课程价格
+     */
     private Double price;
-    @ApiModelProperty(value = "课程详细介绍")
+    /**
+     * 课程详细介绍
+     */
     private String introduction;
-    @ApiModelProperty(value = "课程状态(0:正常;1:已满;2:下架)")
+    /**
+     * 课程状态(0:正常;1:已满;2:下架)
+     */
     private Integer status;
 
 

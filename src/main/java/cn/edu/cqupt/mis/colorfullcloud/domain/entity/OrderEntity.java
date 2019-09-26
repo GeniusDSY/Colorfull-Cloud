@@ -13,27 +13,49 @@ import lombok.ToString;
 @ToString
 public class OrderEntity {
 
-    @ApiModelProperty(value = "订单编号")
+    /**
+     * 订单编号
+     */
     private String orderId;
-    @ApiModelProperty(value = "用户id")
+    /**
+     * 用户id
+     */
     private Integer userId;
-    @ApiModelProperty(value = "下单时间")
+    /**
+     * 下单时间
+     */
     private String orderTime;
-    @ApiModelProperty(value = "支付方式(1:微信;2:支付宝;3:银行卡)")
+    /**
+     * 支付方式(1:微信;2:支付宝;3:银行卡)
+     */
     private Integer payment;
-    @ApiModelProperty(value = "支付时间")
+    /**
+     * 支付时间
+     */
     private String payTime;
-    @ApiModelProperty(value = "支付编号")
+    /**
+     * 支付编号
+     */
     private String payId;
-    @ApiModelProperty(value = "总额")
+    /**
+     * 总额
+     */
     private Float total;
-    @ApiModelProperty(value = "折扣减免")
+    /**
+     * 折扣减免
+     */
     private Float discount;
-    @ApiModelProperty(value = "实际支付")
+    /**
+     * 实际支付
+     */
     private Float amount;
-    @ApiModelProperty(value = "订单状态(0:未支付;1:支付成功)")
+    /**
+     * 订单状态(0:未支付;1:支付成功)
+     */
     private Integer status;
-    @ApiModelProperty(value = "活动id")
+    /**
+     * 活动id
+     */
     private Integer activityId;
 
 }

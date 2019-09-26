@@ -16,39 +16,78 @@ import java.sql.Date;
 @ToString
 public class UserEntity {
 
-    @ApiModelProperty(value = "用户ID(主键、自增）")
+    /**
+     * 用户ID(主键、自增）
+     */
     private Integer userId;
+    /**
+     * 用户微信openid
+     */
     @NotNull(message = "openid不能为空")
-    @ApiModelProperty(value = "用户微信openid")
     private String openid;
-    @ApiModelProperty(value = "自定义昵称")
+    /**
+     * 自定义昵称
+     */
     private String nickName;
-    @ApiModelProperty(value = "用户手机号")
+    /**
+     * 用户手机号
+     */
     private String phone;
+    /**
+     * 国家
+     */
     private String country;
+    /**
+     * 省份
+     */
     private String province;
+    /**
+     * 城市
+     */
     private String city;
-    @ApiModelProperty(value = "备用手机号")
+    /**
+     * 备用手机号
+     */
     private String sparePhone;
-    @ApiModelProperty(value = "密码（目前无用）")
+    /**
+     * 密码（目前无用）
+     */
     private String password;
-    @ApiModelProperty(value = "家长姓名")
+    /**
+     * 家长姓名
+     */
     private String parentName;
-    @ApiModelProperty(value = "微信头像链接")
+    /**
+     * 微信头像链接
+     */
     private String avatarUrl;
-    @ApiModelProperty(value = "注册时间")
+    /**
+     * 注册时间
+     */
     private String registerTime;
-    @ApiModelProperty(value = "注册设备的Mac")
+    /**
+     * 注册设备的Mac
+     */
     private String registerMac;
-    @ApiModelProperty(value = "是否可用(0:可用 1:不可用)")
+    /**
+     * 是否可用(0:可用 1:不可用)
+     */
     private Integer isDisabled;
-    @ApiModelProperty(value = "年龄")
+    /**
+     * 年龄
+     */
     private Integer age;
-    @ApiModelProperty(value = "性别（1男2女）")
+    /**
+     * 性别（1男2女）
+     */
     private Integer gender;
-    @ApiModelProperty(value = "家庭住址")
+    /**
+     * 家庭住址
+     */
     private String homeAddress;
-    @ApiModelProperty(value = "收货地址")
+    /**
+     * 收货地址
+     */
     private String receivingAddress;
 
 

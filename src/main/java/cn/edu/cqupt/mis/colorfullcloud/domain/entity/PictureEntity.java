@@ -13,13 +13,21 @@ import lombok.ToString;
 @ToString
 public class PictureEntity {
 
-    @ApiModelProperty(name = "pictureId",value = "图片id")
+    /**
+     * 图片id
+     */
     private Integer pictureId;
-    @ApiModelProperty(name = "institutionId",value = "图片所属机构id")
+    /**
+     * 图片所属机构id
+     */
     private Integer institutionId;
-    @ApiModelProperty(name = "pictureName",value = "图片名称")
+    /**
+     * 图片名称
+     */
     private String pictureName;
-    @ApiModelProperty(name = "path",value = "图片地址")
+    /**
+     * 图片地址
+     */
     private String path;
 
 }

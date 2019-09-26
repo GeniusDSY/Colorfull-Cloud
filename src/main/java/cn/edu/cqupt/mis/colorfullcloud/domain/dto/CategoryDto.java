@@ -12,7 +12,7 @@ import lombok.ToString;
  */
 @Data
 @ToString
-@ApiModel("类别传入实体模型")
+@ApiModel(value = "categoryDto",description = "类别传入实体模型")
 public class CategoryDto {
 
     @ApiModelProperty(name = "type",value = "类别名称")

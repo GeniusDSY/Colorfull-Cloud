@@ -14,9 +14,9 @@ import java.util.List;
  * @date :2019/8/27 23:45
  * @desc : 订单传输实体类
  */
-@ApiModel
 @Data
 @ToString
+@ApiModel(value = "orderDto",description = "订单输入实体模块")
 public class OrderDto {
 
     @ApiModelProperty(name ="userId",value = "用户id")

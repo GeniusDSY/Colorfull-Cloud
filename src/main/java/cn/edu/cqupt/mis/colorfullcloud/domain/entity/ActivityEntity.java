@@ -13,17 +13,29 @@ import lombok.ToString;
 @ToString
 public class ActivityEntity {
 
-    @ApiModelProperty(name = "activityId",value = "活动id")
+    /**
+     * 活动id
+     */
     private Integer activityId;
-    @ApiModelProperty(name = "activityName",value = "活动名称")
+    /**
+     * 活动名称
+     */
     private String activityName;
-    @ApiModelProperty(name = "introduction",value = "活动详情")
+    /**
+     * 活动详情
+     */
     private String introduction;
-    @ApiModelProperty(name = "price",value = "价格")
+    /**
+     * 价格
+     */
     private Double price;
-    @ApiModelProperty(name = "count",value = "产品数量")
+    /**
+     * 产品数量
+     */
     private Integer count;
-    @ApiModelProperty(name = "status",value = "活动状态(0:正常；1：已过期；2：已爆满)")
+    /**
+     * 活动状态(0:正常；1：已过期；2：已爆满)
+     */
     private Integer status;
 
 }

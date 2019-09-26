@@ -13,9 +13,9 @@ import java.util.Date;
  * @date :2019/5/3 20:28
  * @desc :
  */
-@ApiModel(value = "用户提交信息")
 @Data
 @ToString
+@ApiModel(value = "userDto",description = "用户提交信息")
 public class UserDto {
 
     @NotNull(message = "用户唯一标识为空")

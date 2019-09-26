@@ -12,7 +12,7 @@ import lombok.ToString;
  */
 @Data
 @ToString
-@ApiModel("活动传入实体模型")
+@ApiModel(value = "activityDto",description = "活动传入实体模型")
 public class ActivityDto {
 
     @ApiModelProperty(name = "activityId",value = "活动id(创建时传空)",allowEmptyValue = true)

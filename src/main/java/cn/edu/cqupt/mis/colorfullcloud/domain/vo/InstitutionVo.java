@@ -1,6 +1,7 @@
 package cn.edu.cqupt.mis.colorfullcloud.domain.vo;
 
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.CourseEntity;
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.PictureEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -28,6 +29,12 @@ public class InstitutionVo {
     private String leader;
     @ApiModelProperty(name = "phone",value = "联系方式",dataType = "int")
     private Integer phone;
+    @ApiModelProperty(name = "icon", value = "机构icon地址",dataType = "string")
+    private String icon;
+    @ApiModelProperty(name = "introduction",value = "机构详细介绍",dataType = "introduction")
+    private String introduction;
+    @ApiModelProperty(name = "pictures",value = "机构图片组",dataType = "list")
+    private List<PictureEntity> pictures;
     @ApiModelProperty(name = "distance",value = "距离信息",dataType = "double")
     private Integer distance;
     @ApiModelProperty(name = "courseVoList",value = "开设课程",dataType = "list")

@@ -15,17 +15,29 @@ import lombok.ToString;
 @ToString
 public class ProductEntity {
 
-    @ApiModelProperty(name = "productId",value = "产品id")
+    /**
+     * 产品id
+     */
     private Integer productId;
-    @ApiModelProperty(name = "orderId",value = "订单编号")
+    /**
+     * 订单编号
+     */
     private String orderId;
-    @ApiModelProperty(name = "institutionId",value = "机构id")
+    /**
+     * 机构id
+     */
     private Integer institutionId;
-    @ApiModelProperty(name = "courseId",value = "课程Id")
+    /**
+     * 课程Id
+     */
     private Integer courseId;
-    @ApiModelProperty(name = "count",value = "数量")
+    /**
+     * 数量
+     */
     private Integer count;
-    @ApiModelProperty(name = "price",value = "价格")
+    /**
+     * 价格
+     */
     private Float price;
 
 }

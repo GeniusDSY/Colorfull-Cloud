@@ -13,15 +13,25 @@ import lombok.ToString;
 @ToString
 public class TeacherEntity {
 
-    @ApiModelProperty(name = "teacherId",value = "教师id")
+    /**
+     * 教师id
+     */
     private Integer teacherId;
-    @ApiModelProperty(name = "institutionId",value = "教师所属机构id")
+    /**
+     * 教师所属机构id
+     */
     private Integer institutionId;
-    @ApiModelProperty(name = "teacherName",value = "教师姓名")
+    /**
+     * 教师姓名
+     */
     private String teacherName;
-    @ApiModelProperty(name = "phone",value = "教师联系方式")
+    /**
+     * 教师联系方式
+     */
     private String phone;
-    @ApiModelProperty(name = "introduction",value = "教师介绍",allowEmptyValue = true)
+    /**
+     * 教师介绍
+     */
     private String introduction;
 
 }

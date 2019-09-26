@@ -1,5 +1,6 @@
 package cn.edu.cqupt.mis.colorfullcloud.domain.dto;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
@@ -11,6 +12,7 @@ import lombok.ToString;
  */
 @Data
 @ToString
+@ApiModel(value = "productDto",description = "产品输入实体模块")
 public class ProductDto {
 
     @ApiModelProperty(name = "orderId",value = "订单编号")
