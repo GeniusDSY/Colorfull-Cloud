@@ -29,6 +29,8 @@ public class OrderVo {
     private Integer payment;
     @ApiModelProperty(name = "payTime",value = "支付时间",dataType = "date")
     private String payTime;
+    @ApiModelProperty(name = "orderCycleSum",value = "订单课时总长")
+    private Integer orderCycleSum;
     @ApiModelProperty(name = "total",value = "总额",dataType = "float")
     private Float total;
     @ApiModelProperty(name = "discount",value = "折扣减免",dataType = "float")

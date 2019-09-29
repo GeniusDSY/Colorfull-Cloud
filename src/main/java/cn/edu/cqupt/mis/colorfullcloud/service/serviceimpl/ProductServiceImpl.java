@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -168,6 +169,30 @@ public class ProductServiceImpl implements ProductService {
             log.error("ProductService -> allActivity() -> {}",e);
             throw new ServerException("获取活动信息->数据库出现异常");
         }
+    }
+
+    /**
+     * 搜索相关信息
+     * @param input
+     * @return
+     */
+    @Override
+    public List<CourseVo> search(String input) {
+        List<CourseVo> result = new ArrayList<>();
+        List<Integer> categoryId = categoryDao.selectCategories(input);
+        if (categoryId.size() != 0) {
+            List<CourseEntity> categoryCourseList = courseDao.selectCoursesByCategoryIds(categoryId);
+            categoryCourseList.forEach(courseEntity -> courseEntity.setTeacherIntroduction(teacherDao.selectTeacherById(courseEntity.getTeacherId())));
+            List<CourseVo> courseVoList = TransformUtil.transformList(categoryCourseList, new ArrayList<>(), CourseVo.class);
+            courseVoList.forEach(courseVo -> result.add(courseVo));
+        }
+            List<CourseEntity> courseEntityList = courseDao.selectCoursesByCourseName(input);
+            courseEntityList.forEach(courseEntity -> courseEntity.setTeacherIntroduction(teacherDao.selectTeacherById(courseEntity.getTeacherId())));
+        if (courseEntityList.size() != 0){
+            List<CourseVo> courseVoList1 = TransformUtil.transformList(courseEntityList,new ArrayList<>(),CourseVo.class);
+            courseVoList1.forEach(courseVo -> result.add(courseVo));
+        }
+        return result;
     }
 
     /**

@@ -26,6 +26,8 @@ public class OrderCourseVo {
     private Double price;
     @ApiModelProperty(name = "count",value = "数量",dataType = "int")
     private Integer count;
+    @ApiModelProperty(name = "cycle",value = "课时",dataType = "int")
+    private Integer cycle;
     @ApiModelProperty(name = "introduction",value = "课程详细介绍",dataType = "string")
     private String introduction;
     @ApiModelProperty(name = "status",value = "课程状态(0:正常;1:已满;2:下架)",dataType = "int")

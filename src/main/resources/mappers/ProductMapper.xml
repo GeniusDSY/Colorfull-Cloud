@@ -9,11 +9,12 @@
         <result property="institutionId" column="institution_id" />
         <result property="courseId" column="course_id" />
         <result property="count" column="count" />
+        <result property="cycleSum" column="cycle_sum"/>
         <result property="price" column="price" />
     </resultMap>
     
     <sql id="product">
-        id,order_id,institution_id,course_id,count,price
+        id,order_id,institution_id,course_id,count,cycle_sum,price
     </sql>
     
     <select id="selectProductByOrderId" parameterType="java.lang.String" resultMap="product">
@@ -41,10 +42,10 @@
     </select>
 
     <insert id="insertProducts">
-        INSERT INTO product(order_id, institution_id, course_id, count, price)
+        INSERT INTO product(order_id, institution_id, course_id, count, cycle_sum, price)
         VALUES
         <foreach collection="list" item="product" separator=",">
-            (#{product.orderId},#{product.institutionId},#{product.courseId},#{product.count},#{product.price})
+            (#{product.orderId},#{product.institutionId},#{product.courseId},#{product.count},#{product.cycleSum},#{product.price})
         </foreach>
     </insert>
 </mapper>

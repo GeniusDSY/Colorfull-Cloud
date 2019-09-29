@@ -44,6 +44,12 @@ public class OrderController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderService.createOrder(childrenCard,orderDto));
     }
 
+    @ApiOperation("获取目前剩余可买的活动课时")
+    @GetMapping("remainTime")
+    public ResponseEntity<Integer> remainTime(@RequestParam String childrenCard,@RequestParam Integer activityId){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderService.inquiryRemainTime(childrenCard,activityId));
+    }
+
     @ApiOperation("(已测)删除订单列表(支持批量删除，均传list无法还原)")
     @ApiImplicitParam(name = "userId",value = "用户id",dataType = "int")
     @DeleteMapping("deleteOrders")

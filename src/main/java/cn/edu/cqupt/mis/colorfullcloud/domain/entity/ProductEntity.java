@@ -36,6 +36,10 @@ public class ProductEntity {
      */
     private Integer count;
     /**
+     * 某产品课时
+     */
+    private Integer cycleSum;
+    /**
      * 价格
      */
     private Float price;

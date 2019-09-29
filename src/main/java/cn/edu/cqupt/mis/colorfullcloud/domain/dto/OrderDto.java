@@ -21,6 +21,8 @@ public class OrderDto {
 
     @ApiModelProperty(name ="userId",value = "用户id")
     private Integer userId;
+    @ApiModelProperty(name = "orderCycleSum",value = "订单课时总长")
+    private Integer orderCycleSum;
     @ApiModelProperty(name = "total",value = "价格总额")
     private Float total;
     @ApiModelProperty(name="discount",value = "折扣总额")

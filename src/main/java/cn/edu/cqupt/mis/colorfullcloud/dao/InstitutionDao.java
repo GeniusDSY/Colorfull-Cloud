@@ -33,4 +33,11 @@ public interface InstitutionDao {
      */
     List<InstitutionEntity> selectInstitutionsByIdList(List<Integer> institutionIds);
 
+    /**
+     * 插入新机构信息
+     * @param institutionEntity
+     * @return
+     */
+    Boolean insertInstitution(InstitutionEntity institutionEntity);
+
 }

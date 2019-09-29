@@ -50,4 +50,11 @@ public interface OrderDao {
      */
     OrderEntity selectOrderId(String orderId);
 
+    /**
+     * 查询已选时长
+     * @param orderId
+     * @return
+     */
+    Integer selectCycleTime(String orderId);
+
 }

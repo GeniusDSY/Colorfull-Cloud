@@ -53,4 +53,11 @@ public interface ProductService {
      */
     List<ActivityEntity> allActivities();
 
+    /**
+     * 搜索相关信息
+     * @param input
+     * @return
+     */
+    List<CourseVo> search(String input);
+
 }

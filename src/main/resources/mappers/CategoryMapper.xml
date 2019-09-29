@@ -21,5 +21,12 @@
         INSERT INTO category(type)
         VALUES (#{type})
     </insert>
+
+    <select id="selectCategories" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT id
+        FROM category
+        WHERE type like concat(concat("%",#{input}),"%")
+    </select>
+
 </mapper>
    

@@ -35,9 +35,10 @@ public class ProductController {
     private ProductService productService;
 
     @ApiOperation("搜索产品")
+    @ApiImplicitParam(name = "input",value = "输入值",dataType = "string")
     @GetMapping("searchProjects")
-    public ResponseEntity<List<ProductVo>> searchProjects(){
-        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,null);
+    public ResponseEntity<List<CourseVo>> searchProjects(String input){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,productService.search(input));
     }
 
     @ApiOperation("(已测)获取所有活动")

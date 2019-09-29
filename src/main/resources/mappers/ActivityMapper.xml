@@ -21,5 +21,16 @@
         FROM activity
     </select>
 
+    <select id="selectActivityById" parameterType="java.lang.Integer" resultMap="activityMap">
+        SELECT <include refid="activity"/>
+        FROM activity
+        WHERE id = #{activityId}
+    </select>
+
+    <insert id="insertActivity" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.ActivityEntity">
+        INSERT  INTO teacher(name,introduction,price,count,status)
+        VALUES (#{activityName},#{introduction},#{price},#{count},#{status})
+    </insert>
+
 </mapper>
    

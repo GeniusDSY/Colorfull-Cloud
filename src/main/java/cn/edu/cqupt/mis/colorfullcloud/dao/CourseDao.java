@@ -40,4 +40,25 @@ public interface CourseDao {
      */
     List<CourseEntity> selectCoursesByCategoryId(Integer id);
 
+    /**
+     * 按类别查询所有课程
+     * @param categoryIds 类别id
+     * @return 某类别下的所有课程
+     */
+    List<CourseEntity> selectCoursesByCategoryIds(List<Integer> categoryIds);
+
+    /**
+     * 根据课程名称模糊查询
+     * @param input
+     * @return
+     */
+    List<CourseEntity> selectCoursesByCourseName(String input);
+
+    /**
+     * 插入新课程
+     * @param courseEntity
+     * @return
+     */
+    Boolean insertCourse(CourseEntity courseEntity);
+
 }

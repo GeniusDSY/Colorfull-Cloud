@@ -10,13 +10,14 @@
         <result property="teacherId" column="teacher_id"/>
         <result property="courseName" column="name"/>
         <result property="price" column="price"/>
+        <result property="cycle" column="cycle"/>
         <result property="picture" column="picture"/>
         <result property="introduction" column="introduction"/>
         <result property="status" column="status"/>
     </resultMap>
 
     <sql id="course">
-        id,institution_id,category_id,name,teacher_id,price,picture,introduction,status
+        id,institution_id,category_id,name,teacher_id,price,cycle,picture,introduction,status
     </sql>
     
     <select id="selectCourseById" parameterType="java.lang.Integer" resultMap="courseMap">
@@ -53,6 +54,26 @@
         FROM course
         WHERE category_id = #{categoryId}
     </select>
+
+    <select id="selectCoursesByCategoryIds" parameterType="java.util.List" resultMap="courseMap">
+        SELECT <include refid="course"/>
+        FROM course
+        WHERE category_id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectCoursesByCourseName" parameterType="java.lang.String" resultMap="courseMap">
+        SELECT <include refid="course" />
+        FROM course
+        WHERE name like concat(concat("%",#{input}),"%")
+    </select>
+
+    <insert id="insertCourse" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.CourseEntity">
+        INSERT INTO course(institution_id,category_id,name,teacher_id,price,cycle,picture,introduction,status)
+        VALUES(#{institutionId},#{categoryId},#{courseName},#{teacherId},#{price},#{cycle},#{picture},#{introduction},#{status})
+    </insert>
 
 </mapper>
    

@@ -10,6 +10,7 @@
         <result property="payment" column="payment"/>
         <result property="payTime" column="pay_time" javaType="java.lang.String"/>
         <result property="payId" column="pay_id"/>
+        <result property="orderCycleSum" column="order_cycle_sum" />
         <result property="total" column="total"/>
         <result property="discount" column="discount"/>
         <result property="amount" column="amount"/>
@@ -18,7 +19,7 @@
     </resultMap>
 
     <sql id="order">
-        id,user_id,order_time,payment,pay_time,pay_id,total,discount,amount,status,activity_id
+        id,user_id,order_time,payment,pay_time,pay_id,order_cycle_sum,total,discount,amount,status,activity_id
     </sql>
 
     <!--根据用户id查询所有订单-->
@@ -48,13 +49,19 @@
 
     <!--创建订单-->
     <insert id="insertOrder" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.OrderEntity">
-        INSERT INTO orders(id,user_id,total,discount,amount,activity_id)
-        VALUES (#{orderId},#{userId},#{total},#{discount},#{amount},#{activityId})
+        INSERT INTO orders(id,user_id,order_cycle_sum,total,discount,amount,activity_id)
+        VALUES (#{orderId},#{userId},#{orderCycleSum},#{total},#{discount},#{amount},#{activityId})
     </insert>
 
     <!--查询订单id是否存在-->
     <select id="selectOrderId" parameterType="java.lang.String" resultMap="orderMap">
         SELECT id
+        FROM orders
+        WHERE id = #{orderId}
+    </select>
+
+    <select id="selectCycleTime" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT order_cycle_sum
         FROM orders
         WHERE id = #{orderId}
     </select>

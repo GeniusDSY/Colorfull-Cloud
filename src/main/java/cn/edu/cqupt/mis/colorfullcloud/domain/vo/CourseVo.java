@@ -24,6 +24,8 @@ public class CourseVo {
     private TeacherEntity teacherIntroduction;
     @ApiModelProperty(name ="price",value = "课程价格",dataType = "double")
     private Double price;
+    @ApiModelProperty(name = "cycle",value = "课时")
+    private Integer cycle;
     @ApiModelProperty(name = "picture",value = "课程图片",dataType = "string")
     private String picture;
     @ApiModelProperty(name = "introduction",value = "课程详细介绍",dataType = "string")

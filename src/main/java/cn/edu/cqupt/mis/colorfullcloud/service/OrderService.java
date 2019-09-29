@@ -43,4 +43,12 @@ public interface OrderService {
      */
     List<OrderVo> cancelOrder(Integer userId,String orderId);
 
+    /**
+     * 查询活动剩余课时
+     * @param childrenCard 购买孩子的身份证号
+     * @param activityId 活动id
+     * @return
+     */
+    Integer inquiryRemainTime(String childrenCard,Integer activityId);
+
 }

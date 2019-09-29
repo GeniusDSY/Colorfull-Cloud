@@ -1,11 +1,9 @@
 package cn.edu.cqupt.mis.colorfullcloud.service.serviceimpl;
 
 import cn.edu.cqupt.mis.colorfullcloud.common.contants.Status;
-import cn.edu.cqupt.mis.colorfullcloud.common.excepction.AuthenticationException;
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ServerException;
 import cn.edu.cqupt.mis.colorfullcloud.dao.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.OrderDto;
-import cn.edu.cqupt.mis.colorfullcloud.domain.dto.ProductDto;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.*;
 import cn.edu.cqupt.mis.colorfullcloud.service.OrderService;
@@ -42,6 +40,8 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private ActivityChildrenDao activityChildrenDao;
     @Resource
+    private ActivityDao activityDao;
+    @Resource
     private UUIDUtil uuidUtil;
     /**
      * 获取当前用户的所有订单
@@ -70,14 +70,12 @@ public class OrderServiceImpl implements OrderService {
                 productEntityList.forEach(productEntity1 -> productEntity1.setOrderId(orderId));
                 ServiceUtil.checkSqlExecuted(orderDao.insertOrder(orderEntity),productDao.insertProducts(productEntityList));
                 return getAllUserOrders(orderDto.getUserId());
-            }else {
-                throw new ServerException("您已达到购买上限!!");
             }
+            throw new ServerException("您已达到购买上限!!");
         }catch (Exception e){
             log.error("OrderServiceImpl->createOrder()->" + e);
             throw new ServerException("您已达到购买上限!!");
         }
-
     }
 
     /**
@@ -114,6 +112,39 @@ public class OrderServiceImpl implements OrderService {
             throw new ServerException("取消订单出现异常");
         }
 
+    }
+
+    /**
+     * 查询活动剩余课时
+     * @param childrenCard 购买孩子的身份证号
+     * @param activityId   活动id
+     * @return
+     */
+    @Override
+    public Integer inquiryRemainTime(String childrenCard, Integer activityId) {
+        //查询所有订单信息
+        List<ActivityChildrenEntity> activityChildrenEntityList = activityChildrenDao.selectActivityChildrenByActivityIdAndChildrenCard(activityId,childrenCard);
+        if (activityChildrenEntityList.size() == 0){
+            ActivityEntity activityEntity = activityDao.selectActivityById(activityId);
+            return activityEntity.getCount();
+        }
+        return inquiryRemainTime(activityChildrenEntityList);
+    }
+
+    /**
+     * 查询剩余课时（已确定买过活动）
+     * @param activityChildrenEntityList
+     * @return
+     */
+    private Integer inquiryRemainTime(List<ActivityChildrenEntity> activityChildrenEntityList) {
+        Integer usedTime = 0;
+        //计算已选课时
+        for (ActivityChildrenEntity entity : activityChildrenEntityList) {
+            usedTime += orderDao.selectCycleTime(entity.getOrderId());
+        }
+        Integer activityId = activityChildrenEntityList.get(0).getActivityId();
+        //获得剩余课时
+        return activityDao.selectActivityById(activityId).getCount() - usedTime;
     }
 
     /**
@@ -155,9 +186,14 @@ public class OrderServiceImpl implements OrderService {
 
     private Boolean judgeActivityChildren(Integer activityId,String childrenCard,String orderId){
         if (activityId != 0){
-            if (activityChildrenDao.selectActivityChildrenByActivityIdAndChildrenCard(activityId,childrenCard) != null) {
-                return false;
-            }else {
+            //查询目前已经生成的活动订单
+            List<ActivityChildrenEntity> activityChildrenEntityList = activityChildrenDao.selectActivityChildrenByActivityIdAndChildrenCard(activityId,childrenCard);
+            //已经有了活动订单
+            if (activityChildrenEntityList != null) {
+                return inquiryRemainTime(activityChildrenEntityList) >= 0;
+            }
+            //没有活动订单
+            else {
                 ActivityChildrenEntity activityChildrenEntity = new ActivityChildrenEntity();
                 activityChildrenEntity.setActivityId(activityId);
                 activityChildrenEntity.setChildrenCard(childrenCard);

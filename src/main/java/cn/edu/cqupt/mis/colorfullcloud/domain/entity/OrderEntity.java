@@ -37,6 +37,11 @@ public class OrderEntity {
      * 支付编号
      */
     private String payId;
+
+    /**
+     * 该订单课时总长
+     */
+    private Integer orderCycleSum;
     /**
      * 总额
      */

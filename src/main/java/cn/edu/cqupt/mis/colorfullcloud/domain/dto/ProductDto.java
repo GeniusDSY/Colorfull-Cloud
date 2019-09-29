@@ -23,6 +23,8 @@ public class ProductDto {
     private Integer courseId;
     @ApiModelProperty(name = "count",value = "数量")
     private Integer count;
+    @ApiModelProperty(name = "cycleSum",value = "课时")
+    private Integer cycleSum;
     @ApiModelProperty(name = "price",value = "价格总额")
     private Float price;
 

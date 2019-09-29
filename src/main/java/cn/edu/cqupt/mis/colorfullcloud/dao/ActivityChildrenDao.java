@@ -4,6 +4,8 @@ import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ActivityChildrenEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author :DengSiYuan
  * @date :2019/9/24 21:10
@@ -19,7 +21,7 @@ public interface ActivityChildrenDao {
      * @param childrenCard 孩子身份证号
      * @return
      */
-    ActivityChildrenEntity selectActivityChildrenByActivityIdAndChildrenCard(@Param("activityId")Integer activityId,@Param("childrenCard")String childrenCard);
+    List<ActivityChildrenEntity> selectActivityChildrenByActivityIdAndChildrenCard(@Param("activityId")Integer activityId, @Param("childrenCard")String childrenCard);
 
     /**
      * 插入活动订单与孩子的对应记录

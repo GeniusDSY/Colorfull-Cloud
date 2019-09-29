@@ -2,16 +2,18 @@ package cn.edu.cqupt.mis.colorfullcloud.service.serviceimpl;
 
 import cn.edu.cqupt.mis.colorfullcloud.dao.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.*;
-import cn.edu.cqupt.mis.colorfullcloud.domain.entity.SuggestionEntity;
-import cn.edu.cqupt.mis.colorfullcloud.domain.entity.TeacherEntity;
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.ActivityVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CategoryVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CourseVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.InstitutionVo;
 import cn.edu.cqupt.mis.colorfullcloud.service.BackManageService;
+import cn.edu.cqupt.mis.colorfullcloud.util.ServiceUtil;
+import cn.edu.cqupt.mis.colorfullcloud.util.TransformUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,7 +52,10 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<InstitutionVo> createInstitution(InstitutionDto institutionDto) {
-        return null;
+        InstitutionEntity institutionEntity = new InstitutionEntity();
+        TransformUtil.transformOne(institutionDto,institutionEntity);
+        ServiceUtil.checkSqlExecuted(institutionDao.insertInstitution(institutionEntity));
+        return allInstitutions();
     }
 
     /**
@@ -79,7 +84,9 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<InstitutionVo> allInstitutions() {
-        return null;
+        List<InstitutionVo> institutionVoList = new ArrayList<>();
+        TransformUtil.transformList(institutionDao.selectAllInstitutions(),institutionVoList,InstitutionVo.class);
+        return institutionVoList;
     }
 
     /**
@@ -89,7 +96,10 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<CourseVo> createCourse(CourseDto courseDto) {
-        return null;
+        CourseEntity courseEntity = new CourseEntity();
+        TransformUtil.transformOne(courseDto,courseEntity);
+        ServiceUtil.checkSqlExecuted(courseDao.insertCourse(courseEntity));
+        return allCourses(courseDto.getInstitutionId());
     }
 
     /**
@@ -119,7 +129,9 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<CourseVo> allCourses(Integer institutionId) {
-        return null;
+        List<CourseVo> courseVoList = new ArrayList<>();
+        TransformUtil.transformList(courseDao.selectCoursesByInstitutionId(institutionId),courseVoList,CourseVo.class);
+        return courseVoList;
     }
 
     /**
@@ -129,7 +141,10 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<CategoryVo> createCategory(CategoryDto categoryDto) {
-        return null;
+        CategoryEntity categoryEntity = new CategoryEntity();
+        TransformUtil.transformOne(categoryDto,categoryEntity);
+        ServiceUtil.checkSqlExecuted(categoryDao.insertCategory(categoryEntity.getType()));
+        return allCategories();
     }
 
     /**
@@ -158,7 +173,9 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<CategoryVo> allCategories() {
-        return null;
+        List<CategoryVo> categoryVoList = new ArrayList<>();
+        TransformUtil.transformList(categoryDao.selectAllCategories(),categoryVoList,CategoryVo.class);
+        return categoryVoList;
     }
 
     /**
@@ -168,7 +185,11 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<TeacherEntity> createTeacher(TeacherDto teacherDto) {
-        return null;
+        TeacherEntity teacherEntity = new TeacherEntity();
+        TransformUtil.transformOne(teacherDto,teacherEntity);
+        List<TeacherEntity> teacherEntityList = new ArrayList<>();
+        ServiceUtil.checkSqlExecuted(teacherDao.insertTeacher(teacherEntityList));
+        return allTeachers();
     }
 
     /**
@@ -200,7 +221,7 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<TeacherEntity> allTeachers() {
-        return null;
+        return teacherDao.selectAllTeachers();
     }
 
     /**
@@ -211,7 +232,10 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<ActivityVo> createActivity(ActivityDto activityDto) {
-        return null;
+        ActivityEntity activityEntity = new ActivityEntity();
+        TransformUtil.transformOne(activityDto,activityEntity);
+        ServiceUtil.checkSqlExecuted(activityDao.insertActivity(activityEntity));
+        return allActivities();
     }
 
     /**
@@ -243,6 +267,8 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<ActivityVo> allActivities() {
-        return null;
+        List<ActivityVo> activityVoList = new ArrayList<>();
+        TransformUtil.transformList(activityDao.selectAllActivities(),activityVoList,ActivityVo.class);
+        return activityVoList;
     }
 }

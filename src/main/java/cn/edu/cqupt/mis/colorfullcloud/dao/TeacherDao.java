@@ -34,4 +34,10 @@ public interface TeacherDao {
      */
     Boolean deleteTeacherByIdList(List<Integer> teacherIdList);
 
+    /**
+     * 查询所有教师
+     * @return
+     */
+    List<TeacherEntity> selectAllTeachers();
+
 }

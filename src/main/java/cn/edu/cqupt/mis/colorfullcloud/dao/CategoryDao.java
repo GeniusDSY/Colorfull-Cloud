@@ -26,5 +26,11 @@ public interface CategoryDao {
      */
     Boolean insertCategory(String type);
 
+    /**
+     * 模糊查询分类
+     * @param input
+     * @return
+     */
+    List<Integer> selectCategories(String input);
 
 }

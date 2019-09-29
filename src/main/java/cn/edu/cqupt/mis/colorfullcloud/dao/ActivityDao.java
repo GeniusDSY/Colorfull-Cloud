@@ -19,4 +19,18 @@ public interface ActivityDao {
      */
     List<ActivityEntity> selectAllActivities();
 
+    /**
+     * 查询某个活动详情
+     * @param activityId
+     * @return
+     */
+    ActivityEntity selectActivityById(Integer activityId);
+
+    /**
+     * 插入新活动
+     * @param activityEntity
+     * @return
+     */
+    Boolean insertActivity(ActivityEntity activityEntity);
+
 }

@@ -42,6 +42,10 @@ public class CourseEntity {
      */
     private Double price;
     /**
+     * 课时
+     */
+    private Integer cycle;
+    /**
      * 课程图片
      */
     private String picture;

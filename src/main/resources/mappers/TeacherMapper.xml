@@ -22,6 +22,11 @@
         WHERE id = #{teacherId}
     </select>
 
+    <select id="selectAllTeachers" parameterType="java.lang.Integer" resultMap="teacherMap">
+        SELECT <include refid="teacher"/>
+        FROM teacher
+    </select>
+
     <!--插入新的老师-->
     <insert id="insertTeacher">
         INSERT INTO teacher(name,phone,introduction)
