@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Boolean judgeChildren(String idCard) {
-        return childrenDao.selectAllChildrenByCard(idCard) != null;
+        return childrenDao.selectAllChildrenByCard(idCard) == null;
     }
 
     /**
@@ -191,7 +191,9 @@ public class UserServiceImpl implements UserService {
             //用户存在进行查询返回
             userEntity = userDao.selectUserByOpenId(openid);
             //cacheUtil.addRedis(openid,userEntity);
-            return (UserVo) TransformUtil.transformOne(userEntity,new UserVo());
+            UserVo userVo = (UserVo) TransformUtil.transformOne(userEntity,new UserVo());
+            userVo.setChildrenMessage(childrenDao.selectAllChildrenByUserId(userVo.getUserId()));
+            return userVo;
         }catch (Exception e){
             log.error("方法flagUser：{}",e);
             throw new ServerException("登录数据库操作异常！！");

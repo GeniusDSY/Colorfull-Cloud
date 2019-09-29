@@ -1,5 +1,6 @@
 package cn.edu.cqupt.mis.colorfullcloud.domain.vo;
 
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ChildrenEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author :DengSiYuan
@@ -46,6 +48,8 @@ public class UserVo {
     private String homeAddress;
     @ApiModelProperty(name = "receivingAddress",value = "收货地址",dataType = "string")
     private String receivingAddress;
+    @ApiModelProperty(name = "childrenMessage",value = "孩子信息",dataType = "list")
+    private List<ChildrenEntity> childrenMessage;
 
 
 }
