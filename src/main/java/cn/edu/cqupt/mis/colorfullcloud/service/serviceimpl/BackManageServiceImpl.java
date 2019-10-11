@@ -1,5 +1,8 @@
 package cn.edu.cqupt.mis.colorfullcloud.service.serviceimpl;
 
+import cn.edu.cqupt.mis.colorfullcloud.common.contants.Status;
+import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ServerException;
+import cn.edu.cqupt.mis.colorfullcloud.common.excepction.UploadException;
 import cn.edu.cqupt.mis.colorfullcloud.dao.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.*;
@@ -10,7 +13,11 @@ import cn.edu.cqupt.mis.colorfullcloud.domain.vo.InstitutionVo;
 import cn.edu.cqupt.mis.colorfullcloud.service.BackManageService;
 import cn.edu.cqupt.mis.colorfullcloud.util.ServiceUtil;
 import cn.edu.cqupt.mis.colorfullcloud.util.TransformUtil;
+import cn.edu.cqupt.mis.colorfullcloud.util.UploadFactory;
+import cn.edu.cqupt.mis.colorfullcloud.util.UploadUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -23,6 +30,19 @@ import java.util.List;
  */
 @Service
 public class BackManageServiceImpl implements BackManageService {
+
+    //引入第一步的七牛配置
+    @Value("${qiniu.access.key}")
+    private String accesskey;
+
+    @Value("${qiniu.secret.key}")
+    private String secretKey;
+
+    @Value("${qiniu.bucket.name}")
+    private String bucketName;
+
+    @Value("${qiniu.bucket.host.name}")
+    private String bucketHostName;
 
     @Resource
     private UserDao userDao;
@@ -271,4 +291,40 @@ public class BackManageServiceImpl implements BackManageService {
         TransformUtil.transformList(activityDao.selectAllActivities(),activityVoList,ActivityVo.class);
         return activityVoList;
     }
+
+    /**
+     * 上传图片
+     * @param fileType
+     * @param multipartFile
+     * @return
+     */
+    @Override
+    public String updateImages(Integer fileType,Integer institutionId,String name,Integer courseId, MultipartFile multipartFile) throws UploadException {
+        String filePath = "";
+        if (fileType == 1){
+            filePath = Status.INSTITUTION_ICON;
+            String url = updateImage(filePath,multipartFile);
+            ServiceUtil.checkSqlExecuted(institutionDao.updateInstitutionIcon(institutionId,url));
+            return url;
+        }else if (fileType == 2){
+            filePath = Status.INSTITUTION_PICTURE;
+            String url = updateImage(filePath,multipartFile);
+            ServiceUtil.checkSqlExecuted(institutionDao.updateInstitutionPicture(institutionId,name,url));
+            return url;
+        }else if (fileType == 3){
+            filePath = Status.COURSE_ICON;
+            String url = updateImage(filePath,multipartFile);
+            ServiceUtil.checkSqlExecuted(courseDao.updateCourseIcon(courseId,url));
+            return url;
+        }else {
+            throw new ServerException("图片类型不正确");
+        }
+    }
+
+    private String updateImage(String filePath, MultipartFile multipartFile) throws UploadException {
+        UploadUtil uploadUtil = UploadFactory.createUpload(this.accesskey, this.secretKey,
+                this.bucketHostName, this.bucketName);
+        return uploadUtil.uploadFile(filePath, multipartFile);
+    }
+
 }

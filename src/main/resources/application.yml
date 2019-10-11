@@ -6,9 +6,19 @@ server:
 swagger2:
   enable: true
 
+qiniu:
+  access:
+    key: R42l9Le3Bep-31lhlh3AQg2wpRUXJ3kaE1Tc5ccP
+  secret:
+    key: 9EckwTxcf5TMMFaVSwFvfLDvLnqStQBwD85talYz
+  bucket:
+    name: geniusdsy
+    host:
+      name: http://picture.geniusdsy.cn
+
 wechat:
-  appid: "wxa8dd58e8cef7ae51"
-  secret: "f5cbbe44bc4faef9ce769f93a36521f3"
+  appid: "wxa25d8f9efe36d58a"
+  secret: "e98aea2f196c5a7844056adbda2fb008"
 # appid secret js_code grant_type
   code: "https://api.weixin.qq.com/sns/jscode2session"
 # appid secret code grant_type

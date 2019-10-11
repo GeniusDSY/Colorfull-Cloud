@@ -75,5 +75,11 @@
         VALUES(#{institutionId},#{categoryId},#{courseName},#{teacherId},#{price},#{cycle},#{picture},#{introduction},#{status})
     </insert>
 
+    <update id="updateCourseIcon">
+        UPDATE course
+        SET picture = #{picture}
+        WHERE id = #{courseId}
+    </update>
+
 </mapper>
    

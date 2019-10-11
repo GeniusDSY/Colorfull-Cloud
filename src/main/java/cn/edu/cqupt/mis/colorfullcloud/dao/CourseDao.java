@@ -1,6 +1,7 @@
 package cn.edu.cqupt.mis.colorfullcloud.dao;
 
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.CourseEntity;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -61,4 +62,11 @@ public interface CourseDao {
      */
     Boolean insertCourse(CourseEntity courseEntity);
 
+    /**
+     * 更新课程图片介绍
+     * @param courseId 课程id
+     * @param url 图片路径
+     * @return
+     */
+    Boolean updateCourseIcon(@Param("courseId")Integer courseId,@Param("picture") String url);
 }

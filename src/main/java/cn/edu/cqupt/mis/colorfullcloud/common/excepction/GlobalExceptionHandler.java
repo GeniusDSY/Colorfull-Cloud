@@ -47,5 +47,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ResponseStatu.SERVER_EXCUTE_FAIL, e.getMessage(), null);
     }
 
+    @ExceptionHandler(UploadException.class)
+    public ResponseEntity uploadExceptionHandler(UploadException e) {
+        log.error("UploadException->{}",e);
+        return new ResponseEntity<>(ResponseStatu.UPLOAD_FAIL, e.getMessage(), null);
+    }
+
 
 }

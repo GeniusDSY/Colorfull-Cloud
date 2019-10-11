@@ -23,5 +23,8 @@ public interface Status {
     Integer EVENT_OFFER = 2;
     Integer CANCEL = 3;
 
+    String INSTITUTION_ICON = "/institution/icon/";
+    String INSTITUTION_PICTURE = "/institution/picture";
+    String COURSE_ICON = "/course/";
 
 }

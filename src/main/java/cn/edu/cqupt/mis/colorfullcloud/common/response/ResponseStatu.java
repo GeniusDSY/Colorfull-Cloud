@@ -8,5 +8,5 @@ public interface ResponseStatu {
     int SERVER_EXCUTE_FAIL = 4;
     int USER_OPERATION_ERROR = 5;
     int AUTHENTATION_FIAL = 6;
-    int USER_UNIQUENESS = 7;
+    int UPLOAD_FAIL = 7;
 }

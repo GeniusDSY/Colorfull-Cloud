@@ -50,5 +50,16 @@
         VALUES (#{institutionName},#{address},#{leader},#{phone},#{introduction})
     </insert>
 
+    <update id="updateInstitutionIcon">
+        UPDATE institutions
+        SET icon = #{icon}
+        WHERE id = #{institutionId}
+    </update>
+
+    <insert id="updateInstitutionPicture">
+        INSERT INTO picture(institution_id, name, path)
+        VALUES (#{institutionId},#{name},#{path})
+    </insert>
+
 </mapper>
    

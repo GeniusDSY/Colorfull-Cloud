@@ -8,6 +8,7 @@ import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CategoryVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CourseVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.InstitutionVo;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -159,5 +160,16 @@ public interface BackManageService {
      * @return
      */
     List<ActivityVo> allActivities();
+
+    /**
+     * 上传图片
+     * @param fileType 图片类别
+     * @param institutionId 机构名称
+     * @param name 图片名称
+     * @param courseId 课程id
+     * @param multipartFile 图片
+     * @return
+     */
+    String updateImages(Integer fileType,Integer institutionId,String name,Integer courseId, MultipartFile multipartFile);
 
 }

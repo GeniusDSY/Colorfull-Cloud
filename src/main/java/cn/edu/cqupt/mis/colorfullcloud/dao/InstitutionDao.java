@@ -1,6 +1,7 @@
 package cn.edu.cqupt.mis.colorfullcloud.dao;
 
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.InstitutionEntity;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -40,4 +41,20 @@ public interface InstitutionDao {
      */
     Boolean insertInstitution(InstitutionEntity institutionEntity);
 
+    /**
+     * 更新机构Icon地址
+     * @param institutionId 机构id
+     * @param url 图片url
+     * @return
+     */
+    Boolean updateInstitutionIcon(@Param("institutionId")Integer institutionId,@Param("icon") String url);
+
+    /**
+     * 上传机构介绍图片
+     * @param institutionId 机构id
+     * @param name 图片名称t
+     * @param url 图片url
+     * @return
+     */
+    Boolean updateInstitutionPicture(@Param("institutionId")Integer institutionId,@Param("name") String name,@Param("path") String url);
 }
