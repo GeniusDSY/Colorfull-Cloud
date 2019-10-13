@@ -10,10 +10,12 @@
         <result property="card" column="card"/>
         <result property="birth" column="birth"/>
         <result property="sex" column="sex"/>
+        <result property="school" column="school"/>
+        <result property="grade" column="grade"/>
     </resultMap>
 
     <sql id="children">
-        id,user_id,name,card,birth,sex
+        id,user_id,name,card,birth,sex,school,grade
     </sql>
     
     <select id="selectAllChildrenByUserId" parameterType="java.lang.Integer" resultMap="childrenMap">
@@ -28,11 +30,11 @@
         WHERE card = #{card}
     </select>
 
-    <insert id="insertChildrenByUserId" parameterType="java.lang.Integer">
-        INSERT INTO children(user_id, name,card, birth, sex)
+    <insert id="insertChildrenByUserId">
+        INSERT INTO children(user_id, name,card, birth, sex,school,grade)
         VALUES
         <foreach collection="list" item="children" separator=",">
-            (#{children.userId},#{children.childrenName},#{children.card},#{children.birth},#{children.sex})
+            (#{children.userId},#{children.childrenName},#{children.card},#{children.birth},#{children.sex},#{children.school},#{children.grade})
         </foreach>
     </insert>
 

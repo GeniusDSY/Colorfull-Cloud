@@ -38,4 +38,14 @@ public class ChildrenEntity {
      */
     private Integer sex;
 
+    /**
+     * 孩子学校
+     */
+    private String school;
+
+    /**
+     * 孩子年级
+     */
+    private String grade;
+
 }

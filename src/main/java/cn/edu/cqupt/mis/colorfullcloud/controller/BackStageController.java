@@ -71,9 +71,10 @@ public class BackStageController {
     }
 
     @ApiOperation(value = "(已测)获取所有课程信息")
+    @ApiImplicitParam(name = "institutionId",value = "机构id",dataType = "int")
     @GetMapping("allCourses")
-    public ResponseEntity<List<CourseVo>> getAllCourses(){
-        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,productService.allCourses());
+    public ResponseEntity<List<CourseVo>> getAllCourses(Integer institutionId){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.allCourses(institutionId));
     }
 
     @ApiOperation(value = "(已测)上传课程信息")

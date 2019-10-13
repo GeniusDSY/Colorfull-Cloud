@@ -44,7 +44,7 @@ public class OrderController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderService.createOrder(childrenCard,orderDto));
     }
 
-    @ApiOperation("获取目前剩余可买的活动课时")
+    @ApiOperation("(已测)获取目前剩余可买的活动课时")
     @GetMapping("remainTime")
     public ResponseEntity<Integer> remainTime(@RequestParam String childrenCard,@RequestParam Integer activityId){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderService.inquiryRemainTime(childrenCard,activityId));
@@ -67,4 +67,9 @@ public class OrderController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,orderService.cancelOrder(userId,orderId));
     }
 
+    @ApiOperation("更新订单支付状态")
+    @PostMapping("updatePayStatus")
+    public ResponseEntity updatePayStatus(){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,null);
+    }
 }

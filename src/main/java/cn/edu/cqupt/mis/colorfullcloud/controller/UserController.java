@@ -57,6 +57,14 @@ public class UserController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,childrenEntities);
     }
 
+    @ApiOperation("(已测)查询孩子信息")
+    @ApiImplicitParam(name = "userId",value = "用户id(本账号的id)",dataType = "int")
+    @PostMapping("allChildren")
+    public ResponseEntity<List<ChildrenEntity>> allChildren(Integer userId){
+        List<ChildrenEntity> childrenEntities = userService.allChildren(userId);
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,childrenEntities);
+    }
+
     @ApiOperation("(已测)查询孩子是否可用(已登记的，不可用返回false)")
     @ApiImplicitParam(name = "idCard",value = "身份证号",dataType = "string")
     @PostMapping("judgeChildren")

@@ -70,4 +70,10 @@ public interface UserService {
      */
     Boolean createSuggestion(SuggestionDto suggestionDto);
 
+    /**
+     * 查询孩子信息
+     * @param userId
+     * @return
+     */
+    List<ChildrenEntity> allChildren(Integer userId);
 }

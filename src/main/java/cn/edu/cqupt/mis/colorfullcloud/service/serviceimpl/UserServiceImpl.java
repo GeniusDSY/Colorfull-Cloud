@@ -173,6 +173,17 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * 查询孩子信息
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<ChildrenEntity> allChildren(Integer userId) {
+        return childrenDao.selectAllChildrenByUserId(userId);
+    }
+
 
     /**
      * 判断用户是否已经存在于数据库
