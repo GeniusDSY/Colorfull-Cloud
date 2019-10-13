@@ -70,9 +70,11 @@ public class OrderServiceImpl implements OrderService {
                 productEntityList.forEach(productEntity1 -> productEntity1.setOrderId(orderId));
                 ServiceUtil.checkSqlExecuted(orderDao.insertOrder(orderEntity),productDao.insertProducts(productEntityList));
                 return getAllUserOrders(orderDto.getUserId());
+            }else {
+                throw new ServerException("您已达到购买上限!!");
             }
-            throw new ServerException("您已达到购买上限!!");
         }catch (Exception e){
+            e.printStackTrace();
             log.error("OrderServiceImpl->createOrder()->" + e);
             throw new ServerException("您已达到购买上限!!");
         }
@@ -189,7 +191,7 @@ public class OrderServiceImpl implements OrderService {
             //查询目前已经生成的活动订单
             List<ActivityChildrenEntity> activityChildrenEntityList = activityChildrenDao.selectActivityChildrenByActivityIdAndChildrenCard(activityId,childrenCard);
             //已经有了活动订单
-            if (activityChildrenEntityList != null) {
+            if (activityChildrenEntityList != null && activityChildrenEntityList.size() != 0) {
                 return inquiryRemainTime(activityChildrenEntityList) >= 0;
             }
             //没有活动订单
