@@ -19,6 +19,7 @@ public interface Status {
     String MAP_KEY="key";
     String FROM="from";
     String TO="to";
+    String ADDRESS="address";
     Integer PAY_SUCCESS = 1;
     Integer EVENT_OFFER = 2;
     Integer CANCEL = 3;

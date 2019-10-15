@@ -24,7 +24,7 @@ public class InstitutionEntity {
     @ApiModelProperty(value = "联系人")
     private String leader;
     @ApiModelProperty(value = "联系方式")
-    private Integer phone;
+    private String phone;
     @ApiModelProperty(value = "机构icon地址")
     private String icon;
     @ApiModelProperty(value = "机构详细介绍")

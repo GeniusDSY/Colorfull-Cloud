@@ -30,6 +30,7 @@ tencent:
   map-key: "Z6RBZ-EZF6P-MJ3DC-VVG3E-L6UQ3-NFF3X"
   current-location: "https://apis.map.qq.com/ws/location/v1/ip"
   calculated-distance: "https://apis.map.qq.com/ws/distance/v1/"
+  geocoder: "https://apis.map.qq.com/ws/geocoder/v1/"
 
 #####################
 # MyBatis的配置

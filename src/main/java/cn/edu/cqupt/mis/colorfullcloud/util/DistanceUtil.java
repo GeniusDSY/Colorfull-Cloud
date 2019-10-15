@@ -29,6 +29,8 @@ public class DistanceUtil {
     private String currentLocationUrl;
     @Value("${tencent.calculated-distance}")
     private String calculatedDistanceUrl;
+    @Value("${tencent.geocoder}")
+    private String geocoderUrl;
 
     /**
      * 获取机构与当前位置的距离
@@ -57,6 +59,26 @@ public class DistanceUtil {
 
     }
 
+    public TencentMapResult getCoordinate(String address){
+        try {
+            Map <String,String> params = new HashMap<>();
+            params.put(Status.ADDRESS,address);
+            params.put(Status.MAP_KEY,mapKey);
+            String result = HttpClientUtil.doGet(geocoderUrl,params);
+            log.info("DistanceUtil -> getCoordinate()：{}",result);
+            TencentMapResult mapResult = JSON.parseObject(result, TencentMapResult.class);
+            if(mapResult.getStatus() != 0){
+                log.error("调用腾讯地图接口出现异常：",mapResult.getMessage());
+                throw new ThirdPartyServiceException("获取当前地址经纬度失败！请检查地址后重试！");
+            }
+            return mapResult;
+        }catch (Exception e){
+            log.error("Distance -> getDistance()：{}",e);
+            throw new ThirdPartyServiceException("调用腾讯地图API获取当前地址经纬度失败！");
+        }
+
+    }
+
     /**
      * 获取当前ip的经纬度
      * @return 经纬度
@@ -76,7 +98,6 @@ public class DistanceUtil {
             log.error("Distance -> getLocation()：{}",e);
             throw new ThirdPartyServiceException("调用腾讯地图API获取当前位置失败！");
         }
-
     }
 
 }

@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
         }catch (Exception e){
             e.printStackTrace();
             log.error("OrderServiceImpl->createOrder()->" + e);
-            throw new ServerException("您已达到购买上限!!");
+            throw new ServerException("创建订单出现异常，请检查请求!!");
         }
     }
 

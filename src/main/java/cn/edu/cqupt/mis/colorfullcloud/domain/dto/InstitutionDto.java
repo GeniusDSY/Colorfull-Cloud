@@ -24,7 +24,7 @@ public class InstitutionDto {
     @ApiModelProperty(name = "leader",value = "联系人")
     private String leader;
     @ApiModelProperty(name = "phone",value = "联系方式")
-    private Integer phone;
+    private String phone;
     @ApiModelProperty(name = "introduction",value = "机构详细介绍",dataType = "introduction")
     private String introduction;
 

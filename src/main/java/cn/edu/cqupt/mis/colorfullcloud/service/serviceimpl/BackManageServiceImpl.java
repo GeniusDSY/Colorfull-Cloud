@@ -2,6 +2,7 @@ package cn.edu.cqupt.mis.colorfullcloud.service.serviceimpl;
 
 import cn.edu.cqupt.mis.colorfullcloud.common.contants.Status;
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ServerException;
+import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ThirdPartyServiceException;
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.UploadException;
 import cn.edu.cqupt.mis.colorfullcloud.dao.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.*;
@@ -10,11 +11,10 @@ import cn.edu.cqupt.mis.colorfullcloud.domain.vo.ActivityVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CategoryVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CourseVo;
 import cn.edu.cqupt.mis.colorfullcloud.domain.vo.InstitutionVo;
+import cn.edu.cqupt.mis.colorfullcloud.domain.wechatdomain.TencentMapResult;
 import cn.edu.cqupt.mis.colorfullcloud.service.BackManageService;
-import cn.edu.cqupt.mis.colorfullcloud.util.ServiceUtil;
-import cn.edu.cqupt.mis.colorfullcloud.util.TransformUtil;
-import cn.edu.cqupt.mis.colorfullcloud.util.UploadFactory;
-import cn.edu.cqupt.mis.colorfullcloud.util.UploadUtil;
+import cn.edu.cqupt.mis.colorfullcloud.util.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +28,7 @@ import java.util.List;
  * @date :2019/9/26 21:05
  * @desc :
  */
+@Slf4j
 @Service
 public class BackManageServiceImpl implements BackManageService {
 
@@ -56,6 +57,8 @@ public class BackManageServiceImpl implements BackManageService {
     private TeacherDao teacherDao;
     @Resource
     private ActivityDao activityDao;
+    @Resource
+    private DistanceUtil distanceUtil;
     /**
      * 查询所有意见反馈
      * @return
@@ -72,10 +75,27 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<InstitutionVo> createInstitution(InstitutionDto institutionDto) {
-        InstitutionEntity institutionEntity = new InstitutionEntity();
-        TransformUtil.transformOne(institutionDto,institutionEntity);
-        ServiceUtil.checkSqlExecuted(institutionDao.insertInstitution(institutionEntity));
-        return allInstitutions();
+        try {
+            InstitutionEntity institutionEntity = new InstitutionEntity();
+            TransformUtil.transformOne(institutionDto,institutionEntity);
+            //获取当前地址的经纬度进行赋值存储
+            obtainLocationAndAssignment(institutionEntity);
+            ServiceUtil.checkSqlExecuted(institutionDao.insertInstitution(institutionEntity));
+            return allInstitutions();
+        }catch (Exception e){
+            log.error("BackManageService -> createInstitution() -> {}",e);
+            throw new ServerException("创建机构失败！");
+        }
+    }
+
+    private void obtainLocationAndAssignment(InstitutionEntity institutionEntity) {
+        try {
+            TencentMapResult result = distanceUtil.getCoordinate(institutionEntity.getAddress());
+            institutionEntity.setLat(result.getResult().getLocation().getLat());
+            institutionEntity.setLng(result.getResult().getLocation().getLng());
+        }catch (Exception e){
+            throw new ThirdPartyServiceException("调用腾讯地图API获取经纬度发生异常！");
+        }
     }
 
     /**
@@ -116,10 +136,15 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<CourseVo> createCourse(CourseDto courseDto) {
-        CourseEntity courseEntity = new CourseEntity();
-        TransformUtil.transformOne(courseDto,courseEntity);
-        ServiceUtil.checkSqlExecuted(courseDao.insertCourse(courseEntity));
-        return allCourses(courseDto.getInstitutionId());
+        try {
+            CourseEntity courseEntity = new CourseEntity();
+            TransformUtil.transformOne(courseDto,courseEntity);
+            ServiceUtil.checkSqlExecuted(courseDao.insertCourse(courseEntity));
+            return allCourses(courseDto.getInstitutionId());
+        }catch (Exception e){
+            log.error("BackManageService -> createCourse() -> {}",e);
+            throw new ServerException("创建课程失败！");
+        }
     }
 
     /**
@@ -161,10 +186,15 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<CategoryVo> createCategory(CategoryDto categoryDto) {
-        CategoryEntity categoryEntity = new CategoryEntity();
-        TransformUtil.transformOne(categoryDto,categoryEntity);
-        ServiceUtil.checkSqlExecuted(categoryDao.insertCategory(categoryEntity.getType()));
-        return allCategories();
+        try {
+            CategoryEntity categoryEntity = new CategoryEntity();
+            TransformUtil.transformOne(categoryDto,categoryEntity);
+            ServiceUtil.checkSqlExecuted(categoryDao.insertCategory(categoryEntity.getType()));
+            return allCategories();
+        }catch (Exception e){
+            log.error("BackManageService -> createCategory() -> {}",e);
+            throw new ServerException("创建分类失败！");
+        }
     }
 
     /**
@@ -205,11 +235,16 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<TeacherEntity> createTeacher(TeacherDto teacherDto) {
-        TeacherEntity teacherEntity = new TeacherEntity();
-        TransformUtil.transformOne(teacherDto,teacherEntity);
-        List<TeacherEntity> teacherEntityList = new ArrayList<>();
-        ServiceUtil.checkSqlExecuted(teacherDao.insertTeacher(teacherEntityList));
-        return allTeachers();
+        try {
+            TeacherEntity teacherEntity = new TeacherEntity();
+            TransformUtil.transformOne(teacherDto,teacherEntity);
+            List<TeacherEntity> teacherEntityList = new ArrayList<>();
+            ServiceUtil.checkSqlExecuted(teacherDao.insertTeacher(teacherEntityList));
+            return allTeachers();
+        }catch (Exception e){
+            log.error("BackManageService -> createTeacher() -> {}",e);
+            throw new ServerException("创建教师失败！");
+        }
     }
 
     /**
@@ -252,10 +287,15 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<ActivityVo> createActivity(ActivityDto activityDto) {
-        ActivityEntity activityEntity = new ActivityEntity();
-        TransformUtil.transformOne(activityDto,activityEntity);
-        ServiceUtil.checkSqlExecuted(activityDao.insertActivity(activityEntity));
-        return allActivities();
+        try {
+            ActivityEntity activityEntity = new ActivityEntity();
+            TransformUtil.transformOne(activityDto,activityEntity);
+            ServiceUtil.checkSqlExecuted(activityDao.insertActivity(activityEntity));
+            return allActivities();
+        }catch (Exception e){
+            log.error("BackManageService -> createActivity() -> {}",e);
+            throw new ServerException("创建活动失败！");
+        }
     }
 
     /**
@@ -300,25 +340,30 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public String updateImages(Integer fileType,Integer institutionId,String name,Integer courseId, MultipartFile multipartFile) throws UploadException {
-        String filePath = "";
-        if (fileType == 1){
-            filePath = Status.INSTITUTION_ICON;
-            String url = updateImage(filePath,multipartFile);
-            ServiceUtil.checkSqlExecuted(institutionDao.updateInstitutionIcon(institutionId,url));
-            return url;
-        }else if (fileType == 2){
-            filePath = Status.INSTITUTION_PICTURE;
-            String url = updateImage(filePath,multipartFile);
-            ServiceUtil.checkSqlExecuted(institutionDao.updateInstitutionPicture(institutionId,name,url));
-            return url;
-        }else if (fileType == 3){
-            filePath = Status.COURSE_ICON;
-            String url = updateImage(filePath,multipartFile);
-            ServiceUtil.checkSqlExecuted(courseDao.updateCourseIcon(courseId,url));
-            return url;
-        }else {
-            throw new ServerException("图片类型不正确");
-        }
+        try {
+            String filePath = "";
+            if (fileType == 1){
+               filePath = Status.INSTITUTION_ICON;
+               String url = updateImage(filePath,multipartFile);
+               ServiceUtil.checkSqlExecuted(institutionDao.updateInstitutionIcon(institutionId,url));
+               return url;
+            }else if (fileType == 2){
+                filePath = Status.INSTITUTION_PICTURE;
+                String url = updateImage(filePath,multipartFile);
+                ServiceUtil.checkSqlExecuted(institutionDao.updateInstitutionPicture(institutionId,name,url));
+                return url;
+            }else if (fileType == 3){
+                filePath = Status.COURSE_ICON;
+                String url = updateImage(filePath,multipartFile);
+                ServiceUtil.checkSqlExecuted(courseDao.updateCourseIcon(courseId,url));
+                return url;
+            }else {
+                throw new ServerException("图片类型不正确");
+            }
+        }catch (Exception e){
+            log.error("BackManageService -> updateImages() -> {}",e);
+            throw new ServerException("更新图片失败！");
+    }
     }
 
     private String updateImage(String filePath, MultipartFile multipartFile) throws UploadException {

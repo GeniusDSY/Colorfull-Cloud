@@ -28,7 +28,7 @@ public class InstitutionVo {
     @ApiModelProperty(name = "leader",value = "联系人",dataType = "string")
     private String leader;
     @ApiModelProperty(name = "phone",value = "联系方式",dataType = "int")
-    private Integer phone;
+    private String phone;
     @ApiModelProperty(name = "icon", value = "机构icon地址",dataType = "string")
     private String icon;
     @ApiModelProperty(name = "introduction",value = "机构详细介绍",dataType = "introduction")
