@@ -76,4 +76,14 @@ public interface UserService {
      * @return
      */
     List<ChildrenEntity> allChildren(Integer userId);
+
+    /**
+     * 更新孩子信息（主要就是学校和年级）
+     * @param userId 用户id
+     * @param childrenId 孩子id
+     * @param school 学校
+     * @param grade 年级
+     * @return
+     */
+    List<ChildrenEntity> updateChildren(Integer userId,Integer childrenId,String school, String grade);
 }

@@ -10,6 +10,7 @@ import cn.edu.cqupt.mis.colorfullcloud.domain.vo.UserVo;
 import cn.edu.cqupt.mis.colorfullcloud.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -77,6 +78,18 @@ public class UserController {
     @DeleteMapping("deleteChildren")
     public ResponseEntity<List<ChildrenEntity>> deleteChildren(@RequestParam Integer userId,@RequestBody List<Integer> childrenIdList){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userService.deleteChildren(userId,childrenIdList));
+    }
+
+    @ApiOperation("修改孩子信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId",value = "用户id",dataType = "int"),
+            @ApiImplicitParam(name = "childrenId",value = "孩子id",dataType = "int"),
+            @ApiImplicitParam(name = "school",value = "学校",dataType = "string"),
+            @ApiImplicitParam(name = "grade",value = "年级",dataType = "string")
+    })
+    @PostMapping("updateChildren")
+    public ResponseEntity<List<ChildrenEntity>> updateChildren(@RequestParam Integer userId,@RequestParam Integer childrenId,@RequestParam String school,@RequestParam String grade){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,userService.updateChildren(userId,childrenId,school,grade));
     }
 
     @ApiOperation("(已测)新建用户反馈")

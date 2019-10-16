@@ -158,7 +158,6 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 创建意见反馈
-     *
      * @param suggestionDto 意见反馈
      * @return
      */
@@ -181,6 +180,23 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<ChildrenEntity> allChildren(Integer userId) {
+        return childrenDao.selectAllChildrenByUserId(userId);
+    }
+
+    /**
+     * 更新孩子信息（主要就是学校和年级）
+     * @param childrenId 孩子id
+     * @param school 学校
+     * @param grade 年级
+     * @return
+     */
+    @Override
+    public List<ChildrenEntity> updateChildren(Integer userId,Integer childrenId,String school, String grade) {
+        //判断是不是对自己的孩子进行的操作
+        if (childrenDao.selectChildrenByUserIdAndChildrenId(userId,childrenId) == null){
+            throw new ServerException("操作失败,请对自己的孩子进行操作！");
+        }
+        ServiceUtil.checkSqlExecuted(childrenDao.updateChildren(childrenId,school,grade));
         return childrenDao.selectAllChildrenByUserId(userId);
     }
 

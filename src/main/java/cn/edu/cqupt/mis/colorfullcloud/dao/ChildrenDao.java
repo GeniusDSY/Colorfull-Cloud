@@ -1,6 +1,7 @@
 package cn.edu.cqupt.mis.colorfullcloud.dao;
 
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ChildrenEntity;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -42,4 +43,20 @@ public interface ChildrenDao {
     Boolean deleteChildrenByChildrenIdList(List<Integer> childrenIdList);
 
 
+    /**
+     * 更新孩子信息（学校，年级）
+     * @param childrenId 孩子id
+     * @param school 学校
+     * @param grade 年级
+     * @return
+     */
+    Boolean updateChildren(@Param("childrenId")Integer childrenId,@Param("school") String school,@Param("grade") String grade);
+
+    /**
+     * 根据用户id和孩子id查询是否存在该孩子
+     * @param userId
+     * @param childrenId
+     * @return
+     */
+    ChildrenEntity selectChildrenByUserIdAndChildrenId(@Param("userId")Integer userId,@Param("childrenId") Integer childrenId);
 }

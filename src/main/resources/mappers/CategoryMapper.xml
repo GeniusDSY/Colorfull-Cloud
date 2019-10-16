@@ -17,7 +17,7 @@
         FROM category
     </select>
 
-    <insert id="insertCategories">
+    <insert id="insertCategory">
         INSERT INTO category(type)
         VALUES (#{type})
     </insert>

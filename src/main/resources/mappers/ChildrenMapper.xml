@@ -47,5 +47,17 @@
         </foreach>
     </delete>
 
+    <update id="updateChildren" >
+        UPDATE children
+        SET school = #{school},grade = #{grade}
+        WHERE id = #{childrenId}
+    </update>
+
+    <select id="selectChildrenByUserIdAndChildrenId" resultMap="childrenMap">
+        SELECT <include refid="children"/>
+        FROM children
+        WHERE id = #{childrenId} AND user_id = #{userId}
+    </select>
+
 </mapper>
    
