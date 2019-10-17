@@ -33,4 +33,17 @@ public interface CategoryDao {
      */
     List<Integer> selectCategories(String input);
 
+    /**
+     * 修改分类信息
+     * @param categoryEntity
+     * @return
+     */
+    Boolean updateCategory(CategoryEntity categoryEntity);
+
+    /**
+     * 删除分类信息
+     * @param categoryIdList
+     * @return
+     */
+    Boolean deleteCategories(List<Integer> categoryIdList);
 }

@@ -81,5 +81,21 @@
         WHERE id = #{courseId}
     </update>
 
+    <update id="updateCourse" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.CourseEntity">
+        UPDATE course
+        SET institution_id = #{institutionId}, category_id = #{categoryId}, name = #{courseName},teacher_id = #{teacherId},price = #{price},cycle = #{cycle},picture = #{picture},introduction = #{introduction},status = #{status}
+        WHERE id = #{courseId}
+    </update>
+
+    <delete id="deleteCourseByIds">
+        DELETE
+        FROM course
+        WHERE id IN
+        <foreach collection="list" item="courseId" open="("
+                 separator="," close=")">
+            #{courseId,jdbcType = VARCHAR}
+        </foreach>
+    </delete>
+
 </mapper>
    

@@ -57,4 +57,18 @@ public interface InstitutionDao {
      * @return
      */
     Boolean updateInstitutionPicture(@Param("institutionId")Integer institutionId,@Param("name") String name,@Param("path") String url);
+
+    /**
+     * 批量删除机构信息
+     * @param institutionIdList
+     * @return
+     */
+    Boolean deleteInstitutionByIds(List<Integer> institutionIdList);
+
+    /**
+     * 修改机构信息
+     * @param institutionEntity
+     * @return
+     */
+    Boolean updateInstitution(InstitutionEntity institutionEntity);
 }

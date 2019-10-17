@@ -61,10 +61,11 @@ public interface BackManageService {
 
     /**
      * 删除课程信息
+     * @param institutionId 机构id
      * @param courseIdList
      * @return
      */
-    List<CourseVo> deleteCourse(List<Integer> courseIdList);
+    List<CourseVo> deleteCourse(Integer institutionId,List<Integer> courseIdList);
 
     /**
      * 修改课程信息

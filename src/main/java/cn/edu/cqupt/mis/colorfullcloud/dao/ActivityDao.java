@@ -33,4 +33,17 @@ public interface ActivityDao {
      */
     Boolean insertActivity(ActivityEntity activityEntity);
 
+    /**
+     * 删除活动
+     * @param activityIdList
+     * @return
+     */
+    Boolean deleteActivities(List<Integer> activityIdList);
+
+    /**
+     * 修改活动
+     * @param transformOne
+     * @return
+     */
+    Boolean updateActivity(ActivityEntity transformOne);
 }

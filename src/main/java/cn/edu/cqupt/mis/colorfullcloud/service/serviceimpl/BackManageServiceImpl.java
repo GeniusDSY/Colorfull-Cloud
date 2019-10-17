@@ -32,7 +32,6 @@ import java.util.List;
 @Service
 public class BackManageServiceImpl implements BackManageService {
 
-    //引入第一步的七牛配置
     @Value("${qiniu.access.key}")
     private String accesskey;
 
@@ -105,7 +104,8 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<InstitutionVo> deleteInstitution(List<Integer> institutionIdList) {
-        return null;
+        ServiceUtil.checkSqlExecuted(institutionDao.deleteInstitutionByIds(institutionIdList));
+        return allInstitutions();
     }
 
     /**
@@ -115,7 +115,8 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<InstitutionVo> modifyInstitution(InstitutionDto institutionDto) {
-        return null;
+        ServiceUtil.checkSqlExecuted(institutionDao.updateInstitution((InstitutionEntity) TransformUtil.transformOne(institutionDto,new InstitutionEntity())));
+        return allInstitutions();
     }
 
     /**
@@ -149,12 +150,14 @@ public class BackManageServiceImpl implements BackManageService {
 
     /**
      * 删除课程信息
+     * @param institutionId 机构id
      * @param courseIdList
      * @return
      */
     @Override
-    public List<CourseVo> deleteCourse(List<Integer> courseIdList) {
-        return null;
+    public List<CourseVo> deleteCourse(Integer institutionId,List<Integer> courseIdList) {
+        ServiceUtil.checkSqlExecuted(courseDao.deleteCourseByIds(courseIdList));
+        return allCourses(institutionId);
     }
 
     /**
@@ -164,7 +167,8 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<CourseVo> modifyCourse(CourseDto courseDto) {
-        return null;
+        ServiceUtil.checkSqlExecuted(courseDao.updateCourse((CourseEntity)TransformUtil.transformOne(courseDto,new CourseEntity())));
+        return allCourses(courseDto.getInstitutionId());
     }
 
     /**
@@ -204,7 +208,8 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<CategoryVo> deleteCategory(List<Integer> categoryIdList) {
-        return null;
+        ServiceUtil.checkSqlExecuted(categoryDao.deleteCategories(categoryIdList));
+        return allCategories();
     }
 
     /**
@@ -214,7 +219,8 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<CategoryVo> modifyCategory(CategoryDto categoryDto) {
-        return null;
+        ServiceUtil.checkSqlExecuted(categoryDao.updateCategory((CategoryEntity)TransformUtil.transformOne(categoryDto,new CategoryEntity())));
+        return allCategories();
     }
 
     /**
@@ -255,7 +261,8 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<TeacherEntity> deleteTeacher(List<Integer> teacherIdList) {
-        return null;
+        ServiceUtil.checkSqlExecuted(teacherDao.deleteTeacherByIdList(teacherIdList));
+        return allTeachers();
     }
 
     /**
@@ -266,7 +273,8 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<TeacherEntity> modifyTeacher(TeacherDto teacherDto) {
-        return null;
+        ServiceUtil.checkSqlExecuted(teacherDao.updateTeacher((TeacherEntity)TransformUtil.transformOne(teacherDto,new TeacherEntity())));
+        return allTeachers();
     }
 
     /**
@@ -306,7 +314,8 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<ActivityVo> deleteActivity(List<Integer> activityIdList) {
-        return null;
+        ServiceUtil.checkSqlExecuted(activityDao.deleteActivities(activityIdList));
+        return allActivities();
     }
 
     /**
@@ -317,7 +326,8 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<ActivityVo> modifyActivity(ActivityDto activityDto) {
-        return null;
+        ServiceUtil.checkSqlExecuted(activityDao.updateActivity((ActivityEntity)TransformUtil.transformOne(activityDto,new ActivityEntity())));
+        return allActivities();
     }
 
     /**

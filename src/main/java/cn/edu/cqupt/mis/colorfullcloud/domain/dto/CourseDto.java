@@ -22,6 +22,8 @@ public class CourseDto {
     private Integer categoryId;
     @ApiModelProperty(name = "institutionId",value = "机构id")
     private Integer institutionId;
+    @ApiModelProperty(name = "teacherId",value = "教师id")
+    private Integer teacherId;
     @ApiModelProperty(name = "teacherIntroduction",value = "教师信息")
     private TeacherEntity teacherIntroduction;
     @ApiModelProperty(name = "course",value = "课程名称")

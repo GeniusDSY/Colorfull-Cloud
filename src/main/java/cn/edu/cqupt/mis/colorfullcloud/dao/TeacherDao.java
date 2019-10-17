@@ -40,4 +40,10 @@ public interface TeacherDao {
      */
     List<TeacherEntity> selectAllTeachers();
 
+    /**
+     * 修改教师信息
+     * @param transformOne
+     * @return
+     */
+    Boolean updateTeacher(TeacherEntity transformOne);
 }

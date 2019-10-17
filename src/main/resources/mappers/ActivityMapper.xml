@@ -32,5 +32,21 @@
         VALUES (#{activityName},#{introduction},#{price},#{count},#{status})
     </insert>
 
+    <update id="updateActivity" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.ActivityEntity">
+        UPDATE activity
+        SET name = #{activityName},introduction = #{introduction},price = #{price},count = #{count},status = #{status}
+        WHERE id = #{activityId}
+    </update>
+
+    <delete id="deleteActivities">
+        DELETE
+        FROM activity
+        WHERE id IN
+        <foreach collection="list" item="activityId" open="("
+                 separator="," close=")">
+            #{activityId}
+        </foreach>
+    </delete>
+
 </mapper>
    

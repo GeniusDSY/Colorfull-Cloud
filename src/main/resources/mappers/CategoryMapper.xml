@@ -21,12 +21,28 @@
         INSERT INTO category(type)
         VALUES (#{type})
     </insert>
+    
+    <update id="updateCategory" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.CategoryEntity">
+        UPDATE category
+        SET type = #{type}
+        WHERE id = #{categoryId}
+    </update>
 
     <select id="selectCategories" parameterType="java.lang.String" resultType="java.lang.Integer">
         SELECT id
         FROM category
         WHERE type like concat(concat("%",#{input}),"%")
     </select>
+    
+    <delete id="deleteCategories">
+        DELETE
+        FROM category
+        WHERE id IN
+        <foreach collection="list" item="categoryId" open="("
+                 separator="," close=")">
+            #{categoryId,jdbcType = VARCHAR}
+        </foreach>
+    </delete>
 
 </mapper>
    

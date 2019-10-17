@@ -39,10 +39,10 @@
         </foreach>
     </select>
 
-    <update id="updateInstitutionById" parameterType="java.lang.Integer">
+    <update id="updateInstitution" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.InstitutionEntity">
         UPDATE institutions
         SET name = #{institutionName},address = #{address},leader = #{leader},phone = #{phone},introduction = #{introduction}
-        WHERE id = #{id}
+        WHERE id = #{institutionId}
     </update>
 
     <insert id="insertInstitution" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.InstitutionEntity">
@@ -60,6 +60,16 @@
         INSERT INTO picture(institution_id, name, path)
         VALUES (#{institutionId},#{name},#{path})
     </insert>
+
+    <delete id="deleteInstitutionByIds">
+        DELETE
+        FROM institutions
+        WHERE id IN
+        <foreach collection="list" item="institutionId" open="("
+                 separator="," close=")">
+            #{institutionId,jdbcType = VARCHAR}
+        </foreach>
+    </delete>
 
 </mapper>
    

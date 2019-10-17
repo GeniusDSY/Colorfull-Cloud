@@ -69,4 +69,18 @@ public interface CourseDao {
      * @return
      */
     Boolean updateCourseIcon(@Param("courseId")Integer courseId,@Param("picture") String url);
+
+    /**
+     * 删除课程
+     * @param courseIdList
+     * @return
+     */
+    Boolean deleteCourseByIds(List<Integer> courseIdList);
+
+    /**
+     * 修改课程信息
+     * @param courseEntity
+     * @return
+     */
+    Boolean updateCourse(CourseEntity courseEntity);
 }

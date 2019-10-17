@@ -36,6 +36,12 @@
         </foreach>
     </insert>
 
+    <update id="updateTeacher" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.TeacherEntity">
+        UPDATE teacher
+        SET name = #{teacherName},phone = #{phone},introduction = #{introduction}
+        WHERE id = #{teacherId}
+    </update>
+
     <!--插入新的老师-->
     <delete id="deleteTeacherByIdList" parameterType="java.util.List">
         DELETE

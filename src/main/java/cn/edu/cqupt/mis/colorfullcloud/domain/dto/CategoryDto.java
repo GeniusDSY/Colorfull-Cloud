@@ -15,6 +15,8 @@ import lombok.ToString;
 @ApiModel(value = "categoryDto",description = "类别传入实体模型")
 public class CategoryDto {
 
+    @ApiModelProperty(name = "id",value = "类别id")
+    private Integer categoryId;
     @ApiModelProperty(name = "type",value = "类别名称")
     private String type;
 

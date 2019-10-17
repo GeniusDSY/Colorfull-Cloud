@@ -58,13 +58,13 @@ public class BackStageController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.createInstitution(institutionDto));
     }
 
-    @ApiOperation(value = "修改机构信息")
+    @ApiOperation(value = "(已测)修改机构信息")
     @PostMapping("modifyInstitution")
     public ResponseEntity<List<InstitutionVo>> modifyInstitution(@RequestBody InstitutionDto institutionDto){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.modifyInstitution(institutionDto));
     }
 
-    @ApiOperation(value = "删除机构信息(支持批量删除，均传list)")
+    @ApiOperation(value = "(已测)删除机构信息(支持批量删除，均传list)")
     @DeleteMapping("deleteInstitution")
     public ResponseEntity<List<InstitutionVo>> deleteInstitution(@RequestBody List<Integer> institutionIdList){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.deleteInstitution(institutionIdList));
@@ -83,16 +83,17 @@ public class BackStageController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.createCourse(courseDto));
     }
 
-    @ApiOperation(value = "修改课程信息")
+    @ApiOperation(value = "(已测)修改课程信息")
     @PostMapping("modifyCourse")
     public ResponseEntity<List<CourseVo>> modifyCourse(@RequestBody CourseDto courseDto){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.modifyCourse(courseDto));
     }
 
-    @ApiOperation(value = "删除课程信息(支持批量删除，均传list)")
+    @ApiOperation(value = "(已测)删除课程信息(支持批量删除，均传list)")
+    @ApiImplicitParam(name = "institutionId",value = "机构id",dataType = "int")
     @DeleteMapping("deleteCourses")
-    public ResponseEntity<List<CourseVo>> deleteCourses(@RequestBody List<Integer> courseIdList){
-        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.deleteCourse(courseIdList));
+    public ResponseEntity<List<CourseVo>> deleteCourses(@RequestParam Integer institutionId,@RequestBody List<Integer> courseIdList){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.deleteCourse(institutionId,courseIdList));
     }
 
     @ApiOperation(value = "(已测)创建新类别")
@@ -107,13 +108,13 @@ public class BackStageController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.allCategories());
     }
 
-    @ApiOperation(value = "修改类别信息")
+    @ApiOperation(value = "(已测)修改类别信息")
     @PostMapping("modifyCategory")
     public ResponseEntity<List<CategoryVo>> modifyCategory(@RequestBody CategoryDto categoryDto){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.modifyCategory(categoryDto));
     }
 
-    @ApiOperation(value = "删除类别信息(支持批量删除，均传list)")
+    @ApiOperation(value = "(已测)删除类别信息(支持批量删除，均传list)")
     @DeleteMapping("deleteCategories")
     public ResponseEntity<List<CategoryVo>> deleteCategories(@RequestBody List<Integer> categoryIdList){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.deleteCategory(categoryIdList));
@@ -131,13 +132,13 @@ public class BackStageController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.allTeachers());
     }
 
-    @ApiOperation(value = "修改教师信息")
+    @ApiOperation(value = "(已测)修改教师信息")
     @PostMapping("modifyTeacher")
     public ResponseEntity<List<TeacherEntity>> modifyTeacher(@RequestBody TeacherDto teacherDto){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.modifyTeacher(teacherDto));
     }
 
-    @ApiOperation(value = "删除教师信息(支持批量删除，均传list)")
+    @ApiOperation(value = "(已测)删除教师信息(支持批量删除，均传list)")
     @DeleteMapping("deleteTeachers")
     public ResponseEntity<List<TeacherEntity>> deleteTeachers(@RequestBody List<Integer> teacherIdList){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.deleteTeacher(teacherIdList));
@@ -149,13 +150,13 @@ public class BackStageController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,backManageService.createActivity(activityDto));
     }
 
-    @ApiOperation("删除活动(支持批量删除，均传list)")
+    @ApiOperation("(已测)删除活动(支持批量删除，均传list)")
     @DeleteMapping("deleteActivity")
     public ResponseEntity<List<ActivityVo>> deleteActivity(@RequestBody List<Integer> activityList){
         return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,backManageService.deleteActivity(activityList));
     }
 
-    @ApiOperation("修改活动信息")
+    @ApiOperation("(已测)修改活动信息")
     @PostMapping("modifyActivity")
     public ResponseEntity<List<ActivityVo>> modifyActivity(@RequestBody ActivityDto activityDto){
         return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,backManageService.modifyActivity(activityDto));
