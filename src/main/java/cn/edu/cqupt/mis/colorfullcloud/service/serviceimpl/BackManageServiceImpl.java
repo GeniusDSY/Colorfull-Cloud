@@ -74,17 +74,12 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<InstitutionVo> createInstitution(InstitutionDto institutionDto) {
-        try {
             InstitutionEntity institutionEntity = new InstitutionEntity();
             TransformUtil.transformOne(institutionDto,institutionEntity);
             //获取当前地址的经纬度进行赋值存储
             obtainLocationAndAssignment(institutionEntity);
             ServiceUtil.checkSqlExecuted(institutionDao.insertInstitution(institutionEntity));
             return allInstitutions();
-        }catch (Exception e){
-            log.error("BackManageService -> createInstitution() -> {}",e);
-            throw new ServerException("创建机构失败！");
-        }
     }
 
     private void obtainLocationAndAssignment(InstitutionEntity institutionEntity) {
@@ -93,7 +88,7 @@ public class BackManageServiceImpl implements BackManageService {
             institutionEntity.setLat(result.getResult().getLocation().getLat());
             institutionEntity.setLng(result.getResult().getLocation().getLng());
         }catch (Exception e){
-            throw new ThirdPartyServiceException("调用腾讯地图API获取经纬度发生异常！");
+            throw new ThirdPartyServiceException("请检查地址是否输入正确！");
         }
     }
 
