@@ -244,8 +244,7 @@ public class BackManageServiceImpl implements BackManageService {
         try {
             TeacherEntity teacherEntity = new TeacherEntity();
             TransformUtil.transformOne(teacherDto,teacherEntity);
-            List<TeacherEntity> teacherEntityList = new ArrayList<>();
-            ServiceUtil.checkSqlExecuted(teacherDao.insertTeacher(teacherEntityList));
+            ServiceUtil.checkSqlExecuted(teacherDao.insertTeacher(teacherEntity));
             return allTeachers();
         }catch (Exception e){
             log.error("BackManageService -> createTeacher() -> {}",e);

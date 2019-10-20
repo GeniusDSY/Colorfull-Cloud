@@ -21,11 +21,11 @@ public interface TeacherDao {
     TeacherEntity selectTeacherById(Integer teacherId);
 
     /**
-     * 插入新的教师信息List
-     * @param teacherList 需插入教师列表
+     * 插入新的教师信息
+     * @param teacherEntity 需插入教师
      * @return true/false
      */
-    Boolean insertTeacher(List<TeacherEntity> teacherList);
+    Boolean insertTeacher(TeacherEntity teacherEntity);
 
     /**
      * 删除教师列表

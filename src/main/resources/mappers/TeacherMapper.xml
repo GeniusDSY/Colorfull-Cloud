@@ -29,11 +29,8 @@
 
     <!--插入新的老师-->
     <insert id="insertTeacher">
-        INSERT INTO teacher(name,phone,introduction)
-        VALUES
-        <foreach collection="list" item="teacher" separator=",">
-            (#{teacher.teacherName},#{teacher.phone},#{teacher.introduction})
-        </foreach>
+        INSERT INTO teacher(institution_id,name,phone,introduction)
+        VALUES(#{institutionId},#{teacherName},#{phone},#{introduction})
     </insert>
 
     <update id="updateTeacher" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.TeacherEntity">
