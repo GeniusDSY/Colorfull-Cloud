@@ -1,8 +1,5 @@
 package cn.edu.cqupt.mis.colorfullcloud.common.contants;
 
-/**
- * @author 10587
- */
 public interface Status {
 
     /**
@@ -11,6 +8,14 @@ public interface Status {
     String GRANT_TYPE_KEY = "grant_type";
     String GRANT_TYPE_KEY_VALUE = "authorization_code";
     String APPID_KEY = "appid";
+    String MCH_ID = "mch_id";
+    String NONCE_STR = "nonce_str";
+    String SIGN = "sign";
+    String BODY = "body";
+    String OUT_TRADE_NO = "out_trade_no";
+    String TOTAL_FEE = "total_fee";
+    String SPBILL_CREATE_IP ="spbill_create_ip";
+    String NOTIFY_URL = "notify_url";
     String SECRET = "secret";
     String JS_CODE = "js_code";
     String ACCESS_TOKEN="access_token";
@@ -28,4 +33,8 @@ public interface Status {
     String INSTITUTION_PICTURE = "/institution/picture";
     String COURSE_ICON = "/course/";
 
+    String TRADE_TYPE = "trade_type";
+    String RESULT_CODE = "result_code";
+    String OPEN_ID = "openid";
+    String TRANSACTION_ID = "transaction_id";
 }

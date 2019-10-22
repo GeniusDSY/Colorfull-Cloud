@@ -44,6 +44,14 @@ public interface OrderDao {
     Boolean modifyOrderStatusByOrderId(@Param("orderId")String orderId,@Param("status")Integer status);
 
     /**
+     * 成功支付
+     * @param orderId 订单编号
+     * @param payId 支付订单id
+     * @return
+     */
+    Boolean modifyOrderSuccessByOrderId(@Param("orderId")String orderId,@Param("payId")String payId);
+
+    /**
      * 查询订单id是否存在
      * @param orderId 订单id
      * @return

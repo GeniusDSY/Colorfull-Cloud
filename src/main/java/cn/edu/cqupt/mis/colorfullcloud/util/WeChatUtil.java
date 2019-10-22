@@ -23,7 +23,7 @@ public class WeChatUtil {
 
 
     @Value("${wechat.appid}")
-    private  String appid;
+    private String appid;
     @Value("${wechat.secret}")
     private String secret;
     @Value("${wechat.code}")

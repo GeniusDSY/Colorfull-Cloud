@@ -47,6 +47,13 @@
         WHERE id = #{orderId}
     </update>
 
+    <!--修改订单状态（默认0：未支付；1：支付成功；2：优惠分享中；3：已取消）-->
+    <update id="modifyOrderSuccessByOrderId" >
+        UPDATE orders
+        SET pay_id = #{payId},pay_time = CURRENT_TIME ,status = 1
+        WHERE id = #{orderId}
+    </update>
+
     <!--创建订单-->
     <insert id="insertOrder" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.OrderEntity">
         INSERT INTO orders(id,user_id,order_cycle_sum,total,discount,amount,activity_id)

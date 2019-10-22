@@ -4,4 +4,5 @@ public interface Response {
 
     String SUCCESSFUL = "ok";
     String FAILURE = "error";
+    String FAIL = "FAIL";
 }

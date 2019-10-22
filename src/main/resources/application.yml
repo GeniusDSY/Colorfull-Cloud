@@ -25,6 +25,13 @@ wechat:
   access_token: "https://api.weixin.qq.com/sns/oauth2/access_token"
 # access_token openid lang
   userinfo: "https://api.weixin.qq.com/sns/userinfo"
+  pay: "https://api.mch.weixin.qq.com/pay/unifiedorder"
+  payment_status_url: "https://api.mch.weixin.qq.com/pay/orderquery"
+  merchant_id: "1534183171"
+  body: "七彩教育产品"
+  notify_url: "http://geniusdsy.cn"
+  trade_type: "JSAPI"
+  serect: "cBC5bTB9z68WL7aEKXFnTsbmZYf6eOQi"
 
 tencent:
   map-key: "Z6RBZ-EZF6P-MJ3DC-VVG3E-L6UQ3-NFF3X"
