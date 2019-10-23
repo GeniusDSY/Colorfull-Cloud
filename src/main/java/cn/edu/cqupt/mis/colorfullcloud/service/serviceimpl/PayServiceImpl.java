@@ -32,7 +32,7 @@ public class PayServiceImpl implements PayService {
      * @return
      */
     @Override
-    public Map prePayResult(Integer userId,String orderId, Integer totalFee, String spbillCreateIp) {
+    public Map prePayResult(Integer userId,String orderId, String totalFee, String spbillCreateIp) {
         Map<String,String> map = xmlBeanUtils.getPrePayResult(userId,orderId,totalFee,spbillCreateIp);
         for (Object key : map.keySet()) {
             String value = map.get(key);

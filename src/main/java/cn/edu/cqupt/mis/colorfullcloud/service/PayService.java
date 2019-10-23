@@ -20,7 +20,7 @@ public interface PayService {
      * @param spbillCreateIp
      * @return
      */
-    Map prePayResult(Integer userId, String orderId,Integer totalFee, String spbillCreateIp);
+    Map prePayResult(Integer userId, String orderId,String totalFee, String spbillCreateIp);
 
     /**
      * 更新订单状态

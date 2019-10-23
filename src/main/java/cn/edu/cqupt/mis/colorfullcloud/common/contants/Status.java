@@ -37,4 +37,8 @@ public interface Status {
     String RESULT_CODE = "result_code";
     String OPEN_ID = "openid";
     String TRANSACTION_ID = "transaction_id";
+    String TIMESTAMP = "timeStamp";
+    String PACKAGE = "package";
+    String SIGNTYPE = "signType";
+    String PAYSIGN = "paySign";
 }

@@ -43,18 +43,19 @@ public class XmlBeanUtils {
     private String serect;
 
 
-    public Map<String,String> getPrePayResult(Integer userId,String orderId, Integer totalFee, String SPBillCreateIp){
+    public Map<String,String> getPrePayResult(Integer userId,String orderId, String totalFee, String SPBillCreateIp){
         SortedMap<String ,String> map = new TreeMap<>();
         map.put(Status.APPID_KEY,appid);
         map.put(Status.MCH_ID,merchantId);
         map.put(Status.NONCE_STR,UUIDUtil.getRandomString());
         map.put(Status.BODY,body);
         map.put(Status.OUT_TRADE_NO,orderId);
-        map.put(Status.TOTAL_FEE,totalFee.toString());
+        map.put(Status.TOTAL_FEE,totalFee);
         map.put(Status.SPBILL_CREATE_IP,SPBillCreateIp);
         map.put(Status.NOTIFY_URL,notifyUrl);
         map.put(Status.TRADE_TYPE,tradeType);
         map.put(Status.OPEN_ID,userDao.selectUserById(userId).getOpenid());
+        //生成签名
         map.put(Status.SIGN,UUIDUtil.createSign(map,serect));
         String requestParam = map2XmlString(map);
         log.info("微信预支付请求xml -> {}",requestParam);
@@ -63,7 +64,15 @@ public class XmlBeanUtils {
         if(StringUtils.equals(Response.FAIL,map.get(Status.RESULT_CODE) )){  //返回报错
             throw  new ServerException(map.get("err_code"));
         }
-        return resultMap;
+        //进行二次签名
+        SortedMap<String,String> secondMap = new TreeMap<>();
+        secondMap.put("appId",appid);
+        secondMap.put(Status.TIMESTAMP,System.currentTimeMillis()/1000 +"");
+        secondMap.put("nonceStr",UUIDUtil.getRandomString());
+        secondMap.put(Status.PACKAGE,"prepay_id="+resultMap.get("prepay_id"));
+        secondMap.put(Status.SIGNTYPE,"MD5");
+        secondMap.put(Status.PAYSIGN,UUIDUtil.createSign(secondMap,serect));
+        return secondMap;
     }
 
     public Boolean getPayStatus(String wechatOrderId){
@@ -77,10 +86,6 @@ public class XmlBeanUtils {
         log.info("微信预支付请求xml -> {}",requestParam);
         String result = HttpClientUtil.doPostJson(prePayUrl,requestParam);
         Map<String,String> resultMap = readStringXmlOut(result);
-        for (Object key : resultMap.keySet()) {
-            String value = resultMap.get(key);
-            System.out.println(key + " : " + value);
-        }
         if(StringUtils.equals(Response.FAIL,map.get(Status.RESULT_CODE) )){  //返回报错
             throw new ServerException(map.get("err_code"));
         }else {

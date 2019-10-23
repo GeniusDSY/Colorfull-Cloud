@@ -42,7 +42,6 @@ public class UUIDUtil {
                 sb.append(k + "=" + v + "&");
             }
         }
-
         sb.append("key=" + secret); //key为商户平台设置的密钥key
         String sign = EncryptionUtil.md5(sb.toString()).toUpperCase();
         return sign;

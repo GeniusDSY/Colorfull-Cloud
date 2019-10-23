@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -32,10 +33,11 @@ public class PayController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId",value = "用户id",dataType = "int"),
             @ApiImplicitParam(name = "orderId",value = "订单id",dataType = "string"),
-            @ApiImplicitParam(name = "totalFee",value = "金额（单位为分）",dataType = "int"),
+            @ApiImplicitParam(name = "totalFee",value = "金额（单位为分）",dataType = "string"),
             @ApiImplicitParam(name = "SPbillCreateIp",value = "终端ip",dataType = "string")
     })
-    public ResponseEntity prePay(Integer userId,String orderId,Integer totalFee,String SPbillCreateIp){
+    public ResponseEntity prePay(Integer userId, String orderId, String totalFee, String SPbillCreateIp){
+        System.out.println("前端---"+userId +"   " + orderId + "   "+ totalFee + "   " + SPbillCreateIp);
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,payService.prePayResult(userId,orderId,totalFee,SPbillCreateIp));
     }
 
