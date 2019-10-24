@@ -43,7 +43,9 @@ public class UUIDUtil {
             }
         }
         sb.append("key=" + secret); //key为商户平台设置的密钥key
-        String sign = EncryptionUtil.md5(sb.toString()).toUpperCase();
+        System.out.println("加密前----"+sb.toString());
+        String sign = MD5Utils.MD5(sb.toString()).toUpperCase();
+        System.out.println("加密后-----"+sign);
         return sign;
     }
 

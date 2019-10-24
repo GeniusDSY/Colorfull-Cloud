@@ -31,7 +31,7 @@ wechat:
   body: "七彩教育产品"
   notify_url: "http://geniusdsy.cn"
   trade_type: "JSAPI"
-  serect: "cBC5bTB9z68WL7aEKXFnTsbmZYf6eOQi"
+  merchant_secret: "cBC5bTB9z68WL7aEKXFnTsbmZYf6eOQi"
 
 tencent:
   map-key: "Z6RBZ-EZF6P-MJ3DC-VVG3E-L6UQ3-NFF3X"

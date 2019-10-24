@@ -2,6 +2,7 @@ package cn.edu.cqupt.mis.colorfullcloud.service;
 
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -24,9 +25,8 @@ public interface PayService {
 
     /**
      * 更新订单状态
-     * @param orderId
-     * @param wechatOrderId
+     * @param request
      * @return
      */
-    Boolean updateOrderStatus(String orderId, String wechatOrderId);
+    String updateOrderStatus(HttpServletRequest request);
 }

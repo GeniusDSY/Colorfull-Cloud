@@ -42,8 +42,8 @@ public class PayController {
     }
 
     @PostMapping("updatePayStatus")
-    public ResponseEntity updatePayStatus(String orderId,String wechatOrderId){
-        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,payService.updateOrderStatus(orderId,wechatOrderId));
+    public ResponseEntity updatePayStatus(HttpServletRequest request){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,payService.updateOrderStatus(request));
     }
 
 }

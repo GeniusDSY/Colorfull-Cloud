@@ -39,8 +39,8 @@ public class XmlBeanUtils {
     private String notifyUrl;
     @Value("${wechat.trade_type}")
     private String tradeType;
-    @Value("${wechat.serect}")
-    private String serect;
+    @Value("${wechat.merchant_secret}")
+    private String secret;
 
 
     public Map<String,String> getPrePayResult(Integer userId,String orderId, String totalFee, String SPBillCreateIp){
@@ -56,11 +56,16 @@ public class XmlBeanUtils {
         map.put(Status.TRADE_TYPE,tradeType);
         map.put(Status.OPEN_ID,userDao.selectUserById(userId).getOpenid());
         //生成签名
-        map.put(Status.SIGN,UUIDUtil.createSign(map,serect));
+        map.put(Status.SIGN,UUIDUtil.createSign(map, secret));
         String requestParam = map2XmlString(map);
         log.info("微信预支付请求xml -> {}",requestParam);
         String result = HttpClientUtil.doPostJson(prePayUrl,requestParam);
         Map<String,String> resultMap = readStringXmlOut(result);
+        System.out.println("预支付返回-------");
+        for (Object key : resultMap.keySet()) {
+            String value = resultMap.get(key);
+            System.out.println(key + " : " + value);
+        }
         if(StringUtils.equals(Response.FAIL,map.get(Status.RESULT_CODE) )){  //返回报错
             throw  new ServerException(map.get("err_code"));
         }
@@ -71,26 +76,8 @@ public class XmlBeanUtils {
         secondMap.put("nonceStr",UUIDUtil.getRandomString());
         secondMap.put(Status.PACKAGE,"prepay_id="+resultMap.get("prepay_id"));
         secondMap.put(Status.SIGNTYPE,"MD5");
-        secondMap.put(Status.PAYSIGN,UUIDUtil.createSign(secondMap,serect));
+        secondMap.put(Status.PAYSIGN,UUIDUtil.createSign(secondMap, secret));
         return secondMap;
-    }
-
-    public Boolean getPayStatus(String wechatOrderId){
-        SortedMap<String ,String> map = new TreeMap<>();
-        map.put(Status.APPID_KEY,appid);//小程序id
-        map.put(Status.MCH_ID,merchantId);//商户号
-        map.put(Status.NONCE_STR,UUIDUtil.getRandomString());//随机字符串
-        map.put(Status.TRANSACTION_ID,wechatOrderId);//微信订单号
-        map.put(Status.SIGN,UUIDUtil.createSign(map,serect));//签名
-        String requestParam = map2XmlString(map);
-        log.info("微信预支付请求xml -> {}",requestParam);
-        String result = HttpClientUtil.doPostJson(prePayUrl,requestParam);
-        Map<String,String> resultMap = readStringXmlOut(result);
-        if(StringUtils.equals(Response.FAIL,map.get(Status.RESULT_CODE) )){  //返回报错
-            throw new ServerException(map.get("err_code"));
-        }else {
-            return true;
-        }
     }
 
     private String map2XmlString(Map<String, String> map) {
@@ -106,7 +93,7 @@ public class XmlBeanUtils {
         return xmlResult;
     }
 
-    private static Map<String, String> readStringXmlOut(String xml) {
+    public static Map<String, String> readStringXmlOut(String xml) {
         Map<String, String> map = new HashMap<>();
         Document doc = null;
         try {
