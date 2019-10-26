@@ -25,4 +25,10 @@
         VALUES (#{orderId},#{activityId},#{childrenCard})
     </insert>
 
+    <select id="selectActivityChildrenByActivityIdAndOrderId" resultMap="activityChildrenMap">
+        SELECT <include refid="activityChildren"/>
+        FROM activity_children
+        WHERE activity_id = #{activityId} AND order_id = #{orderId}
+    </select>
+
 </mapper>

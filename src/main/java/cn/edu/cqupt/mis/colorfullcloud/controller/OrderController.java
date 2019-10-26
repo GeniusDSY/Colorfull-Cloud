@@ -41,6 +41,7 @@ public class OrderController {
     @ApiImplicitParam(name = "childrenCard",value = "孩子身份证号",dataType = "string",allowEmptyValue = true)
     @PostMapping("createOrder")
     public ResponseEntity<List<OrderVo>> createOrder(@RequestParam String childrenCard,@RequestBody OrderDto orderDto){
+        System.out.println("身份证号:"+childrenCard + orderDto.toString());
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderService.createOrder(childrenCard,orderDto));
     }
 

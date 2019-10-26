@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -42,8 +43,8 @@ public class PayController {
     }
 
     @PostMapping("updatePayStatus")
-    public ResponseEntity updatePayStatus(HttpServletRequest request){
-        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,payService.updateOrderStatus(request));
+    public void updatePayStatus(HttpServletRequest request, HttpServletResponse response){
+        payService.updateOrderStatus(request,response);
     }
 
 }

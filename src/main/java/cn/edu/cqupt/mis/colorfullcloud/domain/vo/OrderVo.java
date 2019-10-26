@@ -1,5 +1,6 @@
 package cn.edu.cqupt.mis.colorfullcloud.domain.vo;
 
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ChildrenEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -23,6 +24,12 @@ public class OrderVo {
     private Integer userId;
     @ApiModelProperty(name = "orderProductList",value = "订单详情",dataType = "list")
     private List<OrderInstitutionVo> orderProductList;
+    @ApiModelProperty(name = "childrenCard",value = "孩子身份证号",dataType = "string")
+    private String childrenCard;
+    @ApiModelProperty(name = "children",value = "孩子信息")
+    private ChildrenEntity childrenEntity;
+    @ApiModelProperty(name = "remainTime",value = "剩余课时",dataType = "int")
+    private Integer remainTime;
     @ApiModelProperty(name = "orderTime",value = "下单时间",dataType = "string")
     private String orderTime;
     @ApiModelProperty(name = "payment",value = "支付方式(1:微信;2:支付宝;3:银行卡)",dataType = "int")

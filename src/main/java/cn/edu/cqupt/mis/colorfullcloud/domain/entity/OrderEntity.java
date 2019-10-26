@@ -62,5 +62,9 @@ public class OrderEntity {
      * 活动id
      */
     private Integer activityId;
+    /**
+     * 孩子身份证号
+     */
+    private String childrenCard;
 
 }

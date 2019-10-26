@@ -3,6 +3,7 @@ package cn.edu.cqupt.mis.colorfullcloud.service;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -28,5 +29,5 @@ public interface PayService {
      * @param request
      * @return
      */
-    String updateOrderStatus(HttpServletRequest request);
+    void updateOrderStatus(HttpServletRequest request, HttpServletResponse response);
 }

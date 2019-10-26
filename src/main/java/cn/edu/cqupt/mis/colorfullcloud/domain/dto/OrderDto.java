@@ -35,5 +35,7 @@ public class OrderDto {
     private Integer status;
     @ApiModelProperty(name = "activityId",value = "活动id")
     private Integer activityId;
+    @ApiModelProperty(name = "childrenCard",value = "孩子身份证号")
+    private String childrenCard;
 
 }

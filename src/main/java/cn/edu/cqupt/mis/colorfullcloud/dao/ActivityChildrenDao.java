@@ -23,6 +23,8 @@ public interface ActivityChildrenDao {
      */
     List<ActivityChildrenEntity> selectActivityChildrenByActivityIdAndChildrenCard(@Param("activityId")Integer activityId, @Param("childrenCard")String childrenCard);
 
+
+
     /**
      * 插入活动订单与孩子的对应记录
      * @param activityChildrenEntity
@@ -31,4 +33,11 @@ public interface ActivityChildrenDao {
     Boolean insertActivityChildren(ActivityChildrenEntity activityChildrenEntity);
 
 
+    /**
+     * 获取孩子活动信息
+     * @param activityId
+     * @param orderId
+     * @return
+     */
+    ActivityChildrenEntity selectActivityChildrenByActivityIdAndOrderId(@Param("activityId") Integer activityId,@Param("orderId") String orderId);
 }

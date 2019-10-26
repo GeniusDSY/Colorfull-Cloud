@@ -10,10 +10,13 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.jdom2.input.SAXBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -108,6 +111,78 @@ public class XmlBeanUtils {
             e.printStackTrace();
         }
         return map;
+    }
+
+    public static Map<String, String> readStringXml(String xml) {
+        Map<String, String> map = new HashMap<>();
+        Document doc = null;
+        try {
+            doc = DocumentHelper.parseText(xml); // 将字符串转为XML
+            Element rootElt = doc.getRootElement(); // 获取根节点
+            @SuppressWarnings("unchecked")
+            List<Element> list = rootElt.elements();// 获取根节点下所有节点
+            for (Element element : list) { // 遍历节点
+                map.put(element.getName(), element.getText().substring(8,element.getText().length()-2)); // 节点的name为map的key，text为map的value
+            }
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    public static Map doXMLParse(String strxml) throws Exception {
+        if (null == strxml || "".equals(strxml)) {
+            return null;
+        }
+
+        Map m = new HashMap();
+        InputStream in = String2Inputstream(strxml);
+        SAXBuilder builder = new SAXBuilder();
+        org.jdom2.Document doc = builder.build(in);
+        org.jdom2.Element root = doc.getRootElement();
+        List list = root.getChildren();
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            org.jdom2.Element e = (org.jdom2.Element) it.next();
+            String k = e.getName();
+            String v = "";
+            List children = e.getChildren();
+            if (children.isEmpty()) {
+                v = e.getTextNormalize();
+            } else {
+                v = getChildrenText(children);
+            }
+            System.out.println("放入map--"+k + ":" + v);
+            m.put(k, v);
+        }
+        //关闭流
+        in.close();
+        return m;
+    }
+
+    public static String getChildrenText(List children) {
+        StringBuffer sb = new StringBuffer();
+        if (!children.isEmpty()) {
+            Iterator it = children.iterator();
+            while (it.hasNext()) {
+                org.jdom2.Element e = (org.jdom2.Element) it.next();
+                String name = e.getName();
+                String value = e.getTextNormalize();
+                List list = e.getChildren();
+                sb.append("<" + name + ">");
+                if (!list.isEmpty()) {
+                    sb.append(getChildrenText(list));
+                }
+                sb.append(value);
+                sb.append("</" + name + ">");
+            }
+        }
+
+        return sb.toString();
+    }
+
+    public static InputStream String2Inputstream(String str) {
+        return new ByteArrayInputStream(str.getBytes());
     }
 
 }

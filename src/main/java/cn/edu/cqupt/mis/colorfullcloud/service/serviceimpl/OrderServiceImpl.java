@@ -42,6 +42,8 @@ public class OrderServiceImpl implements OrderService {
     @Resource
     private ActivityDao activityDao;
     @Resource
+    private ChildrenDao childrenDao;
+    @Resource
     private UUIDUtil uuidUtil;
     /**
      * 获取当前用户的所有订单
@@ -64,6 +66,7 @@ public class OrderServiceImpl implements OrderService {
             OrderEntity orderEntity = (OrderEntity) TransformUtil.transformOne(orderDto,new OrderEntity());
             String orderId = uuidUtil.getRandomOrderId();
             orderEntity.setOrderId(orderId);
+            orderEntity.setChildrenCard(childrenCard);
             Integer activityId = orderDto.getActivityId();
             if(judgeActivityChildren(activityId,childrenCard,orderId)){
                 List<ProductEntity> productEntityList = TransformUtil.transformList(orderDto.getProductDtoList(),new ArrayList<>(),ProductEntity.class);
@@ -128,6 +131,9 @@ public class OrderServiceImpl implements OrderService {
         List<ActivityChildrenEntity> activityChildrenEntityList = activityChildrenDao.selectActivityChildrenByActivityIdAndChildrenCard(activityId,childrenCard);
         if (activityChildrenEntityList.size() == 0){
             ActivityEntity activityEntity = activityDao.selectActivityById(activityId);
+            if (activityEntity == null){
+                return 100;
+            }
             return activityEntity.getCount();
         }
         return inquiryRemainTime(activityChildrenEntityList);
@@ -177,6 +183,10 @@ public class OrderServiceImpl implements OrderService {
                     }
                     institutionVo.setOrderCourseVoList(orderCourseVoList);
                 }
+                //增加孩子信息到订单中
+                log.info("活动id->{},订单id->{}",orderVo.getActivityId(),orderVo.getOrderId());
+                orderVo.setChildrenEntity(childrenDao.selectAllChildrenByCard(orderVo.getChildrenCard()));
+                orderVo.setRemainTime(inquiryRemainTime(orderVo.getChildrenCard(),orderVo.getActivityId()));
                 orderVo.setOrderProductList(orderInstitutionVoList);
             }
             return orderVoList;

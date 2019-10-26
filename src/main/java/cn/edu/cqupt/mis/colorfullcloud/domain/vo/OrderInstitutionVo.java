@@ -1,5 +1,6 @@
 package cn.edu.cqupt.mis.colorfullcloud.domain.vo;
 
+import cn.edu.cqupt.mis.colorfullcloud.domain.entity.ChildrenEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.PictureEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

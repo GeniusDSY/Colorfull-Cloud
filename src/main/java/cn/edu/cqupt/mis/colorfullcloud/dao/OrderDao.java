@@ -49,7 +49,7 @@ public interface OrderDao {
      * @param payId 支付订单id
      * @return
      */
-    Boolean modifyOrderSuccessByOrderId(@Param("orderId")String orderId,@Param("payId")String payId);
+    Boolean modifyOrderSuccessByOrderId(@Param("orderId")String orderId,@Param("payId")String payId,@Param("payTime")String payTime);
 
     /**
      * 查询订单id是否存在

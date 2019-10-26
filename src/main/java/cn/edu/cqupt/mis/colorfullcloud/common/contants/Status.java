@@ -41,4 +41,7 @@ public interface Status {
     String PACKAGE = "package";
     String SIGNTYPE = "signType";
     String PAYSIGN = "paySign";
+    String RETURN_CODE = "return_code";
+    String ERR_CODE = "err_code";
+    String TIME_END = "time_end";
 }
