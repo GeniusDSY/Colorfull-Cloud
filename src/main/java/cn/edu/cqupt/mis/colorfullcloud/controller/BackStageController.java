@@ -6,10 +6,7 @@ import cn.edu.cqupt.mis.colorfullcloud.common.response.ResponseStatu;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.SuggestionEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.TeacherEntity;
-import cn.edu.cqupt.mis.colorfullcloud.domain.vo.ActivityVo;
-import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CategoryVo;
-import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CourseVo;
-import cn.edu.cqupt.mis.colorfullcloud.domain.vo.InstitutionVo;
+import cn.edu.cqupt.mis.colorfullcloud.domain.vo.*;
 import cn.edu.cqupt.mis.colorfullcloud.service.BackManageService;
 import cn.edu.cqupt.mis.colorfullcloud.service.ProductService;
 import io.swagger.annotations.*;
@@ -81,6 +78,12 @@ public class BackStageController {
     @PostMapping("createCourse")
     public ResponseEntity<List<CourseVo>> createCourse(@RequestBody CourseDto courseDto){
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.createCourse(courseDto));
+    }
+
+    @ApiOperation(value = "(已测)上传活动课程信息")
+    @PostMapping("createActivityCourse")
+    public ResponseEntity<List<CourseVo>> createActivityCourse(@RequestBody CourseDto courseDto){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,backManageService.createActivityCourse(courseDto));
     }
 
     @ApiOperation(value = "(已测)修改课程信息")
@@ -166,6 +169,12 @@ public class BackStageController {
     @GetMapping("allSuggestions")
     public ResponseEntity<List<SuggestionEntity>> allSuggestions(){
         return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,backManageService.getAllSuggestions());
+    }
+
+    @ApiOperation("获取所有已订购课程")
+    @GetMapping("allCoursesInOrders")
+    public ResponseEntity<List<BackCoursesVo>> allCoursesInOrders(){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS,Response.SUCCESSFUL,backManageService.getAllCoursesInOrders());
     }
 
 }

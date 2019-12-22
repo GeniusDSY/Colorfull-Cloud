@@ -18,6 +18,8 @@ public class CourseVo {
 
     @ApiModelProperty(name = "courseId",value = "课程id",dataType = "int")
     private Integer courseId;
+    @ApiModelProperty(name = "institutionId",value = "机构id",dataType = "int")
+    private Integer institutionId;
     @ApiModelProperty(name = "courseName",value = "课程名称",dataType = "string")
     private String courseName;
     @ApiModelProperty(name = "teacherIntroduction",value = "教师信息")
@@ -28,8 +30,10 @@ public class CourseVo {
     private Integer cycle;
     @ApiModelProperty(name = "picture",value = "课程图片",dataType = "string")
     private String picture;
-    @ApiModelProperty(name = "introduction",value = "课程详细介绍",dataType = "string")
-    private String introduction;
+    @ApiModelProperty(name = "courseSchedule",value = "课程安排",dataType = "string")
+    private String courseSchedule;
+    @ApiModelProperty(name = "courseIntroduction",value = "课程详细介绍",dataType = "string")
+    private String courseIntroduction;
     @ApiModelProperty(name = "status",value = "课程状态(0:正常;1:已满;2:下架)",dataType = "int")
     private Integer status;
 

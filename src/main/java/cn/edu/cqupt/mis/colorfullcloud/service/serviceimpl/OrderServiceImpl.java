@@ -67,15 +67,15 @@ public class OrderServiceImpl implements OrderService {
             String orderId = uuidUtil.getRandomOrderId();
             orderEntity.setOrderId(orderId);
             orderEntity.setChildrenCard(childrenCard);
-            Integer activityId = orderDto.getActivityId();
-            if(judgeActivityChildren(activityId,childrenCard,orderId)){
-                List<ProductEntity> productEntityList = TransformUtil.transformList(orderDto.getProductDtoList(),new ArrayList<>(),ProductEntity.class);
-                productEntityList.forEach(productEntity1 -> productEntity1.setOrderId(orderId));
-                ServiceUtil.checkSqlExecuted(orderDao.insertOrder(orderEntity),productDao.insertProducts(productEntityList));
-                return getAllUserOrders(orderDto.getUserId());
-            }else {
-                throw new ServerException("您已达到购买上限!!");
-            }
+            //Integer activityId = orderDto.getActivityId();
+            //if(judgeActivityChildren(activityId,childrenCard,orderId)){
+            List<ProductEntity> productEntityList = TransformUtil.transformList(orderDto.getProductDtoList(),new ArrayList<>(),ProductEntity.class);
+            productEntityList.forEach(productEntity1 -> productEntity1.setOrderId(orderId));
+            ServiceUtil.checkSqlExecuted(orderDao.insertOrder(orderEntity),productDao.insertProducts(productEntityList));
+            return getAllUserOrders(orderDto.getUserId());
+            //}else {
+            //throw new ServerException("您已达到购买上限!!");
+            //}
         }catch (Exception e){
             e.printStackTrace();
             log.error("OrderServiceImpl->createOrder()->" + e);
@@ -139,6 +139,54 @@ public class OrderServiceImpl implements OrderService {
         return inquiryRemainTime(activityChildrenEntityList);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public List<OrderVo> createActivityOrder(String childrenCard,OrderDto orderDto) {
+        try {
+            OrderEntity orderEntity = (OrderEntity) TransformUtil.transformOne(orderDto,new OrderEntity());
+            String orderId = uuidUtil.getRandomOrderId();
+            orderEntity.setOrderId(orderId);
+            orderEntity.setChildrenCard(childrenCard);
+            Integer activityId = orderDto.getActivityId();
+            if(judgeActivityChildren(activityId,childrenCard,orderId)){
+                List<ProductEntity> productEntityList = TransformUtil.transformList(orderDto.getProductDtoList(),new ArrayList<>(),ProductEntity.class);
+                productEntityList.forEach(productEntity1 -> productEntity1.setOrderId(orderId));
+                ServiceUtil.checkSqlExecuted(orderDao.insertOrder(orderEntity),productDao.insertProducts(productEntityList));
+                return getAllUserOrders(orderDto.getUserId());
+            }else {
+                throw new ServerException("您已达到购买上限!!");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error("OrderServiceImpl->createActivityOrder()->" + e);
+            throw new ServerException("创建订单出现异常，请检查请求!!");
+        }
+    }
+
+    @Override
+    public List<OrderVo> updateActivityOrder(String childrenCard, OrderDto orderDto) {
+        try {
+            OrderEntity orderEntity = (OrderEntity) TransformUtil.transformOne(orderDto,new OrderEntity());
+            String orderId = uuidUtil.getRandomOrderId();
+            orderEntity.setOrderId(orderId);
+            orderEntity.setChildrenCard(childrenCard);
+            orderEntity.setStatus(1);
+            Integer activityId = orderDto.getActivityId();
+            if(judgeActivityChildren(activityId,childrenCard,orderId)){
+                List<ProductEntity> productEntityList = TransformUtil.transformList(orderDto.getProductDtoList(),new ArrayList<>(),ProductEntity.class);
+                productEntityList.forEach(productEntity1 -> productEntity1.setOrderId(orderId));
+                ServiceUtil.checkSqlExecuted(orderDao.insertOrder(orderEntity),productDao.insertProducts(productEntityList));
+                return getAllUserOrders(orderDto.getUserId());
+            }else {
+                throw new ServerException("您已达到购买上限!!");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error("OrderServiceImpl->createActivityOrder()->" + e);
+            throw new ServerException("创建订单出现异常，请检查请求!!");
+        }
+    }
+
     /**
      * 查询剩余课时（已确定买过活动）
      * @param activityChildrenEntityList
@@ -148,7 +196,10 @@ public class OrderServiceImpl implements OrderService {
         Integer usedTime = 0;
         //计算已选课时
         for (ActivityChildrenEntity entity : activityChildrenEntityList) {
-            usedTime += orderDao.selectCycleTime(entity.getOrderId());
+            Integer time = orderDao.selectCycleTime(entity.getOrderId(),1);
+            if (time != null){
+                usedTime += time;
+            }
         }
         Integer activityId = activityChildrenEntityList.get(0).getActivityId();
         //获得剩余课时
@@ -196,24 +247,22 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private Boolean judgeActivityChildren(Integer activityId,String childrenCard,String orderId){
-        if (activityId != 0){
+    private Boolean judgeActivityChildren(Integer activityId,String childrenCard,String orderId) {
+        List<ActivityChildrenEntity> activityChildrenEntityList = new ArrayList<>();
+        if (activityId != 0) {
             //查询目前已经生成的活动订单
-            List<ActivityChildrenEntity> activityChildrenEntityList = activityChildrenDao.selectActivityChildrenByActivityIdAndChildrenCard(activityId,childrenCard);
+            activityChildrenEntityList = activityChildrenDao.selectActivityChildrenByActivityIdAndChildrenCard(activityId, childrenCard);
             //已经有了活动订单
-            if (activityChildrenEntityList != null && activityChildrenEntityList.size() != 0) {
-                return inquiryRemainTime(activityChildrenEntityList) >= 0;
-            }
-            //没有活动订单
-            else {
-                ActivityChildrenEntity activityChildrenEntity = new ActivityChildrenEntity();
-                activityChildrenEntity.setActivityId(activityId);
-                activityChildrenEntity.setChildrenCard(childrenCard);
-                activityChildrenEntity.setOrderId(orderId);
-                ServiceUtil.checkSqlExecuted(activityChildrenDao.insertActivityChildren(activityChildrenEntity));
-            }
+            ActivityChildrenEntity activityChildrenEntity = new ActivityChildrenEntity();
+            activityChildrenEntity.setActivityId(activityId);
+            activityChildrenEntity.setChildrenCard(childrenCard);
+            activityChildrenEntity.setOrderId(orderId);
+            ServiceUtil.checkSqlExecuted(activityChildrenDao.insertActivityChildren(activityChildrenEntity));
         }
-        return true;
+        if (activityChildrenEntityList.size() == 0){
+            return true;
+        }else {
+            return inquiryRemainTime(activityChildrenEntityList) >= 0;
+        }
     }
-
 }

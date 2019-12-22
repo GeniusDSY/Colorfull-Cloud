@@ -52,4 +52,9 @@ public interface ProductDao {
      */
     Boolean insertProducts(List<ProductEntity> productEntityList);
 
+    /**
+     * 查询所有订单内课程
+     * @return
+     */
+    List<ProductEntity> selectAllProducts();
 }

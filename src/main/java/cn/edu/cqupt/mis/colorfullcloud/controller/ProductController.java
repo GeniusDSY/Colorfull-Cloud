@@ -54,11 +54,11 @@ public class ProductController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,productService.allInstitutionPictures(institutionId));
     }
 
-/*    @ApiOperation("(已测)按机构分类获取所有产品")
+    @ApiOperation("(已测)获取所有活动产品")
     @GetMapping("defaultAllProduct")
-    public ResponseEntity<List<InstitutionVo>> defaultAllProduct(){
-        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,productService.allDefaultProducts());
-    }*/
+    public ResponseEntity<List<CourseVo>> defaultAllProduct(){
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,productService.allActivityCourses());
+    }
 
     @ApiOperation("(已测)按距离获取所有产品")
     @GetMapping("distanceAllProduct")

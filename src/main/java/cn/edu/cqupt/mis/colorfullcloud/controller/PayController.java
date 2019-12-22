@@ -38,7 +38,6 @@ public class PayController {
             @ApiImplicitParam(name = "SPbillCreateIp",value = "终端ip",dataType = "string")
     })
     public ResponseEntity prePay(Integer userId, String orderId, String totalFee, String SPbillCreateIp){
-        System.out.println("前端---"+userId +"   " + orderId + "   "+ totalFee + "   " + SPbillCreateIp);
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,payService.prePayResult(userId,orderId,totalFee,SPbillCreateIp));
     }
 

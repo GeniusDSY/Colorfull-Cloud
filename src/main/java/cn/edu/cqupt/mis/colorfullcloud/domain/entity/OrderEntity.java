@@ -28,7 +28,7 @@ public class OrderEntity {
     /**
      * 支付方式(1:微信;2:支付宝;3:银行卡)
      */
-    private Integer payment;
+    private String payment;
     /**
      * 支付时间
      */

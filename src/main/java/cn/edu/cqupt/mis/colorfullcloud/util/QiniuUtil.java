@@ -1,5 +1,6 @@
 package cn.edu.cqupt.mis.colorfullcloud.util;
 
+import cn.edu.cqupt.mis.colorfullcloud.common.excepction.ServerException;
 import cn.edu.cqupt.mis.colorfullcloud.common.excepction.UploadException;
 import com.qiniu.common.QiniuException;
 import com.qiniu.http.Response;
@@ -46,6 +47,7 @@ public class QiniuUtil implements UploadUtil {
     public String generate(){
         return this.generateToken();
     }
+
 
 
     /**
@@ -224,6 +226,11 @@ public class QiniuUtil implements UploadUtil {
             throw new UploadException(e.getMessage());
         }
         return this.getUrlPath(response);
+    }
+
+    @Override
+    public void deleteFile(String key, String bucket) throws ServerException {
+
     }
 
     private byte[] getBytesWithMultipartFile(MultipartFile multipartFile) {

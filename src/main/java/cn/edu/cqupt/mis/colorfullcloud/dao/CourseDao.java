@@ -1,6 +1,7 @@
 package cn.edu.cqupt.mis.colorfullcloud.dao;
 
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.CourseEntity;
+import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CourseVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -83,4 +84,10 @@ public interface CourseDao {
      * @return
      */
     Boolean updateCourse(CourseEntity courseEntity);
+
+    List<String> selectImageByCourseId(List<Integer> courseIdList);
+
+    CourseEntity selectCourseById(Integer id);
+
+    List<CourseVo> selectAllActivityCourses();
 }

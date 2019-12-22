@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.Date;
+
 /**
  * @author :DengSiYuan
  * @date :2019/9/15 15:33
@@ -21,6 +23,10 @@ public class ProductDto {
     private Integer institutionId;
     @ApiModelProperty(name = "courseId",value = "课程id")
     private Integer courseId;
+    @ApiModelProperty(name = "time",value = "上课时间")
+    private String time;
+    @ApiModelProperty(name = "timeZone",value = "上下午")
+    private String timeZone;
     @ApiModelProperty(name = "count",value = "数量")
     private Integer count;
     @ApiModelProperty(name = "cycleSum",value = "课时")

@@ -61,8 +61,9 @@ public interface OrderDao {
     /**
      * 查询已选时长
      * @param orderId
+     * @param status
      * @return
      */
-    Integer selectCycleTime(String orderId);
+    Integer selectCycleTime(@Param("orderId") String orderId,@Param("status") Integer status);
 
 }

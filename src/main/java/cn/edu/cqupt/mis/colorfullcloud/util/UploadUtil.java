@@ -34,4 +34,6 @@ public interface UploadUtil {
     String uploadFile(byte[] data, String fileName) throws ServerException;
 
     String uploadFile(byte[] data, String fileName, String filePath) throws ServerException;
+
+    void deleteFile(String key, String bucket)throws ServerException;
 }

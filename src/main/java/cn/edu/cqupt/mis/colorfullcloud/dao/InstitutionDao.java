@@ -71,4 +71,6 @@ public interface InstitutionDao {
      * @return
      */
     Boolean updateInstitution(InstitutionEntity institutionEntity);
+
+    List<String> selectIconByInstitutionId(List<Integer> insitutionIdList);
 }

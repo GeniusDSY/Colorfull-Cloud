@@ -3,10 +3,7 @@ package cn.edu.cqupt.mis.colorfullcloud.service;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.SuggestionEntity;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.TeacherEntity;
-import cn.edu.cqupt.mis.colorfullcloud.domain.vo.ActivityVo;
-import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CategoryVo;
-import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CourseVo;
-import cn.edu.cqupt.mis.colorfullcloud.domain.vo.InstitutionVo;
+import cn.edu.cqupt.mis.colorfullcloud.domain.vo.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,6 +55,13 @@ public interface BackManageService {
      * @return
      */
     List<CourseVo> createCourse(CourseDto courseDto);
+
+    /**
+     * 创建活动课程
+     * @param courseDto
+     * @return
+     */
+    List<CourseVo> createActivityCourse(CourseDto courseDto);
 
     /**
      * 删除课程信息
@@ -173,4 +177,9 @@ public interface BackManageService {
      */
     String updateImages(Integer fileType,Integer institutionId,String name,Integer courseId, MultipartFile multipartFile);
 
+    /**
+     * 获取所有已购课程信息
+     * @return
+     */
+    List<BackCoursesVo> getAllCoursesInOrders();
 }

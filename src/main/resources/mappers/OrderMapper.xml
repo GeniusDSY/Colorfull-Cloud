@@ -34,7 +34,7 @@
     <delete id="deleteOrdersByOrderIdList">
         DELETE
         FROM orders
-        WHERE id IN
+        WHERE user_id = #{userId} AND id IN
         <foreach collection="list" item="orderId" open="("
                  separator="," close=")">
             #{orderId,jdbcType = VARCHAR}
@@ -68,10 +68,10 @@
         WHERE id = #{orderId}
     </select>
 
-    <select id="selectCycleTime" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <select id="selectCycleTime" resultType="java.lang.Integer">
         SELECT order_cycle_sum
         FROM orders
-        WHERE id = #{orderId}
+        WHERE id = #{orderId} AND status = #{status}
     </select>
 
 </mapper>

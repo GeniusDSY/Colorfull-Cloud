@@ -21,6 +21,14 @@ public class SuggestionEntity {
      */
     private Integer userId;
     /**
+     * 用户昵称
+     */
+    private String nickName;
+    /**
+     * 用户手机号
+     */
+    private String phone;
+    /**
      * 反馈详情
      */
     private String introduction;

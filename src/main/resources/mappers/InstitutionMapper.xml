@@ -67,9 +67,19 @@
         WHERE id IN
         <foreach collection="list" item="institutionId" open="("
                  separator="," close=")">
-            #{institutionId,jdbcType = VARCHAR}
+            #{institutionId}
         </foreach>
     </delete>
+
+    <select id="selectIconByInstitutionId" parameterType="java.util.List" resultType="java.lang.String">
+        SELECT icon
+        from institutions
+        WHERE id IN
+        <foreach collection="list" item="institutionId" open="("
+                 separator="," close=")">
+            #{institutionId}
+        </foreach>
+    </select>
 
 </mapper>
    

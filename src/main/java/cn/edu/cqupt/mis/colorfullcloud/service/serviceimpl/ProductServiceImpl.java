@@ -196,6 +196,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
+     * 查询所有活动课程
+     *
+     * @return
+     */
+    @Override
+    public List<CourseVo> allActivityCourses() {
+        return courseDao.selectAllActivityCourses();
+    }
+
+    /**
      * 按类别查询后的课程
      * @param categoryId
      * @return 查询按类别分类的课程集合

@@ -60,4 +60,9 @@ public interface ProductService {
      */
     List<CourseVo> search(String input);
 
+    /**
+     * 查询所有活动课程
+     * @return
+     */
+    List<CourseVo> allActivityCourses();
 }

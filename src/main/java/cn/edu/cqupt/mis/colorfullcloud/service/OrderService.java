@@ -51,4 +51,7 @@ public interface OrderService {
      */
     Integer inquiryRemainTime(String childrenCard,Integer activityId);
 
+    List<OrderVo> createActivityOrder(String childrenCard, OrderDto orderDto);
+
+    List<OrderVo> updateActivityOrder(String childrenCard, OrderDto orderDto);
 }

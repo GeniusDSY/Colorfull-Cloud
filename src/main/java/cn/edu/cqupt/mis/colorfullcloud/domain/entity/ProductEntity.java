@@ -31,6 +31,8 @@ public class ProductEntity {
      * 课程Id
      */
     private Integer courseId;
+    private String time;
+    private String timeZone;
     /**
      * 数量
      */

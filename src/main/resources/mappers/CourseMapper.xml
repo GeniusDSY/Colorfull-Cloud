@@ -12,18 +12,25 @@
         <result property="price" column="price"/>
         <result property="cycle" column="cycle"/>
         <result property="picture" column="picture"/>
-        <result property="introduction" column="introduction"/>
+        <result property="courseSchedule" column="schedule"/>
+        <result property="courseIntroduction" column="introduction"/>
         <result property="status" column="status"/>
     </resultMap>
 
     <sql id="course">
-        id,institution_id,category_id,name,teacher_id,price,cycle,picture,introduction,status
+        id,institution_id,category_id,name,teacher_id,price,cycle,picture,schedule,introduction,status
     </sql>
     
     <select id="selectCourseById" parameterType="java.lang.Integer" resultMap="courseMap">
         SELECT <include refid="course"/>
         FROM course
         WHERE id = #{id}
+    </select>
+
+    <select id="selectAllActivityCourses" resultMap="courseMap">
+        SELECT <include refid="course"/>
+        FROM course
+        WHERE status = 1
     </select>
     
     <select id="selectOrderCoursesByIds" parameterType="java.util.List" resultMap="courseMap">
@@ -71,8 +78,8 @@
     </select>
 
     <insert id="insertCourse" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.CourseEntity">
-        INSERT INTO course(institution_id,category_id,name,teacher_id,price,cycle,picture,introduction,status)
-        VALUES(#{institutionId},#{categoryId},#{courseName},#{teacherId},#{price},#{cycle},#{picture},#{introduction},#{status})
+        INSERT INTO course(institution_id,category_id,name,teacher_id,price,cycle,schedule,introduction,status)
+        VALUES(#{institutionId},#{categoryId},#{courseName},#{teacherId},#{price},#{cycle},#{courseSchedule},#{courseIntroduction},#{status})
     </insert>
 
     <update id="updateCourseIcon">
@@ -83,7 +90,7 @@
 
     <update id="updateCourse" parameterType="cn.edu.cqupt.mis.colorfullcloud.domain.entity.CourseEntity">
         UPDATE course
-        SET institution_id = #{institutionId}, category_id = #{categoryId}, name = #{courseName},teacher_id = #{teacherId},price = #{price},cycle = #{cycle},picture = #{picture},introduction = #{introduction},status = #{status}
+        SET institution_id = #{institutionId}, category_id = #{categoryId}, name = #{courseName},teacher_id = #{teacherId},price = #{price},cycle = #{cycle},schedule = #{courseSchedule},introduction = #{courseIntroduction},status = #{status}
         WHERE id = #{courseId}
     </update>
 
@@ -96,6 +103,15 @@
             #{courseId,jdbcType = VARCHAR}
         </foreach>
     </delete>
+    <select id="selectImageByCourseId" parameterType="java.util.List" resultType="java.lang.String">
+        SELECT picture
+        FROM course
+        WHERE institution_id IN
+        <foreach collection="list" item="courseId" open="("
+                 separator="," close=")">
+            #{courseId}
+        </foreach>
+    </select>
 
 </mapper>
    

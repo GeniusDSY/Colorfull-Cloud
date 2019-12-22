@@ -32,9 +32,11 @@ public class CourseDto {
     private Double price;
     @ApiModelProperty(name = "cycle",value = "课时")
     private Integer cycle;
-    @ApiModelProperty(name = "introduction",value = "课程详细介绍")
-    private String introduction;
-    @ApiModelProperty(name = "status",value = "课程状态(0:正常;1:已满;2:下架)")
+    @ApiModelProperty(name = "courseSchedule",value = "课程安排",dataType = "string")
+    private String courseSchedule;
+    @ApiModelProperty(name = "courseIntroduction",value = "课程详细介绍")
+    private String courseIntroduction;
+    @ApiModelProperty(name = "status",value = "课程状态(0:正常;1:活动课程)")
     private Integer status;
 
 }

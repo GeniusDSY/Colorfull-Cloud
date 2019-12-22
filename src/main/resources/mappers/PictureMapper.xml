@@ -27,5 +27,15 @@
             (#{picture.pictureName},#{picture.path})
         </foreach>
     </insert>
+
+    <select id="selectPictureByInstitutionIdList" parameterType="java.util.List" resultType="java.lang.String">
+        SELECT path
+        FROM picture
+        WHERE institution_id IN
+        <foreach collection="list" item="institutionId" open="("
+                 separator="," close=")">
+            #{institutionId}
+        </foreach>
+    </select>
 </mapper>
    

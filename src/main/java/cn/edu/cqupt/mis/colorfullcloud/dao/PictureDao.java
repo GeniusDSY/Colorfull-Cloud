@@ -27,4 +27,6 @@ public interface PictureDao {
      */
     Boolean insertInstitutionPictures(List<PictureEntity> pictureEntityList);
 
+    List<String> selectPictureByInstitutionIdList(List<Integer> institutionIdList);
+
 }

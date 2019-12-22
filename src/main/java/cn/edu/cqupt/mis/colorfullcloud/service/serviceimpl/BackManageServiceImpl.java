@@ -7,13 +7,13 @@ import cn.edu.cqupt.mis.colorfullcloud.common.excepction.UploadException;
 import cn.edu.cqupt.mis.colorfullcloud.dao.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.dto.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.entity.*;
-import cn.edu.cqupt.mis.colorfullcloud.domain.vo.ActivityVo;
-import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CategoryVo;
-import cn.edu.cqupt.mis.colorfullcloud.domain.vo.CourseVo;
-import cn.edu.cqupt.mis.colorfullcloud.domain.vo.InstitutionVo;
+import cn.edu.cqupt.mis.colorfullcloud.domain.vo.*;
 import cn.edu.cqupt.mis.colorfullcloud.domain.wechatdomain.TencentMapResult;
 import cn.edu.cqupt.mis.colorfullcloud.service.BackManageService;
 import cn.edu.cqupt.mis.colorfullcloud.util.*;
+import com.qiniu.common.QiniuException;
+import com.qiniu.storage.BucketManager;
+import com.qiniu.util.Auth;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -49,13 +49,21 @@ public class BackManageServiceImpl implements BackManageService {
     @Resource
     private InstitutionDao institutionDao;
     @Resource
+    private ProductDao productDao;
+    @Resource
     private CourseDao courseDao;
+    @Resource
+    private PictureDao pictureDao;
     @Resource
     private CategoryDao categoryDao;
     @Resource
     private TeacherDao teacherDao;
     @Resource
     private ActivityDao activityDao;
+    @Resource
+    private OrderDao orderDao;
+    @Resource
+    private ChildrenDao childrenDao;
     @Resource
     private DistanceUtil distanceUtil;
     /**
@@ -64,7 +72,12 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<SuggestionEntity> getAllSuggestions() {
-        return userDao.selectAllSuggestions();
+        List<SuggestionEntity> suggestionEntityList= userDao.selectAllSuggestions();
+        suggestionEntityList.forEach(suggestion -> {
+            suggestion.setNickName(userDao.selectUserById(suggestion.getUserId()).getNickName());
+            suggestion.setPhone(userDao.selectUserById(suggestion.getUserId()).getPhone());
+        });
+        return suggestionEntityList;
     }
 
     /**
@@ -99,7 +112,14 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<InstitutionVo> deleteInstitution(List<Integer> institutionIdList) {
+        //查询所有图片信息
+        List<String> imageList = new ArrayList<>();
+        imageList.addAll(institutionDao.selectIconByInstitutionId(institutionIdList));
+        imageList.addAll(pictureDao.selectPictureByInstitutionIdList(institutionIdList));
         ServiceUtil.checkSqlExecuted(institutionDao.deleteInstitutionByIds(institutionIdList));
+        if (imageList.size() > 1){
+            imageList.forEach(this::fileDelete);
+        }
         return allInstitutions();
     }
 
@@ -144,6 +164,25 @@ public class BackManageServiceImpl implements BackManageService {
     }
 
     /**
+     * 创建活动课程
+     * @param courseDto
+     * @return
+     */
+    @Override
+    public List<CourseVo> createActivityCourse(CourseDto courseDto) {
+        try {
+            CourseEntity courseEntity = new CourseEntity();
+            TransformUtil.transformOne(courseDto,courseEntity);
+            courseEntity.setStatus(1);
+            ServiceUtil.checkSqlExecuted(courseDao.insertCourse(courseEntity));
+            return allCourses(courseDto.getInstitutionId());
+        }catch (Exception e){
+            log.error("BackManageService -> createActivityCourse() -> {}",e);
+            throw new ServerException("创建活动课程失败！");
+        }
+    }
+
+    /**
      * 删除课程信息
      * @param institutionId 机构id
      * @param courseIdList
@@ -151,7 +190,11 @@ public class BackManageServiceImpl implements BackManageService {
      */
     @Override
     public List<CourseVo> deleteCourse(Integer institutionId,List<Integer> courseIdList) {
+        List<String> imageList = courseDao.selectImageByCourseId(courseIdList);
         ServiceUtil.checkSqlExecuted(courseDao.deleteCourseByIds(courseIdList));
+        if (imageList.size() > 1){
+            imageList.forEach(this::fileDelete);
+        }
         return allCourses(institutionId);
     }
 
@@ -174,7 +217,9 @@ public class BackManageServiceImpl implements BackManageService {
     @Override
     public List<CourseVo> allCourses(Integer institutionId) {
         List<CourseVo> courseVoList = new ArrayList<>();
-        TransformUtil.transformList(courseDao.selectCoursesByInstitutionId(institutionId),courseVoList,CourseVo.class);
+        List<CourseEntity> courseEntityList = courseDao.selectCoursesByInstitutionId(institutionId);
+        courseEntityList.forEach(courseEntity -> courseEntity.setTeacherIntroduction(teacherDao.selectTeacherById(courseEntity.getTeacherId())));
+        TransformUtil.transformList(courseEntityList,courseVoList,CourseVo.class);
         return courseVoList;
     }
 
@@ -370,10 +415,63 @@ public class BackManageServiceImpl implements BackManageService {
     }
     }
 
+    /**
+     * 获取所有已购课程信息
+     * @return
+     */
+    @Override
+    public List<BackCoursesVo> getAllCoursesInOrders() {
+        List<BackCoursesVo> backCoursesVoList = new ArrayList<>();
+        List<ProductEntity> productEntityList = productDao.selectAllProducts();
+        productEntityList.forEach(
+                product -> {
+                    BackCoursesVo backCoursesVo = new BackCoursesVo();
+                    OrderEntity order = orderDao.selectOrderId(product.getOrderId());
+                    if (order.getStatus() != 1){
+                        return;
+                    }else {
+                        backCoursesVo.setBuyerName(userDao.selectUserById(order.getUserId()).getNickName());
+                        backCoursesVo.setChildren(childrenDao.selectAllChildrenByCard(order.getChildrenCard()));
+                        backCoursesVo.setCourseName(courseDao.selectCourseById(product.getCourseId()).getCourseName());
+                        backCoursesVo.setInstitutionName(institutionDao.selectInstitutionById(product.getInstitutionId()).getInstitutionName());
+                        backCoursesVo.setCount(product.getCount());
+                        backCoursesVo.setCycleNum(product.getCycleSum());
+                        backCoursesVo.setIsActivity(order.getActivityId());
+                    }
+                    backCoursesVoList.add(backCoursesVo);
+                }
+        );
+        return backCoursesVoList;
+    }
+
     private String updateImage(String filePath, MultipartFile multipartFile) throws UploadException {
         UploadUtil uploadUtil = UploadFactory.createUpload(this.accesskey, this.secretKey,
                 this.bucketHostName, this.bucketName);
         return uploadUtil.uploadFile(filePath, multipartFile);
     }
+
+
+
+    /**
+     * 单文件删除
+     * @param key 键值
+     * @return
+     */
+    private void fileDelete(String key) {
+        Auth auth = Auth.create(this.accesskey, this.secretKey);
+        BucketManager bucketManager = new BucketManager(auth);
+        //指定文件所在的存储空间和需要删除的文件
+        try {
+            if ("http://picture.geniusdsy.cn/picture/20191102/6JgFngflQRVj.png?imageslim".equals(key)
+                    ||"http://picture.geniusdsy.cn/picture/20191102/b76V6ofEsuOz.png".equals(key)){
+                return;
+            }else {
+                bucketManager.delete(this.bucketName, key);
+            }
+        } catch (QiniuException e) {
+            throw new ServerException("文件已删除或文件不存在！");
+        }
+    }
+
 
 }

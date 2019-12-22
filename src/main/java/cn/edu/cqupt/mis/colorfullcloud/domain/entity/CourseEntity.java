@@ -49,10 +49,15 @@ public class CourseEntity {
      * 课程图片
      */
     private String picture;
+
+    /**
+     * 课程安排
+     */
+    private String courseSchedule;
     /**
      * 课程详细介绍
      */
-    private String introduction;
+    private String courseIntroduction;
     /**
      * 课程状态(0:正常;1:已满;2:下架)
      */

@@ -37,12 +37,28 @@ public class OrderController {
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderVoList);
     }
 
-    @ApiOperation("(已测)创建订单(包括活动订单)")
+    @ApiOperation("(已测)创建订单")
     @ApiImplicitParam(name = "childrenCard",value = "孩子身份证号",dataType = "string",allowEmptyValue = true)
     @PostMapping("createOrder")
     public ResponseEntity<List<OrderVo>> createOrder(@RequestParam String childrenCard,@RequestBody OrderDto orderDto){
         System.out.println("身份证号:"+childrenCard + orderDto.toString());
         return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderService.createOrder(childrenCard,orderDto));
+    }
+
+    @ApiOperation("(已测)创建活动订单（首次）")
+    @ApiImplicitParam(name = "childrenCard",value = "孩子身份证号",dataType = "string",allowEmptyValue = true)
+    @PostMapping("createActivityOrder")
+    public ResponseEntity<List<OrderVo>> createActivityOrder(@RequestParam String childrenCard,@RequestBody OrderDto orderDto){
+        System.out.println("身份证号:"+childrenCard + orderDto.toString());
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderService.createActivityOrder(childrenCard,orderDto));
+    }
+
+    @ApiOperation("(已测)创建活动订单（非首次）")
+    @ApiImplicitParam(name = "childrenCard",value = "孩子身份证号",dataType = "string",allowEmptyValue = true)
+    @PostMapping("updateActivityOrder")
+    public ResponseEntity<List<OrderVo>> updateActivityOrder(@RequestParam String childrenCard,@RequestBody OrderDto orderDto){
+        System.out.println("身份证号:"+childrenCard + orderDto.toString());
+        return new ResponseEntity<>(ResponseStatu.SUCCESS, Response.SUCCESSFUL,orderService.updateActivityOrder(childrenCard,orderDto));
     }
 
     @ApiOperation("(已测)获取目前剩余可买的活动课时")

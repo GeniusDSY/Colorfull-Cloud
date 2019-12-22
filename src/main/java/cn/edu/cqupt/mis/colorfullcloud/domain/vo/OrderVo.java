@@ -32,8 +32,8 @@ public class OrderVo {
     private Integer remainTime;
     @ApiModelProperty(name = "orderTime",value = "下单时间",dataType = "string")
     private String orderTime;
-    @ApiModelProperty(name = "payment",value = "支付方式(1:微信;2:支付宝;3:银行卡)",dataType = "int")
-    private Integer payment;
+    @ApiModelProperty(name = "payment",value = "支付方式(1:微信;2:支付宝;3:银行卡)",dataType = "string")
+    private String payment;
     @ApiModelProperty(name = "payTime",value = "支付时间",dataType = "date")
     private String payTime;
     @ApiModelProperty(name = "orderCycleSum",value = "订单课时总长")
